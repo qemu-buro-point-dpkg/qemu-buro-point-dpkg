@@ -5,3 +5,9 @@ Installation
 export Qemuburo_install_dir= localinstallpath_user_defined
 echo "export Qemuburo_install_dir=localinstallpath_user_defined">> ~/.bashrc 
 #read in Testscript howto run Testscript then!
+cd qemuburo/
+~/github_qemuburo/qemuburo$ python -m unittest Testqemuburo.qemuburoTestCase.test_pre_and_post_instalaion_tests_from_qemu_generation_to_ready_use_image
+
+Completing state
+---------------
+0%
