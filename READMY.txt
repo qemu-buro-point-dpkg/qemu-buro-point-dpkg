@@ -1,0 +1,7 @@
+This is a Readme underconstruction take info from https://wordpress.com/read/feeds/46823049/posts/989026891. License is gpl 
+
+Installation
+-----------
+export Qemuburo_install_dir= localinstallpath_user_defined
+echo "export Qemuburo_install_dir=localinstallpath_user_defined">> ~/.bashrc 
+#read in Testscript howto run Testscript then!
