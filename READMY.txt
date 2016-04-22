@@ -1,4 +1,14 @@
-This is a Readme underconstruction take info from https://wordpress.com/read/feeds/46823049/posts/989026891. License is gpl 
+This is a Readme underconstruction take info from https://wordpress.com/read/feeds/46823049/posts/989026891. License is gpl.
+
+One introductional word:
+-------------------------
+This starts as a loose suite of process steps as scripts in a ty#pical "all-against-nobody-selfdefense" buro put under unittest control, thus obtaining quality and adhoc usabiltiy property. 
+These scripts can then be copied from the testsuite into the user's problem environment. In practice there can be build by cases of usage a carpet of templates, a "Template Teppich" around them core scripts, so the core, pure script tested, can evelope.
+The user can choose to take the recently used template script for lets say ocr-scanning or its prooved origin. The usage, seen as successful projects of yesterday, are the testscript of today, which is the template carpet of tomorrow.
+That is the dev idea of this project by now, at least.
+Policy by now:
+    -Tmp: Programs that do not let themself demonstate in /tmp alone, shall be searched demonstration then in a VM
+    -local pathes: Scripts that depend heavily on pathes management on templates, can not be intergrated for privacy reasons. So the testscript will be crippled to one or two local pathes. There is no solution for the problem, that we all need pathes, but nobody shall know them.
 
 Installation
 -----------
