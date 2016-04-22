@@ -2,22 +2,22 @@ This is a Readme underconstruction take info from https://wordpress.com/read/fee
 
 One introductional word:
 -------------------------
-This starts as a loose suite of process steps as scripts in a ty#pical "all-against-nobody-selfdefense" buro put under unittest control, thus obtaining quality and adhoc usabiltiy property. 
-These scripts can then be copied from the testsuite into the user's problem environment. In practice there can be build by cases of usage a carpet of templates, a "Template Teppich" around them core scripts, so the core, pure script tested, can evelope.
-The user can choose to take the recently used template script for lets say ocr-scanning or its prooved origin. The usage, seen as successful projects of yesterday, are the testscript of today, which is the template carpet of tomorrow.
-That is the dev idea of this project by now, at least.
+This starts as a loose suite of process steps, as scripts in a typical "all-against-nobody-selfdefense" buro put under unittest bound, thus obtaining a quality and adhoc usabiltiy property. 
+These scripts can then be copied from the testsuite into the user's problem environment and called as in the test suite. In practice a carpet of templates, a "Template Teppich" can be build by cases of usage around them core scripts, so the core, pure script tested, can evelope.
+The user can choose to take the recently used template script for -lets say- ocr-scanning or its prooved origin. The usage cases, seen as successful projects of yesterday, are the testscript of today, which is the template carpet of tomorrow.
+That is the dev idea of this project by now, at least.(test driven developement)
 Policy by now:
-    -Tmp: Programs that do not let themself demonstate in /tmp alone, shall be searched demonstration then in a VM
-    -local pathes: Scripts that depend heavily on pathes management on templates, can not be intergrated for privacy reasons. So the testscript will be crippled to one or two local pathes. There is no solution for the problem, that we all need pathes, but nobody shall know them.
+    -Tmp: Programs that do not let themself demonstate in /tmp alone, shall be searched demonstration then in a VM, qemu or the like.
+    -local pathes: Scripts that depend heavily on pathes management as templates, can not be intergrated for privacy reasons. So the testscript will be crippled to one or two local pathes. There is no solution for the problem, that we all need pathes, but nobody shall know them.
 
-Installation
------------
+Installation on your local machine
+-----------------------------------
 export Qemuburo_install_dir= localinstallpath_user_defined
 echo "export Qemuburo_install_dir=localinstallpath_user_defined">> ~/.bashrc 
-#read in Testscript howto run Testscript then!
+#read in Testscript how to run Testfunction then! For example this dummy:
 cd qemuburo/
 ~/github_qemuburo/qemuburo$ python -m unittest Testqemuburo.qemuburoTestCase.test_pre_and_post_instalaion_tests_from_qemu_generation_to_ready_use_image
 
 Completing state
 ---------------
-0%
+2%
