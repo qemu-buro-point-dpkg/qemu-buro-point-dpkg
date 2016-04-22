@@ -116,7 +116,7 @@ class qemuburoTestCase(unittest.TestCase):
 	#16804 Mär  9 18:29 tmp_graph_1.eps
 	self.failUnless(os.stat(self.testpath+"tmp_graph_1.eps").st_size==16804)
 
-    def test_is_flatbad_one_page_orc_scanning_to_pdf_scanndistribute150825(self):
+    def  (self):
 	'''
 	Ran 1 test in 25.923s OK one page through all stages
 	#non_multistaple,nonduplex,non_adf, (adf)
@@ -124,7 +124,7 @@ class qemuburoTestCase(unittest.TestCase):
 	-adf tests_all_stages
 	-hide all the output on screen to log
 	-distrubutioncode, stage 3 too
-	-scanimage capaple user?, everything installed?
+	-scanimage capaple user?, everything installed? myocrpdf, okular, scanimage, pdftk
 	'''
 	
 	#command= "bash "+self.testsscripts+"dummybashscript.sh  " +" 2 4 "+ self.testpath + " 1 1"
@@ -137,11 +137,11 @@ class qemuburoTestCase(unittest.TestCase):
 	#okular: cannot connect to X server :0 # use first ubuntu user #k
 	#I/O Error: Permission denied.#k ?__?: use first ubuntu user for execution #k
 	#scanimage: no SANE devices found, was installed?
-	# am I  scanimage capaple user?
+	# am I  scanimage capaple user?k
 	#scanimage: sane_start: Document feeder out of documents
-	#  how do I check if feeder is filled?__?
+	#  how do I check if feeder is filled?__? o
 	#bash: /opt/OCRmyPDF-2.2-stable/OCRmyPDF.sh: not found? k
-	# ?__? Annoying me that scanner is not mute, beepsk at displayk
+	# ?__? Annoying me that scanner is not mute, beepsk at display k
 	#
 
 	#import shutil

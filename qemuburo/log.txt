@@ -1,2 +1,0 @@
-The installed version of tesseract does not have language data for the following requested languages:
-deu
