@@ -116,7 +116,7 @@ class qemuburoTestCase(unittest.TestCase):
 	#16804 Mär  9 18:29 tmp_graph_1.eps
 	self.failUnless(os.stat(self.testpath+"tmp_graph_1.eps").st_size==16804)
 
-    def  (self):
+    def test_is_flatbad_one_page_orc_scanning_to_pdf_scanndistribute150825(self):
 	'''
 	Ran 1 test in 25.923s OK one page through all stages
 	#non_multistaple,nonduplex,non_adf, (adf)
