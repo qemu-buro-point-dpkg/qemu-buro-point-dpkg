@@ -120,7 +120,7 @@ class qemuburoTestCase(unittest.TestCase):
 	'''
 	Ran 1 test in 25.923s OK one page through all stages
 	#multistaple,duplex,stage2, stage 3 distributing
-	do not touch physical scanner device, stage1 skipped
+	does not touch physical scanner device, stage1 skipped
 	'''
 	filelist=[\
 	    "doctemp001-p002.tiff",\
@@ -148,6 +148,7 @@ class qemuburoTestCase(unittest.TestCase):
     def test_is_flatbad_one_page_orc_scanning_to_pdf_scanndistribute150825(self):
 	'''
 	Ran 1 test in 25.923s OK one page through all stages
+	touches  physical scanner device
 	#non_multistaple,nonduplex,non_adf, (adf)
 	to be done: -second_stage,multistaple,nonduplex
 	-adf tests_all_stages
@@ -167,7 +168,7 @@ class qemuburoTestCase(unittest.TestCase):
 	self.failUnless(os.stat(self.testpath+"doctempbundlesandw1.pdf").st_size>16804)
 	#as we do not know, if on the paper original is any text, we are happy that there is a pdf with the name and some contents in.
  
-	print command
+	#print command
 	#knows problems logs:
 	#okular: cannot connect to X server :0 # use first ubuntu user #k
 	#I/O Error: Permission denied.#k ?__?: use first ubuntu user for execution #k

@@ -21,3 +21,21 @@ cd qemuburo/
 Completing state
 ---------------
 2%
+
+Usage
+-----
+The trick is find how the tester calls its functions to be tested. For the user the thinking is otherway around, if the test does so, for me is easiest and most secure to copy the incokation. 
+So uncomment the line in the function you are interested in with:#print command
+For example by running: 
+time python -m unittest Testqemuburo.qemuburoTestCase.test_is_flatbad_one_page_orc_scanning_to_pdf_scanndistribute150825
+
+you get
+
+bash /home/githubqemuburo/github_qemuburo/Testsscripts/scanndistribute150825.sh   1 1 /tmp/qemuburotest/ 1 nonadf >> /tmp/qemuburotest/log.txt 2>&1
+
+This is how the script scanndistribute is used: without ADF, using the physical scanner device non interactively, OCR...
+Btw: this script can be used snippet wise by pasting it to console, too, this is nor forbidden. Neither testing it is forbidden. So there, is where you grasp the profit from. 
+
+You do not know which is the functionality dealt with?: Just look at the testfunctions. There name should be self explanatory, such as:test_is_flatbad_one_page_orc_scanning_to_pdf_scanndistribute150825
+
+Bugs/Problems/Support/Ideas/Fixes/Requests: use github forum
