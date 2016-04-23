@@ -36,7 +36,8 @@ class qemuburoTestCase(unittest.TestCase):
 	#print "prepare some stuff in order to run the test"
 	import glob
 	self.testpath = '/tmp/qemuburotest/' #Space for tests execution
-	self.testsscripts = os.environ["Qemuburo_install_dir"]+"/Testsscripts/"
+	self.testsscripts = os.environ["Qemuburo_install_dir"]+"Testsscripts/"
+	self.testpathressources= os.environ["Qemuburo_install_dir"]+"Testresources/"
 	#code to be tested
 	self.debugflag=100000
 	
@@ -98,9 +99,9 @@ class qemuburoTestCase(unittest.TestCase):
 
     def test_template(self):
 	filelist=[\
-	    "pic_2_report_piece1_valid_direct_complete.png",\
-	    "pic_1_report_piece1_valid_direct_complete.png",\
-	    "tmp_graph_1.eps"]
+	    "doctemp001-p002.tiff",\
+	    "doctemp001-p002.tiff",\
+	    "doctemp001-p002.tiff"]
 
 
 
@@ -111,10 +112,38 @@ class qemuburoTestCase(unittest.TestCase):
 	    #print dst,src
 	    shutil.copyfile(src,dst)   
 
-	#reportpp.template(self.report_table_tex, self.texpics, self.reportdir, debug=1001)
 	#Oracle:
 	#16804 Mär  9 18:29 tmp_graph_1.eps
-	self.failUnless(os.stat(self.testpath+"tmp_graph_1.eps").st_size==16804)
+	self.failUnless(os.stat(self.testpath+"doctemp001-p002.tiff").st_size>1804)
+
+    def test_stage2_multistaple_duplex_orc_scanning_to_distributed_pdfs_scanndistribute150825(self):
+	'''
+	Ran 1 test in 25.923s OK one page through all stages
+	#multistaple,duplex,stage2, stage 3 distributing
+	do not touch physical scanner device, stage1 skipped
+	'''
+	filelist=[\
+	    "doctemp001-p002.tiff",\
+	    "doctemp001-p001.tiff",\
+	    "doctemp002-p001.tiff",\
+	    "doctemp003-p001.tiff",\
+	    "doctemp004-p002.tiff",\
+	    "doctemp004-p001.tiff"]
+
+
+
+	import shutil
+	for f in filelist:
+	    dst=self.testpath+f #
+	    src=self.testpathressources+f
+	    #print dst,src
+	    shutil.copyfile(src,dst)   
+
+	command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" 2 2 "+ self.testpath + " 1 nonadf  startstage2  >> "+self.testpath+"log.txt 2>&1"
+	os.system(command)
+	self.failUnless(os.stat(self.testpath+"Bescheide/Verwaltungsakte/Vereinbarung/DialektikderAufklaerung/Undinger/bedingungslosesgrundeinkommenfueralleMenschenaufderweltjetzt/oderderboeseonkelkantkommtauchnoch/oderderliebeonkelsade/Gliedi.pdf").st_size>16804)
+
+	#print self.testpath+"doctemp004-p001.tiff"
 
     def test_is_flatbad_one_page_orc_scanning_to_pdf_scanndistribute150825(self):
 	'''
@@ -130,10 +159,16 @@ class qemuburoTestCase(unittest.TestCase):
 	#command= "bash "+self.testsscripts+"dummybashscript.sh  " +" 2 4 "+ self.testpath + " 1 1"
 	#print command 
 	#os.system(command)
-	command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" 1 1 "+ self.testpath + " 1 nonadf"
+
+	
+	command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" 1 1 "+ self.testpath + " 1 nonadf >> "+self.testpath+"log.txt 2>&1"
 	os.system(command)
-	#print command
-	#knows probs:
+	#Oracle:
+	self.failUnless(os.stat(self.testpath+"doctempbundlesandw1.pdf").st_size>16804)
+	#as we do not know, if on the paper original is any text, we are happy that there is a pdf with the name and some contents in.
+ 
+	print command
+	#knows problems logs:
 	#okular: cannot connect to X server :0 # use first ubuntu user #k
 	#I/O Error: Permission denied.#k ?__?: use first ubuntu user for execution #k
 	#scanimage: no SANE devices found, was installed?
@@ -143,19 +178,6 @@ class qemuburoTestCase(unittest.TestCase):
 	#bash: /opt/OCRmyPDF-2.2-stable/OCRmyPDF.sh: not found? k
 	# ?__? Annoying me that scanner is not mute, beepsk at display k
 	#
-
-	#import shutil
-	#for f in filelist:
-	    #dst=self.testpath+f #
-	    #src=self.testpathressources+f
-	    ##print dst,src
-	    #shutil.copyfile(src,dst)   
-
-
-	#Oracle:
-	self.failUnless(os.stat(self.testpath+"doctempbundlesandw1.pdf").st_size>16804)
-	#as we do not know, if on the paper original is any text, we are happy that there is a pdf with the name and some contents in.
-    
     
     def test_pre_and_post_instalaion_tests_from_qemu_generation_to_ready_use_image(self):
 	pass

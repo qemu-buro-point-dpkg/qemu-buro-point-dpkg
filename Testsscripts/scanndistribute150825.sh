@@ -21,20 +21,21 @@
 # usage: console 1: c&p partI first, then PartII and PartIII to console, console 2:  less +F log.txt , script in Kate split view, where one window you select and c&p, on the other you manipulate code
 # improvements: -sophisticated cl interfaces, time messurement in console, -pop up log in konsole
 # tests: qual/size/speed vector
+#have distributed files as dropbox links, or other url, search|request
 
 #pretest:scanimage capable?
-[ `scanimage -L|grep device|wc -l` -gt 3 ]||(echo "scan device for user found";exit)
+[ `scanimage -L|grep device|wc -l` -gt 0 ]||(echo "scan device for user found";exit)
 
 
 
 
 #Part I inserting leafs
 PPool="$HOME/Downloads"
-RANGE=1 # staple number
+RANGE=1 # number of staples 
 dup=2 # duplex=2 else 1, beidseitig
 stage1batchmode="0"
 Slot="--source ADF"
-
+startstage="startstage1"
 
 
 RANGE=${1:-$RANGE}   
@@ -42,28 +43,36 @@ dup=${2:-$dup}
 PPool=${3:-$PPool}  
 stage1batchmode=${4:-$stage1batchmode}
 [[ "$5" != "nonadf" ]]||Slot=""
+[[ "$6" != "startstage2" ]]||startstage="startstage2"
+
 echo $Slot"  "$5
 DATE=`date +%y%m%d`
 ocrmypdf="/usr/local/bin/ocrmypdf"
 
-
 cd $PPool #work dir for scans here!
-rm -f *doctemp* #cleaning # clean old 
-for (( i=1; i != $RANGE*$dup+1; i++ )) #continue by messing this
-  do
-  echo $i ". insert and press enter paper"
-  [[ "$stage1batchmode" = "1" ]]||read;
-    let ii=i+10000
-    time scanimage $Slot -v  -b --resolution 300 -l 0 -t 0 -x 210.00 -y 290.00 --format=tiff  --batch=doctemp${ii:2:3}-p%03d.tiff --batch-start=1 >> log.txt 2>&1
-#doctemp2-p001.tiff #-y 355.6 -x 215.9: big black bar below, - and without x,y too
-#-y 297 -x 210 little black bar
-#-x 210.00 -y 290.00 ok without bar: but is this optimal?
-    #scanimage --help|grep eso
-#(T)Problem: after slot empty aborts, error catching?
-#(T) one stable unquestioned
-  ls -rtl|tail >> log.txt 2>&1
-done 
 
+if [ "$startstage" == "startstage1" ]
+  then
+    rm -f *doctemp* #cleaning # clean old 
+    echo "startstage1"
+    for (( i=1; i != $RANGE*$dup+1; i++ )) #continue by messing this
+    do
+    echo $i ". insert and press enter paper"
+    [[ "$stage1batchmode" = "1" ]]||read;
+	let ii=i+10000
+	time scanimage $Slot -v  -b --resolution 300 -l 0 -t 0 -x 210.00 -y 290.00 --format=tiff  --batch=doctemp${ii:2:3}-p%03d.tiff --batch-start=1 >> log.txt 2>&1
+    #doctemp2-p001.tiff #-y 355.6 -x 215.9: big black bar below, - and without x,y too
+    #-y 297 -x 210 little black bar
+    #-x 210.00 -y 290.00 ok without bar: but is this optimal?
+	#scanimage --help|grep eso
+    #(T)Problem: after slot empty aborts, error catching?
+    #(T) one stable unquestioned
+    ls -rtl|tail >> log.txt 2>&1
+    done 
+fi
+
+
+#
 # as non interactive as possible from here on, Part II
 for (( i=1; i < $RANGE*$dup+1; i++ )) 
   do
@@ -102,7 +111,9 @@ pdfinfo doctempbundle.pdf |grep Pages >> log.txt 2>&1
 time $ocrmypdf -f -l deu ./doctempbundle.pdf doctempbundlesandw1.pdf >> log.txt 2>&1
 pdftotext doctempbundlesandw1.pdf - |tail -5 >> log.txt 2>&1
 ls -l doctempbundlesandw1.pdf >> log.txt 2>&1
-okular doctempbundlesandw1.pdf &# 
+okular --geometry 300x400+20+30 doctempbundlesandw1.pdf & 
+sleep 3;kill `ps aux|grep okular|grep doctempbundlesand|cut -c 10-15`
+
 # #Part III
 # #distribute
 # 
@@ -115,3 +126,27 @@ okular doctempbundlesandw1.pdf &#
 # #extracts1
 
 #...
+#extracts1
+mkdir -p Bescheide/Verwaltungsakte/Vereinbarung/DialektikderAufklaerung/Undinger/bedingungslosesgrundeinkommenfueralleMenschenaufderweltjetzt/oderderboeseonkelkantkommtauchnoch/oderderliebeonkelsade/
+
+#Pstore=$PPool"/allpathes/thatyoucan/imagine"
+Pstore=$PPool"Bescheide/Verwaltungsakte/Vereinbarung/DialektikderAufklaerung/Undinger/bedingungslosesgrundeinkommenfueralleMenschenaufderweltjetzt/oderderboeseonkelkantkommtauchnoch/oderderliebeonkelsade/"
+
+Nstore=$DATE"Gliedi.pdf"
+Nstore="Gliedi.pdf"
+
+let Nstart=5
+let Nend=6
+
+pdftk A=doctempbundlesandw1.pdf cat A$Nstart-$Nend output $Pstore$Nstore
+pdfinfo $Pstore$Nstore |grep Pages >> log.txt 2>&1
+pdftotext $Pstore$Nstore - |head -125|tail >> log.txt 2>&1
+ls -l $Pstore$Nstore >> log.txt 2>&1
+#k
+#extracts1 end
+
+#extracts2
+Pstore=$PPool
+
+Nstore=$DATE"Gliedi.pdf"
+##...
