@@ -60,3 +60,14 @@ Bugs/Problems/Support/Ideas/Fixes/Requests: use github forum
 
 Have fun
 
+TODO 
+----
+to be implemented:
+-Suite:handling (roling) of preseeded ssh images, leexee, qemu, virtlib, cyanogen see: blog status quo investigations
+-Suite:an between installations checkscript: of hardware and software basic functionality, virus, hw capabilities accelerator, soundcard, fulltext indexing, automatic mouse controlling for emails
+-difficult to setup: have rosegarden make beep and disappear cleanly
+-packaging: make dpkg package of it
+-Some online video for user guidance, especially for scandistributes's local paths and paste to console usage, git download, install und upload workflows
+-awareness: discussing: use and idea of it in forum posts
+	- announce/sensibilize: broken toolchain as bug report or feature request: For example https://sourceforge.net/p/rosegarden/feature-requests/431/ this for an --play options
+28.4.16
