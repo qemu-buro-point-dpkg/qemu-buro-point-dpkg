@@ -29,21 +29,98 @@
 
 
 
+
+
+# RANGE=${1:-$RANGE}   
+# dup=${2:-$dup}  
+# PPool=${3:-$PPool}  
+# stage1batchmode=${4:-$stage1batchmode}
+# [[ "$5" != "nonadf" ]]||Slot=""
+# [[ "$6" != "startstage2" ]]||startstage="startstage2"
 #Part I inserting leafs
+#default
 PPool="$HOME/Downloads"
 RANGE=1 # number of staples 
 dup=2 # duplex=2 else 1, beidseitig
-stage1batchmode="0"
-Slot="--source ADF"
-startstage="startstage1"
+stage1batchmode="0" #run one paper staple in without questioning user
+Slot="--source ADF" #take papers not from flatbed
+startstage="startstage1" #do not scan! Take images from path
+outfile=""
+#http://mywiki.wooledge.org/BashFAQ/035  Manual loop
+while :; do
+    case $1 in
+        -h|-\?|--help)   # Call a "show_help" function to display a synopsis, then exit.
+            exit
+            ;;
+        -t|--tmpdir)       # Takes an option argument, ensuring it has been specified.
+            if [ -n "$2" ]; then
+                PPool=$2
+                shift
+            fi
+            ;;
+        --nstaples)       # Takes an option argument, ensuring it has been specified.
+            if [ -n "$2" ]; then
+                RANGE=$2
+                shift
+            fi
+            ;;
+        --duplex)       # Takes an option argument, ensuring it has been specified.
+            if [ -n "$2" ]; then
+                dup=$2
+                shift
+            fi
+            ;;
+        --stage1batchmode)       # Takes an option argument, ensuring it has been specified.
+            if [ -n "$2" ]; then
+                stage1batchmode=$2
+                shift
+            fi
+            ;;
+        --slot)       # Takes an option argument, ensuring it has been specified.
+            if [ -n "$2" ]; then
+                Slot=""
+                shift
+            fi
+            ;;
+        --startstage)       # Takes an option argument, ensuring it has been specified.
+            if [ -n "$2" ]; then
+                startstage="startstage2"
+                shift
+            fi
+            ;;
+
+        -o|--output)       # Takes an option argument, ensuring it has been specified.
+            if [ -n "$2" ]; then
+                outfile=$2
+                shift
+            fi
+            ;;
 
 
-RANGE=${1:-$RANGE}   
-dup=${2:-$dup}  
-PPool=${3:-$PPool}  
-stage1batchmode=${4:-$stage1batchmode}
-[[ "$5" != "nonadf" ]]||Slot=""
-[[ "$6" != "startstage2" ]]||startstage="startstage2"
+
+        -v|--verbose)
+	    echo hello2
+            verbose=$((verbose + 1)) # Each -v argument adds 1 to verbosity.
+            ;;
+        --)              # End of all options.
+            shift
+            break
+            ;;
+        -?*)
+            printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2
+            ;;
+        *)               # Default case: If no more options then break out of the loop.
+            break
+    esac
+
+    shift
+done
+
+echo PPool$PPool RANGE$RANGE dup$dup stage1batchmode$stage1batchmode Slot$Slot startstage$startstage
+
+
+
+
 
 echo $Slot"  "$5
 DATE=`date +%y%m%d`
@@ -59,6 +136,7 @@ if [ "$startstage" == "startstage1" ]
     do
     echo $i ". insert and press enter paper"
     [[ "$stage1batchmode" = "1" ]]||read;
+	echo "process paper .."
 	let ii=i+10000
 	time scanimage $Slot -v  -b --resolution 300 -l 0 -t 0 -x 210.00 -y 290.00 --format=tiff  --batch=doctemp${ii:2:3}-p%03d.tiff --batch-start=1 >> log.txt 2>&1
     #doctemp2-p001.tiff #-y 355.6 -x 215.9: big black bar below, - and without x,y too
@@ -113,6 +191,15 @@ pdftotext doctempbundlesandw1.pdf - |tail -5 >> log.txt 2>&1
 ls -l doctempbundlesandw1.pdf >> log.txt 2>&1
 okular --geometry 300x400+20+30 doctempbundlesandw1.pdf & 
 sleep 3;kill `ps aux|grep okular|grep doctempbundlesand|cut -c 10-15`
+
+echo "   1OO "$outfile 
+if [ "$outfile" != "" ]
+  then
+  cp doctempbundlesandw1.pdf $outfile
+  ls $outfile
+  echo "   OOO "$outfile 
+fi
+
 
 # #Part III
 # #distribute

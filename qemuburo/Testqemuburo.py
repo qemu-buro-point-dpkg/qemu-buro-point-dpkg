@@ -55,8 +55,8 @@ class qemuburoTestCase(unittest.TestCase):
 	for f in filelist:
 	    try:os.remove(f)
 	    except:pass
-	    #try:shutil.rmtree(f)
-	    #except:pass
+	    try:shutil.rmtree(f)
+	    except:pass
 	
 	from argparse import ArgumentParser
 		
@@ -118,7 +118,7 @@ class qemuburoTestCase(unittest.TestCase):
 
     def test_stage2_multistaple_duplex_orc_scanning_to_distributed_pdfs_scanndistribute150825(self):
 	'''
-	Ran 1 test in 25.923s OK one page through all stages
+	Ran 1 test in 82.374s OK one page through all stages
 	#multistaple,duplex,stage2, stage 3 distributing
 	does not touch physical scanner device, stage1 skipped
 	'''
@@ -139,7 +139,9 @@ class qemuburoTestCase(unittest.TestCase):
 	    #print dst,src
 	    shutil.copyfile(src,dst)   
 
-	command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" 2 2 "+ self.testpath + " 1 nonadf  startstage2  >> "+self.testpath+"log.txt 2>&1"
+	#command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" 2 2 "+ self.testpath + " 1 nonadf  startstage2  >> "+self.testpath+"log.txt 2>&1"
+	command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" --tmpdir "+ self.testpath + " --nstaples 2 --duplex 2 --slot nonadf --startstage startstage2 >> "+self.testpath+"log.txt 2>&1"
+	#print command
 	os.system(command)
 	self.failUnless(os.stat(self.testpath+"Bescheide/Verwaltungsakte/Vereinbarung/DialektikderAufklaerung/Undinger/bedingungslosesgrundeinkommenfueralleMenschenaufderweltjetzt/oderderboeseonkelkantkommtauchnoch/oderderliebeonkelsade/Gliedi.pdf").st_size>16804)
 
@@ -162,7 +164,9 @@ class qemuburoTestCase(unittest.TestCase):
 	#os.system(command)
 
 	
-	command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" 1 1 "+ self.testpath + " 1 nonadf >> "+self.testpath+"log.txt 2>&1"
+	#command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" 1 1 "+ self.testpath + " 1 nonadf >> "+self.testpath+"log.txt 2>&1"
+	command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" --tmpdir "+ self.testpath + " --nstaples 1 --duplex 1 --slot nonadf --stage1batchmode 1 >> "+self.testpath+"log.txt 2>&1"
+	#print command 
 	os.system(command)
 	#Oracle:
 	self.failUnless(os.stat(self.testpath+"doctempbundlesandw1.pdf").st_size>16804)
