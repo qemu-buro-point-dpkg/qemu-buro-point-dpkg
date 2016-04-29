@@ -166,7 +166,7 @@ class qemuburoTestCase(unittest.TestCase):
 	
 	#command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" 1 1 "+ self.testpath + " 1 nonadf >> "+self.testpath+"log.txt 2>&1"
 	command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" --tmpdir "+ self.testpath + " --nstaples 1 --duplex 1 --slot nonadf --stage1batchmode 1 >> "+self.testpath+"log.txt 2>&1"
-	#print command 
+	print command 
 	os.system(command)
 	#Oracle:
 	self.failUnless(os.stat(self.testpath+"doctempbundlesandw1.pdf").st_size>16804)

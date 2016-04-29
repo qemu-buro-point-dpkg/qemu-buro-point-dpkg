@@ -146,7 +146,7 @@ if [ "$startstage" == "startstage1" ]
     #(T)Problem: after slot empty aborts, error catching?
     #(T) one stable unquestioned
     ls -rtl|tail >> log.txt 2>&1
-    done 
+    done disc
 fi
 
 
