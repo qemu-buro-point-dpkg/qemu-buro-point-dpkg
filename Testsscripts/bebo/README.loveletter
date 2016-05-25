@@ -1,0 +1,48 @@
+
+1) How much animals in this zoo?
+This is a Readme for a generic Textgenerator called _"loveletter"_ used in _bebo_ project environment but as well set out to the world for generic use as it is. So "Bebo" the procure ware. Is different from "loveletter" the report engine ware.
+
+So Talking about 
+loveletter
+----------
+- basically it is a python module with some functions
+-"loveletter" the report engine ware, generic Textgenerator, 
+-the input garbage filtering, multistage, reporting engine: 
+-    "A Tool you can write generic letters with, such as loveletters, among arbitrary roles."
+
+It is capable of parsing from the data base human interface mask's anyhow provided plain text and convert to the internally needed format.(AzAeA)
+
+AzAeA: Anforderung zur Angabe eines Angebots: exhausted information about sending requirement and reciever information as internally hold and main user interface
+lcgsp: legal coverage Germany SGB2 Praxis that is: granting that use case
+twgc: torture ware garbage collector
+loveletter: internal work piece of a document, name of a the this way functioning input garbage filtering, multistage, reporting engine.
+
+Dataflowmodell:
+So you got on a given System LL, as Loveletter,
+Inflow1, Inflow2, Inflow3,
+Outflow1, Outflow2, Outflow3
+
+At these these flows you got "Formats", as frozen takes, substance, from them flows.
+
+You got on Inflow2 the "alternative sender profile role model" asprm-format.
+-one that is lcgsp
+-any other
+
+You got the Inflow1 as of twgc-format on the 3 stages:
+-twgc_rambo1: This is where a person shuffle from a browser interface, lets say 1000 lines text for 10 graphical masks in to a text file by copy and paste, clipboard techniques.
+-twgc_plain_gnu: There are different driver or converters to manage the process step ot ready data.
+-guestAzAeA
+
+Outflows: 5 pdfs, 1 report pdf, one internal report plain text for further stages
+
+Something more? For you user? 
+Wie got a hash-table profile/loveletter, and well: everything is "plain gnu" test driven developement set out for use and improvement. Have fun!
+Licenz is a gnu compatible licence. GPL or the like.
+
+Installation
+Application
+Samples
+FAQ:
+    1) 
+    You say that, I should code Python on it to use it in any unknown generic use case? Such as jail letter to jail x,y, any garbage stream, and self profile? Answer: Yes, Python's unit testing. No better chance learning it neither. 
+

@@ -24,12 +24,15 @@ import shutil
 # There is existing a environment variable from the set from the installer user: 1) search for python modules there!
 if str(sys.path).rfind(os.environ["Qemuburo_install_dir"]+"qemuburo")<1:
     sys.path.append(os.environ["Qemuburo_install_dir"]+"qemuburo")
-
+    sys.path.append(os.environ["Qemuburo_install_dir"]+"Testsscripts/bebo/")
+print str(sys.path).rfind(os.environ["Qemuburo_install_dir"]+"qemuburo")
+print str(sys.path)
 import unittest
 #reload
 #del sys.modules["qemuburo"]
 #import qemuburo
 import logging
+import bebo_report_engine
 
 class qemuburoTestCase(unittest.TestCase):
     def setUp(self):
@@ -200,4 +203,36 @@ class qemuburoTestCase(unittest.TestCase):
 	#preeseeded_install(self.latexpdf)
 	#Oracle:	self.failUnless(os.stat(self.testpath+"Readmeqemuburu.txt").st_size==60723)
 
+    def test_bebo_report_engine_valid_pdf_from_text_bricks_and_addresses(self):
+		
+	filelist=[\
+	    "pic_2_report_piece1_valid_direct_complete.png",\
+	    "pic_1_report_piece1_valid_direct_complete.png"]
+
+
+
+	import shutil
+	for f in filelist:
+	    dst=self.testpath+f #
+	    src=self.testpathressources+f
+	    #print dst,src
+	    shutil.copyfile(src,dst)   
+
+	self.report_table_tex=[[['2D heat conduction analysis with elmer-gmsh-python tool chain', ''], ['quadrangles and treshold mesh size at vertices', ''], ['There has been found over mesh size converging plateau. The results are therefore: usable', ''], ['', ''], ["['flux-elmer', 'gmsh-minsize', 'gmsh-maxsize', 'nodes-el-bnd', 'T min', 'T at A', 'T at b', 'T at c', 'T at d', 'T at e', 'T at f', 'T at g', 'T at h', 'T at i']", "[-9.514125896996, '0.000134846556315', '5.3938622526', '279    271    52   ', '2.737317717687E+002', '2.800945438183E+002', '-3.000312954969E-001', '-1.617285991924E-002', '-1.268605172516E+001', '1.406335645152E-002', '1.103134932622E+001', '0.000000000000E+000', '0.000000000000E+000', '0.000000000000E+000']"], ['Kelvin Boundary 1-2 ', '273.0 - 293.0'], ['Rsi,e  Km\xc2\xb2/W', '0.06 - 0.11'], ['[lambda, material] /body  ', "[[1.15, u'Beton'], [0.12, u'Holz'], [0.029, u'Waermedaemung'], [230.0, u'Aluminium']]"], ['S3prepgeo3', 0], ['S4msh', -0.0], ['S4.1cert', -7.587], ['S5solv', -0.124], ['S6rdsavesc', -0.6], ['s7end', -0.0005]], [['2D heat conduction analysis with elmer-gmsh-python tool chain', ''], ['Triangle and tplan mesh size at vertices', ''], ['There has been found over mesh size converging plateau. The results are therefore: usable', ''], ['', ''], ['S3prepgeo3', 0], ['S4msh', -0.0], ['S4.1cert', 'testdata'], ['S5solv', -0.037], ['S6rdsavesc', -0.35], ['s7end', -0.0006]]]
+	self.texpics=['pic_1_report_piece1_valid_direct_complete.png', 'pic_2_report_piece1_valid_direct_complete.png']
+	bebo_report_engine.prepares_filelist_valid_cummulative_tex(self.report_table_tex, self.texpics, self.testpath, debug=1001)
+    #6901 Mär  1 00:49 pic_2_report_piece1_valid_direct_complete.png
+    #6901 Mär  1 00:49 pic_1_report_piece1_valid_direct_complete.png
+    #16804 Mär  9 19:00 tmp_graph_1.eps
+    #2201 Mär  9 19:00 cumulative1.tex
+	#self.failUnless(os.stat(self.testpath+"cumulative1.tex").st_size==2201)
+	
+	latexpdf="/usr/bin/pdflatex"
+	self.cumulativetex_file="cumulative1.tex"
+	bebo_report_engine.prepares_pdf_cummulativ_tex_and_latexpdf(latexpdf, self.cumulativetex_file, self.testpath, debug=1000)	
+	self.failUnless(1200< os.stat(self.testpath+"cumulative1.pdf").st_size <60400)
+
+	pass
+	#Oracle:	self.failUnless(os.stat(self.testpath+"Readmeqemuburu.txt").st_size==60723
+	return
  
