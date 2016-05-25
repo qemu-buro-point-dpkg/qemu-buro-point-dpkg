@@ -13,8 +13,8 @@ loveletter
 It is capable of parsing from the data base human interface mask's anyhow provided plain text and convert to the internally needed format.(AzAeA)
 
 AzAeA: Anforderung zur Angabe eines Angebots: exhausted information about sending requirement and reciever information as internally hold and main user interface
-lcgsp: legal coverage Germany SGB2 Praxis that is: granting that use case
-twgc: torture ware garbage collector
+lcgsp: legal coverage Germany SGB2 Praxis that is: it is granting that this use case is included (by tests, kind of special customers)
+twgc: torture ware garbage collector: format of result of outflow from commercial online text data bases and from human labor. Compare:twgc_rambo1!
 loveletter: internal work piece of a document, name of a the this way functioning input garbage filtering, multistage, reporting engine.
 
 Dataflowmodell:
@@ -40,7 +40,9 @@ Wie got a hash-table profile/loveletter, and well: everything is "plain gnu" tes
 Licenz is a gnu compatible licence. GPL or the like.
 
 Installation
+..
 Application
+...
 Samples
 FAQ:
     1) 
