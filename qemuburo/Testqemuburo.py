@@ -25,8 +25,8 @@ import shutil
 if str(sys.path).rfind(os.environ["Qemuburo_install_dir"]+"qemuburo")<1:
     sys.path.append(os.environ["Qemuburo_install_dir"]+"qemuburo")
     sys.path.append(os.environ["Qemuburo_install_dir"]+"Testsscripts/bebo/")
-print str(sys.path).rfind(os.environ["Qemuburo_install_dir"]+"qemuburo")
-print str(sys.path)
+#print str(sys.path).rfind(os.environ["Qemuburo_install_dir"]+"qemuburo")
+#print str(sys.path)
 import unittest
 #reload
 #del sys.modules["qemuburo"]
@@ -43,7 +43,10 @@ class qemuburoTestCase(unittest.TestCase):
 	self.testpathressources= os.environ["Qemuburo_install_dir"]+"Testresources/"
 	#code to be tested
 	self.debugflag=100000
-	
+	try:
+	    self.testbebo_profile=os.environ["Qemuburo_bebo_profile"]
+	except:
+	    pass
 
 	if not os.path.exists(self.testpath):
 	    
@@ -118,6 +121,30 @@ class qemuburoTestCase(unittest.TestCase):
 	#Oracle:
 	#16804 Mär  9 18:29 tmp_graph_1.eps
 	self.failUnless(os.stat(self.testpath+"doctemp001-p002.tiff").st_size>1804)
+
+    def test_all_preseediso2ssh(self):
+	'''
+	Ran 1 test in ? OK one page through all stages
+	'''
+	filelist=["preseed_test0.cfg"]
+
+
+
+	import shutil
+	for f in filelist:
+	    dst=self.testpath+f #
+	    src=self.testpathressources+f
+	    #print dst,src
+	    shutil.copyfile(src,dst)   
+
+	#command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" 2 2 "+ self.testpath + " 1 nonadf  startstage2  >> "+self.testpath+"log.txt 2>&1"
+	command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh  " +" --tmpdir "+ self.testpath + " --nstaples 2 --duplex 2 --slot nonadf --startstage startstage2 >> "+self.testpath+"log.txt 2>&1"
+	print command
+	os.system(command)
+	self.failUnless(os.stat(self.testpath+"world").st_size>4)
+
+	#print self.testpath+"doctemp004-p001.tiff"
+
 
     def test_stage2_multistaple_duplex_orc_scanning_to_distributed_pdfs_scanndistribute150825(self):
 	'''
@@ -234,5 +261,45 @@ class qemuburoTestCase(unittest.TestCase):
 
 	pass
 	#Oracle:	self.failUnless(os.stat(self.testpath+"Readmeqemuburu.txt").st_size==60723
+	return
+    
+    def test_multiple_AzAeA_lcgsp_ready_for_mailing(self):
+	pass
+	#Oracleself.failUnless(os.stat(self.testpath+"Readmeqemuburu.pdf, interim report files ").st_size==60723
+	return
+    
+    def test_twgc_plain_gnu_to_guest_AzAeA(self):
+	filelist=[\
+	    "twgc_plain_gnu_jobboerse.arbeitsagentur.de_Elekroingenieur_Berlin_10_takes_rambo_style_5_2016"]
+
+
+
+	import shutil
+	for f in filelist:
+	    dst=self.testpath+f #
+	    src=self.testpathressources+f
+	    #print dst,src
+	    shutil.copyfile(src,dst)   
+	#pass
+	#print "hell"
+	self.pathtovoult=self.testpath+f
+	#print "the voult Test" +self.pathtovoult
+	
+	AzAeAL=bebo_report_engine.twgc_plain_gnu_to_guest_AzAeA(self.pathtovoult, self.testpath, debug=1000)	
+	
+	#Oracle
+	self.failUnless(os.stat(self.testpath+"guest_AzAeA").st_size==1079)
+	
+	profile_dir=self.testbebo_profile+"local_profiles/local_profile1/"
+	asprm_file=""
+	bebo_report_engine.multiple_AzAeA_lcgsp_ready_for_mailing(self.testpath+"guest_AzAeA", self.testpath,AzAeAL,profile_dir,"", debug=1000)
+	
+	self.failUnless(os.stat(self.testpath+"guest_AzAeA").st_size==1079)
+
+	return
+
+    def test_twgc_plain_gnu_2_mailing_pdf(self):
+	pass
+	#Oracleself.failUnless(os.stat(self.testpath+"Readmeqemuburu.AzAeA ").st_size==60723
 	return
  

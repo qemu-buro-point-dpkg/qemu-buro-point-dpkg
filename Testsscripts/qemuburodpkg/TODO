@@ -1,0 +1,31 @@
+Readme:
+This is alpha alpha, upload for early sharing, just read the code
+
+Usage:
+- the test environment is half setup, unit test __mocked
+python -m unittest Testqemuburo.qemuburoTestCase.test_all_preseediso2ssh
+
+----------------------------------------------------------------------
+Ran 1 test in 0.027
+
+-the script needs environmental setup, but gave first ok:
+$ ssh -q -o 'StrictHostKeyChecking no' -p 2222 root@localhost "cat /world"
+hello
+
+Basic function: 
+from downloaded debian netinstall installation image qemu installation is performed, keyless, ready for ssh login
+-one can as well hold it as a but working (because tested) collection of command lines 
+
+Todo:
+ -brennen,gebranntes Testen
+ -iu preseed, vectoren bilden, other formats img, images,
+ 
+ -cat key thing
+-mount für logging  
+- Install Howto Usage manpage, update/request Debian Howtos, update Blog about findings and systematic and concepts, finish solution mailing list thread,
+- andere Howtos schreiben, debuggen, mail thread
+- unittest 1
+- write Readme: Install report on clean users machine, apt-get
+- other vms, using virsh xml
+-find ways for smarter preseed file combinations
+-fine grain units at early installation level with debconf data base, stepwise unroll
