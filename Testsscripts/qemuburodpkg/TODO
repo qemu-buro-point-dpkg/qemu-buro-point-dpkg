@@ -25,18 +25,17 @@ Install
 ### Install instruction, tested on clean vm
 #as root 
 apt-get install qemu
-echo "yes"|apt-get install-y qemu fuseiso9660 
+echo "yes"|apt-get install-y qemu genisoimage wodim fuseiso9660 fuseiso
 #as user!
 cd;rm -rf qemu-buro-point-dpkg/
 git clone https://github.com/qemu-buro-point-dpkg/qemu-buro-point-dpkg
 export Qemuburo_install_dir=`pwd`/qemu-buro-point-dpkg/
 cd qemu-buro-point-dpkg/qemuburo/
-python -m unittest Testqemuburo.qemuburoTestCase.test_pre_and_post_instalaion_tests_from_qemu_generation_to_ready_use_image #short test, if unittest is set up: Ran 1 test in 0.112s OK
-python -m unittest Testqemuburo.qemuburoTestCase.test_all_preseediso2ssh
+python -m unittest Testqemuburo.qemuburoTestCase.test_pre_and_post_instalaion_tests_from_qemu_generation_to_ready_use_image  #short test, if unittest is set up: Ran 1 test in 0.112s OK
+python -m unittest Testqemuburo.qemuburoTestCase.test_all_preseediso2ssh&
 #[1]+  Stopped                 
-#
-#cat /tmp/qemuburotest/log.txt |less #F
-
+#bg
+tail -f /tmp/qemuburotest/log.txt
 ###
 Todo:
 -----
@@ -54,18 +53,18 @@ code:
  -setup guest: bash completion, python, git,
  
 Systematic usecase "gardening"
--cl iu: preseed file, model vectors, other formats qemu img, install images,
+-cl iu: preseed file, model vectors, other formats qemu img, install images, other distros/oses
 - other vms, using virsh xml
 - other installmedia: mini.iso: qemu does not  
 boot, why?;http://ftp.de.debian.org/debian/dists/jessie/main/installer-amd64/current/images/netboot/mini.iso mini.iso	2016-09-14 00:21	28M	
 - mkuron's way,
 - how many usecases might span debian install more or less?, how many of ours? 
-
 Flaw/bugs:
 -regex find all 71 initrd scripts to be improved
 -md5sum `find -follow -type f` > md5sum.txt
 find: File system loop detected; ‘./targetisodir/debian’ is part of the same file system loop as ‘./targetisodir’.
-
+- fuseiso not availabe for jessie: fuseiso9660 deals only with the basic ISO9660 format (see the manual) so filenames are limited to uppercase and 11 characters in an 8.3 format
+The stable distribution (jessie) does not contain fuseiso packages. so? work arounds?
 
 Early logs
 -mount für logging (qemu-nbd see commented)

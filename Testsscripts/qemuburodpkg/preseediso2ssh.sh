@@ -126,7 +126,7 @@ done
 
 rm -fr $tmpinitdir
 rm -fr $loopdir
-#rm -fr $tmpdir
+rm -fr $tmpdir
 rm $outputiso $qcow2img
 
 test -d $tmpdir$tmpinitdir||mkdir -p $tmpdir$tmpinitdir
@@ -145,7 +145,9 @@ echo $(grep $isoimage $MD5SUMS|cut -f1 -d" ")"  "$isoimage | md5sum -c|grep OK||
 
 #ls $tmpinitdir $loopdir $tmpdir $outputiso $qcow2img
 #user-mount, cp iso unwritable content to targetisodir, unmount $loopdir
-/usr/bin/fuseiso* $tmpdir$isoimage $tmpdir$loopdir
+if test -e /usr/bin/fuseiso; then fuseiso=/usr/bin/fuseiso;else echo "no fuseiso found"; fi
+
+$fuseiso $tmpdir$isoimage $tmpdir$loopdir
 cd / #rsync bugs
 rsync -a -H --exclude=TRANS.TBL $tmpdir$loopdir $tmpdir$targetisodir
 fusermount -u $tmpdir$loopdir
@@ -200,7 +202,7 @@ ls $tmpdir$targetisodir$bootcat $tmpdir$targetisodir$isolinuxbin $tmpdir$targeti
 genisoimage -o $outputiso -r -J -no-emul-boot -boot-load-size 4  -boot-info-table -b $isolinuxbin -c $bootcat $targetisodir
 
 
-qemu-img create -f qcow2 $qcow2img 2G
+qemu-img create -f qcow2 $qcow2img 3G
 ls $tmpinitdir $loopdir $tmpdir; ls -l $outputiso $qcow2img
 
 $qemu -hda $qcow2img -cdrom $outputiso -boot d -m $ram  
