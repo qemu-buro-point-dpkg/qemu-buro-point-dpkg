@@ -32,7 +32,7 @@ import unittest
 #del sys.modules["qemuburo"]
 #import qemuburo
 import logging
-import bebo_report_engine
+#import bebo_report_engine
 
 class qemuburoTestCase(unittest.TestCase):
     def setUp(self):

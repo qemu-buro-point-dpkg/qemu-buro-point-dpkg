@@ -139,7 +139,7 @@ test -e $HOME/.ssh/id_rsa ||echo -e  'y'|ssh-keygen -t rsa -q -f "$HOME/.ssh/id_
 #Next, add the contents of the public key file into ~/.ssh/authorized_keys on remote(guest)
 
 cd $tmpdir
-if test -e $cpisofromdir$isoimage; then cp $cpisofromdir$isoimage .; else echo wget $isourl$isoimage -O $tmpdir$isoimag; fi
+if test -e $cpisofromdir$isoimage; then cp $cpisofromdir$isoimage .; else wget $isourl$isoimage -O $tmpdir$isoimage; fi
 wget $isourl$MD5SUMS -O $tmpdir$MD5SUMS
 echo $(grep $isoimage $MD5SUMS|cut -f1 -d" ")"  "$isoimage | md5sum -c|grep OK||exit
 

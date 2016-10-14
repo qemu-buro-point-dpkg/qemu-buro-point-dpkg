@@ -20,12 +20,18 @@ from downloaded debian netinstall installation image qemu installation is perfor
 -Tutorial: you can read the script as a tutorial for preseeding (compare URL pointers in code)
 
 Install 
-requirements:
+-requirements:
 -you need enough disk space, around 3g on your physical machine, default dir /tmp
 apt-get install qemu
 apt-get install libguestfs-tools 
 apt-get install fuseiso
-git clone https://github.com/qemu-buro-point-dpkg/qemu-buro-point-dpkg qemu-buro2
+ # Install instruction, tested on clean vm
+cd
+git clone https://github.com/qemu-buro-point-dpkg/qemu-buro-point-dpkg
+export Qemuburo_install_dir=`pwd`/qemu-buro-point-dpkg/
+cd qemu-buro-point-dpkg/qemuburo/
+python -m unittest Testqemuburo.qemuburoTestCase.test_pre_and_post_instalaion_tests_from_qemu_generation_to_ready_use_image #short test, if unittest is set up: Ran 1 test in 0.112s OK
+python -m unittest Testqemuburo.qemuburoTestCase.test_all_preseediso2ssh
 
 Todo:
 -----
@@ -40,6 +46,7 @@ code:
  - controll appearance and location of gui windows: thw qemu x windows: appearance on demand, fixed place
  -controll appearance of ncurses install debian dialogs: show logs
  -non interactive user anlegen
+ -setup guest: bash completion, python, git,
  
 Systematic usecase "gardening"
 -cl iu: preseed file, model vectors, other formats qemu img, install images,
