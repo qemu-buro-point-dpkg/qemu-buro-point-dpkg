@@ -5,27 +5,68 @@ Usage:
 - the test environment is half setup, unit test __mocked
 python -m unittest Testqemuburo.qemuburoTestCase.test_all_preseediso2ssh
 
+github_qemuburo/qemuburo$ python -m unittest Testqemuburo.qemuburoTestCase.test_all_preseediso2ssh
+bash ./github_qemuburo/Testsscripts/qemuburodpkg/preseediso2ssh.sh --tmpdir /tmp/qemuburotest/ --preseedcfg /tmp/qemuburotest/preseed_test0.cfg>>/tmp/qemuburotest/log.txt 2>&1
+.
 ----------------------------------------------------------------------
-Ran 1 test in 0.027
+Ran 1 test in 3189.267s
 
--the script needs environmental setup, but gave first ok:
-$ ssh -q -o 'StrictHostKeyChecking no' -p 2222 root@localhost "cat /world"
-hello
+OK
+
 
 Basic function: 
-from downloaded debian netinstall installation image qemu installation is performed, keyless, ready for ssh login
--one can as well hold it as a but working (because tested) collection of command lines 
+from downloaded debian netinstall installation image qemu installation is performed, keypressless (completely non-interactive), ready for authenticated ssh login
+-Example: one can as well hold it as a but working (because tested) collection of command lines for such usecases
+-Tutorial: you can read the script as a tutorial for preseeding (compare URL pointers in code)
+
+Install 
+requirements:
+-you need enough disk space, around 3g on your physical machine, default dir /tmp
+apt-get install qemu
+apt-get install libguestfs-tools 
+apt-get install fuseiso
+git clone https://github.com/qemu-buro-point-dpkg/qemu-buro-point-dpkg qemu-buro2
 
 Todo:
- -brennen,gebranntes Testen
- -iu preseed, vectoren bilden, other formats img, images,
- 
+-----
+code:
+ -burn cd, test on physical devices (cd/usb/..?)
  -cat key thing
--mount für logging  
-- Install Howto Usage manpage, update/request Debian Howtos, update Blog about findings and systematic and concepts, finish solution mailing list thread,
-- andere Howtos schreiben, debuggen, mail thread
-- unittest 1
-- write Readme: Install report on clean users machine, apt-get
+ - unittest 1 
+ - partman control/ui: check part table,install to arbitrary part ( what does /dev/vda of official preseed.cfg mean?)
+ - noise levels control design to be implemented/invented
+ - sleep 100 #wait till what? till ssh up 40s, timed bash out loop
+  -  $qemu -m $ram -hda $qcow2img ...: request instant time out, -extra..?
+ - controll appearance and location of gui windows: thw qemu x windows: appearance on demand, fixed place
+ -controll appearance of ncurses install debian dialogs: show logs
+ -non interactive user anlegen
+ 
+Systematic usecase "gardening"
+-cl iu: preseed file, model vectors, other formats qemu img, install images,
 - other vms, using virsh xml
+- other installmedia: mini.iso: qemu does not  
+boot, why?;http://ftp.de.debian.org/debian/dists/jessie/main/installer-amd64/current/images/netboot/mini.iso mini.iso	2016-09-14 00:21	28M	
+- mkuron's way,
+- how many usecases might span debian install more or less?, how many of ours? 
+
+Flaw/bugs:
+-regex find all 71 initrd scripts to be improved
+-md5sum `find -follow -type f` > md5sum.txt
+find: File system loop detected; ‘./targetisodir/debian’ is part of the same file system loop as ‘./targetisodir’.
+
+
+Early logs
+-mount für logging (qemu-nbd see commented)
 -find ways for smarter preseed file combinations
 -fine grain units at early installation level with debconf data base, stepwise unroll
+
+Man
+- Install Howto Usage manpage, 
+- update/request Debian Howtos, 
+- update Blog about findings and systematic and concepts, 
+- finish solution mailing list thread,
+- request, improve official Howtos (after got a list of what was wrong: ""syslinux" outdate, remastering out of scope, but not explained, why universal (early all, all ways) methode and no pointer EditIso, btw EditIso: false talk about root  "mount" issue), threre was mail thread complaining on presseed howtos
+
+- write Readme: Install report on clean users machine, apt-get (double qemu?)
+
+- write Readme (this file): comprising git clone, merge request instructions

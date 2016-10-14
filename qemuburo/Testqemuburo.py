@@ -124,7 +124,7 @@ class qemuburoTestCase(unittest.TestCase):
 
     def test_all_preseediso2ssh(self):
 	'''
-	Ran 1 test in ? OK one page through all stages
+	regression test (overall test preseediso2ss)
 	'''
 	filelist=["preseed_test0.cfg"]
 
@@ -137,8 +137,8 @@ class qemuburoTestCase(unittest.TestCase):
 	    #print dst,src
 	    shutil.copyfile(src,dst)   
 
-	#command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" 2 2 "+ self.testpath + " 1 nonadf  startstage2  >> "+self.testpath+"log.txt 2>&1"
-	command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh  " +" --tmpdir "+ self.testpath + " --nstaples 2 --duplex 2 --slot nonadf --startstage startstage2 >> "+self.testpath+"log.txt 2>&1"
+	command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh "+"--tmpdir " + self.testpath +" --preseedcfg " + self.testpath+"preseed_test0.cfg"+">>"+self.testpath+"log.txt 2>&1"
+	#--nstaples 2 --duplex 2 --slot nonadf --startstage startstage2
 	print command
 	os.system(command)
 	self.failUnless(os.stat(self.testpath+"world").st_size>4)
