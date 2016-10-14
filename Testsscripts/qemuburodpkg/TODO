@@ -22,17 +22,22 @@ from downloaded debian netinstall installation image qemu installation is perfor
 Install 
 -requirements:
 -you need enough disk space, around 3g on your physical machine, default dir /tmp
+### Install instruction, tested on clean vm
+#as root 
 apt-get install qemu
-apt-get install libguestfs-tools 
-apt-get install fuseiso
- # Install instruction, tested on clean vm
-cd
+echo "yes"|apt-get install-y qemu fuseiso9660 
+#as user!
+cd;rm -rf qemu-buro-point-dpkg/
 git clone https://github.com/qemu-buro-point-dpkg/qemu-buro-point-dpkg
 export Qemuburo_install_dir=`pwd`/qemu-buro-point-dpkg/
 cd qemu-buro-point-dpkg/qemuburo/
 python -m unittest Testqemuburo.qemuburoTestCase.test_pre_and_post_instalaion_tests_from_qemu_generation_to_ready_use_image #short test, if unittest is set up: Ran 1 test in 0.112s OK
 python -m unittest Testqemuburo.qemuburoTestCase.test_all_preseediso2ssh
+#[1]+  Stopped                 
+#
+#cat /tmp/qemuburotest/log.txt |less #F
 
+###
 Todo:
 -----
 code:

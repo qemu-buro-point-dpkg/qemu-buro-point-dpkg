@@ -145,7 +145,7 @@ echo $(grep $isoimage $MD5SUMS|cut -f1 -d" ")"  "$isoimage | md5sum -c|grep OK||
 
 #ls $tmpinitdir $loopdir $tmpdir $outputiso $qcow2img
 #user-mount, cp iso unwritable content to targetisodir, unmount $loopdir
-fuseiso $tmpdir$isoimage $tmpdir$loopdir
+/usr/bin/fuseiso* $tmpdir$isoimage $tmpdir$loopdir
 cd / #rsync bugs
 rsync -a -H --exclude=TRANS.TBL $tmpdir$loopdir $tmpdir$targetisodir
 fusermount -u $tmpdir$loopdir
