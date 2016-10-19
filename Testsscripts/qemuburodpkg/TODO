@@ -12,7 +12,8 @@ bash ./github_qemuburo/Testsscripts/qemuburodpkg/preseediso2ssh.sh --tmpdir /tmp
 Ran 1 test in 3189.267s
 
 OK
-
+Tested on:
+-host ubuntu 10.04, guest debian jessie 8.6
 
 Basic function: 
 from downloaded debian netinstall installation image qemu installation is performed, keypressless (completely non-interactive), ready for authenticated ssh login
@@ -49,7 +50,8 @@ code:
   -  $qemu -m $ram -hda $qcow2img ...: request instant time out, -extra..?
  - controll appearance and location of gui windows: thw qemu x windows: appearance on demand, fixed place
  -controll appearance of ncurses install debian dialogs: show logs
- -non interactive user anlegen
+ -non interactive user anlegen: such as:useradd -f 6 -e 2007-09-09 -c testuser -s /bin/csh -m -G backup g debian -p `mkpasswd test` -u 1001 test # der Gruppe backup dazu, Ablaufdatum 9.9., 6 Tage gnadenfrist
+-mount group user such as https://igurublog.wordpress.com/2011/01/22/how-to-allow-mounting-of-iso-files-by-a-regular-user/
  -setup guest: bash completion, python, git,
  
 Systematic usecase "gardening"
@@ -59,6 +61,7 @@ Systematic usecase "gardening"
 boot, why?;http://ftp.de.debian.org/debian/dists/jessie/main/installer-amd64/current/images/netboot/mini.iso mini.iso	2016-09-14 00:21	28M	
 - mkuron's way,
 - how many usecases might span debian install more or less?, how many of ours? 
+
 Flaw/bugs:
 -regex find all 71 initrd scripts to be improved
 -md5sum `find -follow -type f` > md5sum.txt
@@ -81,3 +84,27 @@ Man
 - write Readme: Install report on clean users machine, apt-get (double qemu?)
 
 - write Readme (this file): comprising git clone, merge request instructions
+
+Feature request List
+Test_give_physical_cd_of_it_ready_to_install
+Test_perform_a_ready_to_install_moving_to_new_suite_extract_o_users_personal_profiles_plus_alguna_data_at_dropdbname_plus_plus_una_installation_nearby_users_current_configuration
+Test_beem_me_to_other_hardware  #clone, of yours
+#first: the implementation of a functioning regression machine
+#Study of social Packagology/ Choosing of a design for own late installs
+-dpkg --set-selections < /path/to/packages_list
+-tasksel
+http://www.ctaas.de/linux-install.htm#Linux_Desktopumgebung_Vergleich
+#apt-get install xorg icewm
+#2. try extracting recommended package lists
+#3.Packageanswerimg_at_dialogs
+#Automatic answering of debian packages
+#behaving in qemu the new environment?  
+#They could do some gimmik tricks as "sound_of_gnome" template.
+#apt-get --yes --force-yes install
+#Datenbank schreiben
+#echo mysql-server-5.5 mysql-server/root_password_again password #xyzzy | debconf-set-selections #find the docs then maybe dpkg-#question to be solved: give me a packages list..
+#export DEBIAN_FRONTEND=noninteractive
+#package configuration database
+#cp -r /tmp/qemuburotest/ $HOME/Downloads/ #backup current state could become handy
+#Regression="Regression=1 startstage=200 endstage=700" python -m unittest Testqemuburo.qemuburoTestCase.test_all_preseediso2ssh
+#This is where evocaton got to

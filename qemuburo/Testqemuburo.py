@@ -48,21 +48,44 @@ class qemuburoTestCase(unittest.TestCase):
 	except:
 	    pass
 
-	if not os.path.exists(self.testpath):
-	    
+	try:
+	    self.regession=os.environ["Regression"]
+	except:
+            #print "noregression"
+	    pass
+
+	if not os.path.exists(self.testpath):	    
 	    try:
 		os.makedirs(self.testpath)
 	    except:
 		pass
-	
-	
-	#clean for new test
-	filelist = glob.glob(self.testpath+"*")
-	for f in filelist:
-	    try:os.remove(f)
-	    except:pass
-	    try:shutil.rmtree(f)
-	    except:pass
+	print "regr "+self.regession
+	line=self.regession
+	parts = line.split(" ")
+	self.stripped=[i.split("=") for i in parts]
+	self.regessionnr="0"
+	for i2 in range(len (self.stripped)):
+            if self.stripped[i2][0]=="Regression":
+                print self.stripped[i2][1]
+                print self.stripped[i2][0]
+                self.regessionnr=self.stripped[i2][1]
+                
+
+	line=self.regession
+
+        print self.regessionnr +"zz"
+	if self.regessionnr=="1":
+            print "hee"
+            pass
+        else:
+            print "hoo"
+            #clean for new test
+            filelist = glob.glob(self.testpath+"*")
+            for f in filelist:
+                try:os.remove(f)
+                except:pass
+                try:shutil.rmtree(f)
+                except:pass
 	
 	from argparse import ArgumentParser
 		
@@ -78,6 +101,7 @@ class qemuburoTestCase(unittest.TestCase):
 
 	
 	args = parser.parse_args()
+	print args
 	if "args"!="":
 	    level=args.loglevel
 	else:
@@ -96,7 +120,9 @@ class qemuburoTestCase(unittest.TestCase):
 	
 	logging.basicConfig(format='%(levelname)s:%(message)s', level=args.loglevel)
 	#logging.info('Doing something')
-	
+	#print action
+	if not os.path.exists("/tmp/setupdone"):
+            os.makedirs("/tmp/setupdone")
 	#msec	  
 	#logging.Formatter(fmt='%(asctime)s.%(msecs)03d',datefmt='%Y-%m-%d,%H:%M:%S') 
 	#from http://stackoverflow.com/questions/6290739/python-logging-use-milliseconds-in-time-format
@@ -137,9 +163,24 @@ class qemuburoTestCase(unittest.TestCase):
 	    #print dst,src
 	    shutil.copyfile(src,dst)   
 
-	command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh "+"--tmpdir " + self.testpath +" --preseedcfg " + self.testpath+"preseed_test0.cfg"+">>"+self.testpath+"log.txt 2>&1"
+	print "regr "+self.regession
+	for i2 in range(len (self.stripped)):
+            if self.stripped[i2][0]=="startstage":
+                print self.stripped[i2][1]
+                print self.stripped[i2][0]
+                self.startstage=self.stripped[i2][1]
+                
+	for i2 in range(len (self.stripped)):
+            if self.stripped[i2][0]=="endstage":
+                print self.stripped[i2][1]
+                print self.stripped[i2][0]
+                self.endstage=self.stripped[i2][1]
+                
+        print self.endstage + self.startstage
+        
+	command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh "+"--tmpdir " + self.testpath +" --endstage " + self.endstage+" --startstage " + self.startstage#+">>"+self.testpath+"log.txt 2>&1"
 	#--nstaples 2 --duplex 2 --slot nonadf --startstage startstage2
-	print command
+        print command
 	os.system(command)
 	self.failUnless(os.stat(self.testpath+"world").st_size>4)
 

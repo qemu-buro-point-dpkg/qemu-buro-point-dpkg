@@ -22,6 +22,7 @@
 #http://d-i.alioth.debian.org/doc/internals/ch02.html#id318524
 #https://www.debian.org/releases/stable/amd64/apbs02.html.en#preseed-loading
 
+
 #Part I inserting leafs
 tmpdir="/tmp/qemuburotest/"
 isourl="http://cdimage.debian.org/debian-cd/8.6.0/amd64/iso-cd/"
@@ -61,6 +62,9 @@ qcow2_ready=$HOME"/Downloads/debian_squeeze_amd64_standard.qcow2" #do not scan! 
 #mirror='http://ftp.de.debian.org/debian'
 #disk=debian-$dist-$arch.qcow2
 
+endstage=2560000
+stagepointer=0
+startstage=0
 
 while :; do
     case $1 in
@@ -99,7 +103,14 @@ while :; do
             ;;
         --startstage)       # Takes an option argument, ensuring it has been specified.
             if [ -n "$2" ]; then
-                startstage="startstage2"
+                startstage=$2
+                shift
+            fi
+            ;;
+
+        --endstage)       # Takes an option argument, ensuring it has been specified.
+            if [ -n "$2" ]; then
+                endstage=$2
                 shift
             fi
             ;;
@@ -123,11 +134,26 @@ while :; do
 
     shift
 done
+#
+test -e /tmp/setupdone&&echo "setup there"
+rm -r /tmp/setupdone/
 
-rm -fr $tmpinitdir
-rm -fr $loopdir
-rm -fr $tmpdir
-rm $outputiso $qcow2img
+#mkdir /tmp/qemuburotest/
+# sollte dasein.
+
+
+#1. stagepoint new, 2. end out, 3. start over
+echo $endstage "star" $startstage
+stagepointer=200; 
+#echo hello>/tmp/qemuburotest/world; exit #mock
+if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n "ffffffff"; fi
+if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "cccccccc";
+#echo hello>/tmp/qemuburotest/world; exit #mock
+#Regression=1
+#rm -fr $tmpinitdir
+#rm -fr $loopdir
+#rm -fr $tmpdir
+#rm $outputiso $qcow2img
 
 test -d $tmpdir$tmpinitdir||mkdir -p $tmpdir$tmpinitdir
 test -d $tmpdir$loopdir||mkdir -p $tmpdir$loopdir
@@ -201,11 +227,24 @@ cd $tmpdir
 ls $tmpdir$targetisodir$bootcat $tmpdir$targetisodir$isolinuxbin $tmpdir$targetisodir$isolinuxcfg
 genisoimage -o $outputiso -r -J -no-emul-boot -boot-load-size 4  -boot-info-table -b $isolinuxbin -c $bootcat $targetisodir
 
+fi;stagepointer=300; #iso remastered
+if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
+if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "cccccccc $stagepointer";
+
 
 qemu-img create -f qcow2 $qcow2img 3G
 ls $tmpinitdir $loopdir $tmpdir; ls -l $outputiso $qcow2img
 
+fi;stagepointer=400; 
+if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
+if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "cccccccc $stagepointer";
+
+
 $qemu -hda $qcow2img -cdrom $outputiso -boot d -m $ram  
+
+fi;stagepointer=500; 
+if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
+if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "cccccccc $stagepointer";
 
 # debugging: for early logs, but seems not to be working: after first connect no fs sync.. ??
 # umount /dev/nbd0p1 
@@ -214,6 +253,10 @@ $qemu -hda $qcow2img -cdrom $outputiso -boot d -m $ram
 # qemu-nbd --connect=/dev/nbd0 /tmp/debian.qcow
 
 $qemu -m $ram -hda $qcow2img -boot order=c -redir tcp:2222::22 &
+fi;stagepointer=600; 
+if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
+if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "cccccccc $stagepointer";
+
 # time out
 #40 s on 4 kernel host
 sleep 100 #wait till what?
@@ -225,4 +268,13 @@ ssh -q -o 'StrictHostKeyChecking no' -p 2222 root@localhost "cat /world">/tmp/qe
 cat /tmp/qemuburotest/world
 #echo hello>/tmp/qemuburotest/world; exit #mock
 # cdrecord -dev /dev/hd? test.iso
+fi;stagepointer=700; 
+if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
+if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "cccccccc $stagepointer";
+#now we got a ssh ready machine but for a usecase of soft user migragtion to other hardware, we need a pachage list, wie found 1 4 Ways: 1 0extract from history, 2 extract it from log (1 und 2 name: 77lastaptgetinstalls), 3 dump it, 4 metapackage such icewm install
+cd $tmpdir
+cp $HOME/Downloads/qemuburotest/77lastaptgetinstalls .
+ssh -q -o 'StrictHostKeyChecking no' -p 2222 root@localhost "a=`cat 77lastaptgetinstalls`; apt-get install $a"#>/tmp/qemuburotest/world
 
+echo "hello stage xx"
+fi;
