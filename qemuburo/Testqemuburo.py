@@ -51,6 +51,7 @@ class qemuburoTestCase(unittest.TestCase):
 	try:
 	    self.regession=os.environ["Regression"]
 	except:
+            self.regession=""
             #print "noregression"
 	    pass
 
@@ -59,11 +60,10 @@ class qemuburoTestCase(unittest.TestCase):
 		os.makedirs(self.testpath)
 	    except:
 		pass
-	print "regr "+self.regession
 	line=self.regession
 	parts = line.split(" ")
 	self.stripped=[i.split("=") for i in parts]
-	self.regessionnr="0"
+	self.regessionnr="0" #clean full run
 	for i2 in range(len (self.stripped)):
             if self.stripped[i2][0]=="Regression":
                 print self.stripped[i2][1]
@@ -73,12 +73,11 @@ class qemuburoTestCase(unittest.TestCase):
 
 	line=self.regession
 
-        print self.regessionnr +"zz"
 	if self.regessionnr=="1":
-            print "hee"
+            print "postregression no cleaning"
             pass
         else:
-            print "hoo"
+            print "cleaning tmp"
             #clean for new test
             filelist = glob.glob(self.testpath+"*")
             for f in filelist:
@@ -163,13 +162,15 @@ class qemuburoTestCase(unittest.TestCase):
 	    #print dst,src
 	    shutil.copyfile(src,dst)   
 
-	print "regr "+self.regession
+	print "self.regession "+self.regession
+	self.startstage="000" #default
 	for i2 in range(len (self.stripped)):
             if self.stripped[i2][0]=="startstage":
                 print self.stripped[i2][1]
                 print self.stripped[i2][0]
                 self.startstage=self.stripped[i2][1]
                 
+        self.endstage="10000" #default
 	for i2 in range(len (self.stripped)):
             if self.stripped[i2][0]=="endstage":
                 print self.stripped[i2][1]
