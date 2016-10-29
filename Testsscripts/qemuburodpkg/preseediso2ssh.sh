@@ -180,13 +180,13 @@ test -e $HOME/.ssh/id_rsa ||echo -e  'y'|ssh-keygen -t rsa -q -f "$HOME/.ssh/id_
 cd $tmpdir
 if test -e $cpisofromdir$isoimage; then cp $cpisofromdir$isoimage .; else wget $isourl$isourlimage -O $tmpdir$isoimage; fi
 wget $isourl$MD5SUMS -O $tmpdir$MD5SUMS
-echo $(grep $isoimage $MD5SUMS|cut -f1 -d" ")"  "$isoimage | md5sum -c|grep OK||exit
+echo $(grep $isourlimage $MD5SUMS|cut -f1 -d" ")"  "$isoimage |grep OK||exit
 
 #ls $tmpinitdir $loopdir $tmpdir $outputiso $qcow2img
 #user-mount, cp iso unwritable content to targetisodir, unmount $loopdir
 if test -e /usr/bin/fuseiso; then fuseiso=/usr/bin/fuseiso;else 
 echo "no fuseiso found"; 
-mount /tmp/qemuburotest/initdir
+mount /tmp/qemuburotest/loopdir
 fi
 
 $fuseiso $tmpdir$isoimage $tmpdir$loopdir
@@ -194,7 +194,7 @@ cd / #rsync bugs
 rsync -a -H --exclude=TRANS.TBL $tmpdir$loopdir $tmpdir$targetisodir
 
 fusermount -u $tmpdir$loopdir
-umount /tmp/qemuburotest/initdir
+umount /tmp/qemuburotest/loopdir
 
 initdir=`find $tmpdir$targetisodir -name "*initrd*"|head -n1`
 cd $tmpdir$tmpinitdir
