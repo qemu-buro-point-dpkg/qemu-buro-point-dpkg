@@ -22,89 +22,21 @@ from downloaded debian netinstall installation image qemu installation is perfor
 
 Install 
 -requirements:
--you need enough disk space, around 3g on your physical machine, default dir /tmp
+-you need enough disk space, around 3+3+x g on your physical machine, default dir /tmp
 ### Install instruction, tested on clean vm
 #as root 
-apt-get install qemu
-echo "yes"|apt-get install-y qemu genisoimage wodim fuseiso9660 fuseiso
-#as user!
-cd;rm -rf qemu-buro-point-dpkg/
-git clone https://github.com/qemu-buro-point-dpkg/qemu-buro-point-dpkg
-export Qemuburo_install_dir=`pwd`/qemu-buro-point-dpkg/
-cd qemu-buro-point-dpkg/qemuburo/
-python -m unittest Testqemuburo.qemuburoTestCase.test_pre_and_post_instalaion_tests_from_qemu_generation_to_ready_use_image  #short test, if unittest is set up: Ran 1 test in 0.112s OK
-python -m unittest Testqemuburo.qemuburoTestCase.test_all_preseediso2ssh&
-#[1]+  Stopped                 
+[1]+  Stopped                 
 #bg
 tail -f /tmp/qemuburotest/log.txt
 ###
-Todo:
------
-code:
- -burn cd, test on physical devices (cd/usb/..?)
- -cat key thing
- - unittest 1 
- - partman control/ui: check part table,install to arbitrary part ( what does /dev/vda of official preseed.cfg mean?)
- - noise levels control design to be implemented/invented
- - sleep 100 #wait till what? till ssh up 40s, timed bash out loop
-  -  $qemu -m $ram -hda $qcow2img ...: request instant time out, -extra..?
- - controll appearance and location of gui windows: thw qemu x windows: appearance on demand, fixed place
- -controll appearance of ncurses install debian dialogs: show logs
- -non interactive user anlegen: such as:useradd -f 6 -e 2007-09-09 -c testuser -s /bin/csh -m -G backup g debian -p `mkpasswd test` -u 1001 test # der Gruppe backup dazu, Ablaufdatum 9.9., 6 Tage gnadenfrist
--mount group user such as https://igurublog.wordpress.com/2011/01/22/how-to-allow-mounting-of-iso-files-by-a-regular-user/
- -setup guest: bash completion, python, git,
- 
-Systematic usecase "gardening"
--cl iu: preseed file, model vectors, other formats qemu img, install images, other distros/oses
-- other vms, using virsh xml
-- other installmedia: mini.iso: qemu does not  
-boot, why?;http://ftp.de.debian.org/debian/dists/jessie/main/installer-amd64/current/images/netboot/mini.iso mini.iso	2016-09-14 00:21	28M	
-- mkuron's way,
-- how many usecases might span debian install more or less?, how many of ours? 
 
-Flaw/bugs:
--regex find all 71 initrd scripts to be improved
--md5sum `find -follow -type f` > md5sum.txt
-find: File system loop detected; ‘./targetisodir/debian’ is part of the same file system loop as ‘./targetisodir’.
-- fuseiso not availabe for jessie: fuseiso9660 deals only with the basic ISO9660 format (see the manual) so filenames are limited to uppercase and 11 characters in an 8.3 format
-The stable distribution (jessie) does not contain fuseiso packages. so? work arounds?
 
-Early logs
--mount für logging (qemu-nbd see commented)
--find ways for smarter preseed file combinations
--fine grain units at early installation level with debconf data base, stepwise unroll
+
 
 Man
 - Install Howto Usage manpage, 
 - update/request Debian Howtos, 
-- update Blog about findings and systematic and concepts, 
-- finish solution mailing list thread,
-- request, improve official Howtos (after got a list of what was wrong: ""syslinux" outdate, remastering out of scope, but not explained, why universal (early all, all ways) methode and no pointer EditIso, btw EditIso: false talk about root  "mount" issue), threre was mail thread complaining on presseed howtos
 
-- write Readme: Install report on clean users machine, apt-get (double qemu?)
 
-- write Readme (this file): comprising git clone, merge request instructions
 
-Feature request List
-Test_give_physical_cd_of_it_ready_to_install
-Test_perform_a_ready_to_install_moving_to_new_suite_extract_o_users_personal_profiles_plus_alguna_data_at_dropdbname_plus_plus_una_installation_nearby_users_current_configuration
-Test_beem_me_to_other_hardware  #clone, of yours
-#first: the implementation of a functioning regression machine
-#Study of social Packagology/ Choosing of a design for own late installs
--dpkg --set-selections < /path/to/packages_list
--tasksel
-http://www.ctaas.de/linux-install.htm#Linux_Desktopumgebung_Vergleich
-#apt-get install xorg icewm
-#2. try extracting recommended package lists
-#3.Packageanswerimg_at_dialogs
-#Automatic answering of debian packages
-#behaving in qemu the new environment?  
-#They could do some gimmik tricks as "sound_of_gnome" template.
-#apt-get --yes --force-yes install
-#Datenbank schreiben
-#echo mysql-server-5.5 mysql-server/root_password_again password #xyzzy | debconf-set-selections #find the docs then maybe dpkg-#question to be solved: give me a packages list..
-#export DEBIAN_FRONTEND=noninteractive
-#package configuration database
-#cp -r /tmp/qemuburotest/ $HOME/Downloads/ #backup current state could become handy
-#Regression="Regression=1 startstage=200 endstage=700" python -m unittest Testqemuburo.qemuburoTestCase.test_all_preseediso2ssh
-#This is where evocaton got to
+

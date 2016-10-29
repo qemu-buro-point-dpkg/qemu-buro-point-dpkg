@@ -23,11 +23,11 @@
 #https://www.debian.org/releases/stable/amd64/apbs02.html.en#preseed-loading
 
 
-#Part I inserting leafs
 tmpdir="/tmp/qemuburotest/"
 isourl="http://cdimage.debian.org/debian-cd/8.6.0/amd64/iso-cd/"
 
-isoimage="debian-8.6.0-amd64-netinst.iso" 
+isourlimage="debian-8.6.0-amd64-netinst.iso" 
+isoimage="debian.iso"
 MD5SUMS="MD5SUMS" 
 cpisofromdir="$HOME/Downloads/"
 preseedcfg="preseed_test0.cfg"
@@ -49,12 +49,6 @@ qemu=qemu-system-x86_64
 qcow2_ready=$HOME"/Downloads/debian_squeeze_amd64_standard.qcow2" #do not scan! Take images from path
 
 
-#templates
-# RANGE=1 # number of staples 
-# dup=2 # duplex=2 else 1, beidseitig
-# #Slot="--source ADF" #take papers not from flatbed
-# stage1batchmode="$HOME/Downloads/preseed.cfg" 
-
 #mkuron debian naming scheme not used yet, because not understood
 #qemu=qemu-system-x86_64
 #arch=powerpc
@@ -72,7 +66,12 @@ U=t
 TARGETUSERHOME="/home/$U"
 TARGETAUTHKEYPATH=$TARGETUSERHOME"/.ssh/authorized_keys"
 
-$logfile="/tmp/qemuburotest/log.txt"
+redir=2222
+dropacopy=0
+
+logfile="/tmp/qemuburotest/log.txt"
+conffile=$tmpdir"mudanca.conf"
+test -e $conffile && source $conffile
 
 while :; do
     case $1 in
@@ -97,15 +96,15 @@ while :; do
                 shift
             fi
             ;;
-        --stage1batchmode)       # Takes an option argument, ensuring it has been specified.
+        --dropacopy)       # Takes an option argument, ensuring it has been specified.
             if [ -n "$2" ]; then
-                stage1batchmode=$2
+                dropacopy=$2
                 shift
             fi
             ;;
-        --slot)       # Takes an option argument, ensuring it has been specified.
+        --redir)       # Takes an option argument, ensuring it has been specified.
             if [ -n "$2" ]; then
-                Slot=$2
+                redir=$2
                 shift
             fi
             ;;
@@ -123,6 +122,12 @@ while :; do
             fi
             ;;
 
+        --qcow2img)       # Takes an option argument, ensuring it has been specified.
+            if [ -n "$2" ]; then
+                qcow2img=$2
+                shift
+            fi
+            ;;
 
 
         -v|--verbose)
@@ -150,12 +155,11 @@ rm -r /tmp/setupdone/
 # sollte dasein.
 
 
-#1. stagepoint new, 2. end out, 3. start over
-echo $endstage "star" $startstage
+
 stagepointer=200; 
 #echo hello>/tmp/qemuburotest/world; exit #mock
 if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n "ffffffff"; fi
-if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "cccccccc";
+if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "inject iso $stagepointer";
 #echo hello>/tmp/qemuburotest/world; exit #mock
 #Regression=1
 #rm -fr $tmpinitdir
@@ -174,18 +178,23 @@ test -e $HOME/.ssh/id_rsa ||echo -e  'y'|ssh-keygen -t rsa -q -f "$HOME/.ssh/id_
 #Next, add the contents of the public key file into ~/.ssh/authorized_keys on remote(guest)
 
 cd $tmpdir
-if test -e $cpisofromdir$isoimage; then cp $cpisofromdir$isoimage .; else wget $isourl$isoimage -O $tmpdir$isoimage; fi
+if test -e $cpisofromdir$isoimage; then cp $cpisofromdir$isoimage .; else wget $isourlisourlimage -O $tmpdir$isoimage; fi
 wget $isourl$MD5SUMS -O $tmpdir$MD5SUMS
 echo $(grep $isoimage $MD5SUMS|cut -f1 -d" ")"  "$isoimage | md5sum -c|grep OK||exit
 
 #ls $tmpinitdir $loopdir $tmpdir $outputiso $qcow2img
 #user-mount, cp iso unwritable content to targetisodir, unmount $loopdir
-if test -e /usr/bin/fuseiso; then fuseiso=/usr/bin/fuseiso;else echo "no fuseiso found"; fi
+if test -e /usr/bin/fuseiso; then fuseiso=/usr/bin/fuseiso;else 
+echo "no fuseiso found"; 
+mount /tmp/qemuburotest/initdir
+fi
 
 $fuseiso $tmpdir$isoimage $tmpdir$loopdir
 cd / #rsync bugs
 rsync -a -H --exclude=TRANS.TBL $tmpdir$loopdir $tmpdir$targetisodir
+
 fusermount -u $tmpdir$loopdir
+umount /tmp/qemuburotest/initdir
 
 initdir=`find $tmpdir$targetisodir -name "*initrd*"|head -n1`
 cd $tmpdir$tmpinitdir
@@ -239,7 +248,7 @@ genisoimage -o $outputiso -r -J -no-emul-boot -boot-load-size 4  -boot-info-tabl
 
 fi;stagepointer=300; #iso remastered
 if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
-if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "cccccccc $stagepointer";
+if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "create qcow $stagepointer";
 
 cd $tmpdir
 qemu-img create -f qcow2 $qcow2img $bigness
@@ -247,7 +256,7 @@ ls $tmpinitdir $loopdir $tmpdir; ls -l $outputiso $qcow2img
 
 fi;stagepointer=400; 
 if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
-if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "cccccccc $stagepointer";
+if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "stage launch install $stagepointer";
 
 #killall qemu-system-x86_64
 cd $tmpdir
@@ -255,7 +264,7 @@ $qemu -hda $qcow2img -cdrom $outputiso -boot d -m $ram
 
 fi;stagepointer=500; 
 if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
-if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "stage $stagepointer laumch vm";
+if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "stage $stagepointer laumch clean install";
 
 # debugging: for early logs, but seems not to be working: after first connect no fs sync.. ??
 # umount /dev/nbd0p1 
@@ -263,58 +272,74 @@ if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else
 # mount /dev/nbd0p1 
 # qemu-nbd --connect=/dev/nbd0 /tmp/debian.qcow
 cd $tmpdir
-$qemu -m $ram -hda $qcow2img -boot order=c -redir tcp:2222::22 &
+echo $redir::22
+$qemu -m $ram -hda $qcow2img -boot order=c -redir tcp:$redir::22 &
+
 fi;stagepointer=600; 
 if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
-if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "cccccccc $stagepointer";
+if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo "stage ssh_ready_runnable $stagepointer";
 
 # time out
 #40 s on 4 kernel host
+cd $tmpdir
 sleep 100 #wait till what?
-cd $tmpdir
-ssh-keygen -f "$HOME/.ssh/known_hosts" -R [localhost]:2222
+ssh-keygen -f "$HOME/.ssh/known_hosts" -R [localhost]:$redir
 
-#ssh -vvv -o 'StrictHostKeyChecking no' -p 2222 root@localhost
-ssh -q -o 'StrictHostKeyChecking no' -p 2222 root@localhost "cat /world">/tmp/qemuburotest/world
-cat /tmp/qemuburotest/world
-#echo hello>/tmp/qemuburotest/world; exit #mock
-# cdrecord -dev /dev/hd? test.iso
-fi;stagepointer=700; 
-if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
-if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "cccccccc $stagepointer";
-#now we got a ssh ready machine but for a usecase of soft user migragtion to other hardware, we need a pachage list, wie found 1 4 Ways: 1 0extract from history, 2 extract it from log (1 und 2 name: 77lastaptgetinstalls), 3 dump it, 4 metapackage such icewm install
-cd $tmpdir
-echo $stagepointer
-#scp -P2222 ./77lastaptgetinstalls root@localhost:/root/
-#ssh -q -o 'StrictHostKeyChecking no' -p 2222 root@localhost "a=`cat 77lastaptgetinstalls`; apt-get install $a"#>/tmp/qemuburotest/world bugs, ..
-ssh -q -o 'StrictHostKeyChecking no' -p 2222 root@localhost "DEBIAN_FRONTEND=noninteractive apt-get --yes --force-yes install xserver-common xinit icewm xterm screen nmap lightdm dillo" #>/tmp/qemuburotest/world
-#add user and unlock for him
-ssh -q -o 'StrictHostKeyChecking no' -p 2222 root@localhost "DEBIAN_FRONTEND=noninteractive apt-get --yes --force-yes install whois" #>/
-ssh -o 'StrictHostKeyChecking no' -p 2222 root@localhost "useradd -m -p t -s /bin/bash t"
+ssh -o 'StrictHostKeyChecking no' -p $redir root@localhost "useradd -m -p "$U" -s /bin/bash t"
 ####
 # U=t
 # TARGETUSERHOME="/home/$U"
 # TARGETAUTHKEYPATH=$TARGETUSERHOME"/.ssh/authorized_keys"
 #unlock ssh
 echo $TARGETAUTHKEYPATH
-cat $HOME/.ssh/id_rsa.pub |ssh -q -o 'StrictHostKeyChecking no' -p 2222 root@localhost "mkdir -p $TARGETUSERHOME/.ssh && cat >> $TARGETAUTHKEYPATH"
+cat $HOME/.ssh/id_rsa.pub |ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "mkdir -p $TARGETUSERHOME/.ssh && cat >> $TARGETAUTHKEYPATH"
+
+
+ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "ssh-keygen -f '/root/.ssh/known_hosts' -R [localhost]:$redir"
+#ssh -vvv -o 'StrictHostKeyChecking no' -p $redir root@localhost
+ssh -q -o 'StrictHostKeyChecking no' -p $redir $U@localhost "cat /world">/tmp/qemuburotest/world
+cat /tmp/qemuburotest/world
+
+[ $dropacopy -eq "1" ] && cp $qcow2img $qcow2img"ssh_ready_runnable"$stagepointer #real	1m27.453s
+
+
+
+fi;stagepointer=700; 
+if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
+if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo  "stage lightdm icewm $stagepointer";
+#now we got a ssh ready machine but for a usecase of soft user migragtion to other hardware, we need a pachage list, wie found 1 4 Ways: 1 0extract from history, 2 extract it from log (1 und 2 name: 77lastaptgetinstalls), 3 dump it, 4 metapackage such icewm install
+cd $tmpdir
+echo $stagepointer
+#scp -P$redir ./77lastaptgetinstalls root@localhost:/root/
+#ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "a=`cat 77lastaptgetinstalls`; apt-get install $a"#>/tmp/qemuburotest/world bugs, ..
+ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "DEBIAN_FRONTEND=noninteractive apt-get --yes --force-yes install xserver-common xinit icewm xterm screen nmap lightdm dillo" #>/tmp/qemuburotest/world
+#add user and unlock for him
+ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "DEBIAN_FRONTEND=noninteractive apt-get --yes --force-yes install whois" #>/
+ssh -o 'StrictHostKeyChecking no' -p $redir root@localhost "useradd -m -p t -s /bin/bash t"
+####
+# U=t
+# TARGETUSERHOME="/home/$U"
+# TARGETAUTHKEYPATH=$TARGETUSERHOME"/.ssh/authorized_keys"
+#unlock ssh
+echo $TARGETAUTHKEYPATH
+cat $HOME/.ssh/id_rsa.pub |ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "mkdir -p $TARGETUSERHOME/.ssh && cat >> $TARGETAUTHKEYPATH"
 #as root unlock light dem
-ssh -q -o 'StrictHostKeyChecking no' -p 2222 root@localhost "cp -a /etc/lightdm/ /etc/lightdmbk; cp /etc/lightdmbk/lightdm.conf /etc/lightdm/;sed -ie 's/#autologin-user=/autologin-user=t/' /etc/lightdm/lightdm.conf;sed -ie 's/#autologin-user-timeout/autologin-user-timeout/' /etc/lightdm/lightdm.conf;cat /etc/lightdm/lightdm.conf|grep autol" #; echo "hello"
+ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "cp -a /etc/lightdm/ /etc/lightdmbk; cp /etc/lightdmbk/lightdm.conf /etc/lightdm/;sed -ie 's/#autologin-user=/autologin-user=t/' /etc/lightdm/lightdm.conf;sed -ie 's/#autologin-user-timeout/autologin-user-timeout/' /etc/lightdm/lightdm.conf;cat /etc/lightdm/lightdm.conf|grep autol" #; echo "hello"
 echo "above command exits here shell, when pasted in console"
 echo "hello2"
 
 #/etc/init.d/lightdm restart
-ssh -q -o 'StrictHostKeyChecking no' -p 2222 root@localhost "/etc/init.d/lightdm restart" #>/tmp/qemuburotest/world
+ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "/etc/init.d/lightdm restart" #>/tmp/qemuburotest/world
 echo "hello3/etc/init.d/lightdm restart"
 #lightdm xappears at machine
 sleep 10
 #login through new user accaunt
-ssh -q -o 'StrictHostKeyChecking no' -p 2222 $U@localhost "ls -l $TARGETAUTHKEYPATH; date"
+ssh -q -o 'StrictHostKeyChecking no' -p $redir $U@localhost "ls -l $TARGETAUTHKEYPATH; date"
 
 
 #issued by user: can from users seat = simulation: 
 #open a an x-application by the users xterm, print out inspection and evoke from this shell another xterm
-ssh -q -o 'StrictHostKeyChecking no' -p 2222 $U@localhost 'DISPLAY=:0 xterm -title japmon -e sh -c "xterm&echo hello>2&w;nmap localhost;dillo https://wiki.debian.org/DebianMentorsFaq#What_is_the_debian-mentors_mailing_list_for.3F;bash;"'& #>/tmp/qemuburotest/world
+ssh -q -o 'StrictHostKeyChecking no' -p $redir $U@localhost 'DISPLAY=:0 xterm -title japmon -e sh -c "xterm&echo hello>2&w;nmap localhost;dillo https://wiki.debian.org/DebianMentorsFaq#What_is_the_debian-mentors_mailing_list_for.3F;bash;"'& #>/tmp/qemuburotest/world
 
 sleep 5
 
@@ -351,13 +376,13 @@ if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else
 cd $tmpdir
 echo $stagepointer
 
-#ssh -q -o 'StrictHostKeyChecking no' -p 2222 $U@localhost 'dpkg --configure -a' #>/tmp/
+#ssh -q -o 'StrictHostKeyChecking no' -p $redir $U@localhost 'dpkg --configure -a' #>/tmp/
 logfile="/tmp/qemuburotest/log.txt"
 ao="libreoffice" 
-ssh -o 'StrictHostKeyChecking no' -p 2222 root@localhost "DEBIAN_FRONTEND=noninteractive apt-get --yes --force-yes install $ao"  >$logfile #
+ssh -o 'StrictHostKeyChecking no' -p $redir root@localhost "DEBIAN_FRONTEND=noninteractive apt-get --yes --force-yes install $ao"  >$logfile #
 
-ao="chromium" #"libreoffice" #"ding dolphin cryptsetup hplip kate gimp git aspell-de kate libreoffice autokey-gtk autokey-qt  xautomation uswsusp winpdb pdftk poppler-utils"
-ssh -q -o 'StrictHostKeyChecking no' -p 2222 root@localhost "DEBIAN_FRONTEND=noninteractive apt-get --yes --force-yes install $ao"  >>"$logfile"
+ao="chromium vim kate" #"libreoffice" #"ding dolphin cryptsetup hplip kate gimp git aspell-de kate libreoffice autokey-gtk autokey-qt  xautomation uswsusp winpdb pdftk poppler-utils"
+ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "DEBIAN_FRONTEND=noninteractive apt-get --yes --force-yes install $ao"  >>"$logfile"
 
 
 fi;

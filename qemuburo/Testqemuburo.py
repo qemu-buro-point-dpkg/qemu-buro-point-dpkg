@@ -81,6 +81,7 @@ class qemuburoTestCase(unittest.TestCase):
             #clean for new test
             filelist = glob.glob(self.testpath+"*")
             for f in filelist:
+                print f
                 try:os.remove(f)
                 except:pass
                 try:shutil.rmtree(f)
@@ -177,12 +178,64 @@ class qemuburoTestCase(unittest.TestCase):
                 print self.stripped[i2][0]
                 self.endstage=self.stripped[i2][1]
                 
+        self.dropacopy="1" #default
+	for i2 in range(len (self.stripped)):
+            if self.stripped[i2][0]=="dropacopy":
+                print self.stripped[i2][1]
+                print self.stripped[i2][0]
+                self.dropacopy=self.stripped[i2][1]
+                
+        self.redir="2222" #default
+	for i2 in range(len (self.stripped)):
+            if self.stripped[i2][0]=="redir":
+                print self.stripped[i2][1]
+                print self.stripped[i2][0]
+                self.redir=self.stripped[i2][1]
+                
         print self.endstage + self.startstage
         
-	command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh "+"--tmpdir " + self.testpath +" --endstage " + self.endstage+" --startstage " + self.startstage#+">>"+self.testpath+"log.txt 2>&1"
+	command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh "+"--tmpdir " + self.testpath +" --endstage " + self.endstage+" --startstage " + self.startstage + " --dropacopy " + self.dropacopy +" --redir " + self.redir #+">>"+self.testpath+"log.txt 2>&1"
 	#--nstaples 2 --duplex 2 --slot nonadf --startstage startstage2
         print command
 	os.system(command)
+	self.failUnless(os.stat(self.testpath+"world").st_size>4)
+
+	#print self.testpath+"doctemp004-p001.tiff"
+
+    def test_install_on_local_maschine_preseediso2ssh(self):
+	'''
+	postregression install test on vm 
+	'''
+	print "self.regession "+self.regession
+	self.startstage="500" #default                
+        self.endstage="500" #default                               
+        self.redir="2224" #default
+        self.qcow2img="debian.qcowssh_ready_runnable600"
+                
+ 	command='pkill -f "qemu.*-redir tcp:"'+self.redir
+        print command
+	os.system(command)
+	
+ 	command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh "+"--tmpdir " + self.testpath + " --endstage " + self.endstage+" --startstage " + self.startstage + " --qcow2img " + self.qcow2img +" --redir " + self.redir #+">>"+self.testpath+"log.txt 2>&1"
+	#--nstaples 2 --duplex 2 --slot nonadf --startstage startstage2
+        print command
+	os.system(command)
+	
+        ##scp install_on_local_maschine_preseediso2ssh to 2224
+        ##ssh run it
+        command= "sleep 100; cat " + self.testsscripts + "qemuburodpkg/install_on_local_maschine.sh | ssh -q -o 'StrictHostKeyChecking no' -p " + self.redir + " root@localhost 'cat >install_on_local_maschine.sh'"
+        
+        print command
+	#os.system(command)
+	
+        command= "ssh -q -o 'StrictHostKeyChecking no' -p " + self.redir + " root@localhost bash install_on_local_maschine.sh"
+        
+        print command
+	#os.system(command)
+	
+	
+	
+	
 	self.failUnless(os.stat(self.testpath+"world").st_size>4)
 
 	#print self.testpath+"doctemp004-p001.tiff"
