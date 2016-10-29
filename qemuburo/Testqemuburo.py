@@ -226,12 +226,12 @@ class qemuburoTestCase(unittest.TestCase):
         command= "sleep 100; cat " + self.testsscripts + "qemuburodpkg/install_on_local_maschine.sh | ssh -q -o 'StrictHostKeyChecking no' -p " + self.redir + " root@localhost 'cat >install_on_local_maschine.sh'"
         
         print command
-	#os.system(command)
+	os.system(command)
 	
         command= "ssh -q -o 'StrictHostKeyChecking no' -p " + self.redir + " root@localhost bash install_on_local_maschine.sh"
         
         print command
-	#os.system(command)
+	os.system(command)
 	
 	
 	
