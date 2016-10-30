@@ -31,7 +31,8 @@ isoimage="debian.iso"
 MD5SUMS="MD5SUMS" 
 cpisofromdir="$HOME/Downloads/"
 preseedcfg="preseed_test0.cfg"
-p_preseedcfg=$Qemuburo_install_dir"Testresources/"$preseedcfg
+#p_preseedcfg=$Qemuburo_install_dir"Testresources/"$preseedcfg
+p_preseedcfg=$tmpdir$preseedcfg
 loopdir="loopdir/"
 targetisodir="targetisodir/"
 tmpinitdir="initdir/"
@@ -184,12 +185,15 @@ echo $(grep $isourlimage $MD5SUMS|cut -f1 -d" ")"  "$isoimage |grep OK||exit
 
 #ls $tmpinitdir $loopdir $tmpdir $outputiso $qcow2img
 #user-mount, cp iso unwritable content to targetisodir, unmount $loopdir
-if test -e /usr/bin/fuseiso; then fuseiso=/usr/bin/fuseiso;else 
+if test -e /usr/bin/fuseiso; then 
+fuseiso=/usr/bin/fuseiso;
+$fuseiso $tmpdir$isoimage $tmpdir$loopdir
+else 
 echo "no fuseiso found"; 
 mount /tmp/qemuburotest/loopdir
 fi
 
-$fuseiso $tmpdir$isoimage $tmpdir$loopdir
+
 cd / #rsync bugs
 rsync -a -H --exclude=TRANS.TBL $tmpdir$loopdir $tmpdir$targetisodir
 

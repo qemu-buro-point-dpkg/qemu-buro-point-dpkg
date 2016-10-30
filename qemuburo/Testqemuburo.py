@@ -216,6 +216,7 @@ class qemuburoTestCase(unittest.TestCase):
         print command
 	os.system(command)
 	
+	#make a copy pls
  	command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh "+"--tmpdir " + self.testpath + " --endstage " + self.endstage+" --startstage " + self.startstage + " --qcow2img " + self.qcow2img +" --redir " + self.redir #+">>"+self.testpath+"log.txt 2>&1"
 	#--nstaples 2 --duplex 2 --slot nonadf --startstage startstage2
         print command

@@ -1,9 +1,13 @@
+U=$HOME
 U=t
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export Qemuburo_install_dir=/home/$U/qemu-buro-point-dpkg/
+
 cd;
 whoami;
 ls /root
-/tmp/qemuburotest/debian.iso /tmp/qemuburotest/initdir iso9660 loop,ro,noauto,user 0 0
-echo "yes"|apt-get install -y qemu genisoimage wodim  whois git sudo python vim
+echo "yes"|apt-get install -y qemu genisoimage wodim  whois git sudo python vim psmisc bash-completion
 
 echo "yes"|apt-get --yes --force-yes install fuseiso 
 
@@ -11,9 +15,9 @@ if test -e /usr/bin/fuseiso;
 then echo "no fuseiso found";
 else 
 echo "no fuseiso found"; 
-echo "/tmp/qemuburotest/debian.iso /tmp/qemuburotest/loopdir udf,iso9660 loop,ro,noauto,user 0 0">>/etc/fstab
+a="/tmp/qemuburotest/debian.iso /tmp/qemuburotest/loopdir auto defaults,user 0 1"
+grep "$a" /etc/fstab || echo "$a">>/etc/fstab
 fi
-
 
 # 
 # #as user!
