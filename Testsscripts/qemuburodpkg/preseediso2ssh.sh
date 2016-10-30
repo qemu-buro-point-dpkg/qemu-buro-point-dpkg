@@ -181,7 +181,7 @@ test -e $HOME/.ssh/id_rsa ||echo -e  'y'|ssh-keygen -t rsa -q -f "$HOME/.ssh/id_
 cd $tmpdir
 if test -e $cpisofromdir$isoimage; then cp $cpisofromdir$isoimage .; else wget $isourl$isourlimage -O $tmpdir$isoimage; fi
 wget $isourl$MD5SUMS -O $tmpdir$MD5SUMS
-echo $(grep $isourlimage $MD5SUMS|cut -f1 -d" ")"  "$isoimage |grep OK||exit
+echo $(grep $isourlimage $MD5SUMS||cut -f1 -d" ")"  "$isoimage  md5sum -c|grep OK||exit
 
 #ls $tmpinitdir $loopdir $tmpdir $outputiso $qcow2img
 #user-mount, cp iso unwritable content to targetisodir, unmount $loopdir
