@@ -212,27 +212,29 @@ class qemuburoTestCase(unittest.TestCase):
         self.redir="2224" #default
         self.qcow2img="debian.qcower_icewm_lightdm_dillo700"
                 
- 	###command='pkill -f "qemu.*-redir tcp:"'+self.redir
-        ###print command
-	###os.system(command)
+ 	command='pkill -f "qemu.*-redir tcp:"'+self.redir
+        print command
+	os.system(command)
 
- 	###command='cp '+ self.testpath + self.qcow2img + ' '+ self.testpath+self.qcow2img+'_'
-        ###print command + " >> "+self.testpath+"log.txt 2>&1"
-	###os.system(command)
-	####make a copy pls
+ 	command='cp '+ self.testpath + self.qcow2img + ' '+ self.testpath+self.qcow2img+'_'
+        print command + " >> "+self.testpath+"log.txt 2>&1"
+	os.system(command)
+	#make a copy pls
  	
- 	###command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh "+"--tmpdir " + self.testpath + " --endstage " + self.endstage+" --startstage " + self.startstage + " --qcow2img " + self.qcow2img +"_ --redir " + self.redir +">>"+self.testpath+"log.txt 2>&1"
-	####--nstaples 2 --duplex 2 --slot nonadf --startstage startstage2
-        ###print command
-	###os.system(command)
+ 	command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh "+"--tmpdir " + self.testpath + " --endstage " + self.endstage+" --startstage " + self.startstage + " --qcow2img " + self.qcow2img +"_ --redir " + self.redir +">>"+self.testpath+"log.txt 2>&1"
+	#--nstaples 2 --duplex 2 --slot nonadf --startstage startstage2
+        print command
+	os.system(command)
 	
         ##scp install_on_local_maschine_preseediso2ssh to 2224
-        ##ssh run it sleep 100;
-        command= sleep 100;"(cat " + self.testsscripts + "qemuburodpkg/install_on_local_maschine.sh | ssh -q -o 'StrictHostKeyChecking no' -p " + self.redir + " root@localhost 'cat >install_on_local_maschine.sh')" +">>"+self.testpath+"log.txt 2>&1"
+        ## sleep 100; login, copy local script
+        sleep="sleep 100;"
+        command= sleep + "(cat " + self.testsscripts + "qemuburodpkg/install_on_local_maschine.sh | ssh -q -o 'StrictHostKeyChecking no' -p " + self.redir + " root@localhost 'cat >install_on_local_maschine.sh')" +">>"+self.testpath+"log.txt 2>&1"
         
         print command
 	os.system(command)
 	
+	#run local script
         command= "ssh -q -o 'StrictHostKeyChecking no' -p " + self.redir + " root@localhost bash install_on_local_maschine.sh"+">>"+self.testpath+"log.txt 2>&1"
         
         print command
