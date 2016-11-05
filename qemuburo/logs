@@ -1,0 +1,11 @@
+1
+Regression
+postregression no cleaning
+Namespace(dry_run=False, file=['Testqemuburo.qemuburoTestCase.test_all_preseediso2ssh'], loglevel=None)
+self.regession Regression=1 startstage=500 endstage=500
+500
+startstage
+500
+endstage
+500500
+bash /home/githubqemuburo/github_qemuburo/Testsscripts/qemuburodpkg/preseediso2ssh.sh --tmpdir /tmp/qemuburotest/ --endstage 500 --startstage 500 --dropacopy 1 --redir 2222>>/tmp/qemuburotest/log.txt 2>&1

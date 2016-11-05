@@ -30,6 +30,7 @@ isourlimage="debian-8.6.0-amd64-netinst.iso"
 isoimage="debian.iso"
 MD5SUMS="MD5SUMS" 
 cpisofromdir="$HOME/Downloads/"
+cpisofromdir=$tmpdir #teake download from last run
 preseedcfg="preseed_test0.cfg"
 #p_preseedcfg=$Qemuburo_install_dir"Testresources/"$preseedcfg
 p_preseedcfg=$tmpdir$preseedcfg
@@ -70,9 +71,18 @@ TARGETAUTHKEYPATH=$TARGETUSERHOME"/.ssh/authorized_keys"
 redir=2222
 dropacopy=0
 
-logfile="/tmp/qemuburotest/log.txt"
+logfile="$tmpdir/log.txt"
+touch $logfile
+#now: if host has no X then "-append "console=ttyS0" -nographic" is needed in qemus command line -but: console=ttyS0 can not stand in the command line, as programm boots from cd iso. So it must be injected in the cdrom and in hda
+kernelopts="";qemuparampgraphic=""
+echo "X on the host?"
+ps ax|grep -v grep|grep lightdm||(qemuparampgraphic="-nographic";kernelopts="console=ttyS0")
+
+
 conffile=$tmpdir"mudanca.conf"
 test -e $conffile && source $conffile
+
+
 
 while :; do
     case $1 in
@@ -159,8 +169,8 @@ rm -r /tmp/setupdone/
 
 stagepointer=200; 
 #echo hello>/tmp/qemuburotest/world; exit #mock
-if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n "ffffffff"; fi
-if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "inject iso $stagepointer";
+if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n "exit"; fi
+if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "download official image $stagepointer";
 #echo hello>/tmp/qemuburotest/world; exit #mock
 #Regression=1
 #rm -fr $tmpinitdir
@@ -179,9 +189,15 @@ test -e $HOME/.ssh/id_rsa ||echo -e  'y'|ssh-keygen -t rsa -q -f "$HOME/.ssh/id_
 #Next, add the contents of the public key file into ~/.ssh/authorized_keys on remote(guest)
 
 cd $tmpdir
-if test -e $cpisofromdir$isoimage; then cp $cpisofromdir$isoimage .; else wget $isourl$isourlimage -O $tmpdir$isoimage; fi
-wget $isourl$MD5SUMS -O $tmpdir$MD5SUMS
+if test -e $cpisofromdir$isoimage; then cp $cpisofromdir$isoimage .; else wget -q $isourl$isourlimage -O $tmpdir$isoimage; fi
+wget -q $isourl$MD5SUMS -O $tmpdir$MD5SUMS
 echo $(grep $isourlimage $MD5SUMS|cut -f1 -d" ")"  "$isoimage | md5sum -c|grep OK||exit
+
+
+fi;stagepointer=250; #iso remastered
+if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
+if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "create qcow $stagepointer";
+
 
 #ls $tmpinitdir $loopdir $tmpdir $outputiso $qcow2img
 #user-mount, cp iso unwritable content to targetisodir, unmount $loopdir
@@ -248,7 +264,7 @@ sed -ie 's/timeout 0/timeout 1/' $tmpdir$targetisodir$isolinuxcfg #timeout boot 
 
 cd $tmpdir
 ls $tmpdir$targetisodir$bootcat $tmpdir$targetisodir$isolinuxbin $tmpdir$targetisodir$isolinuxcfg
-genisoimage -o $outputiso -r -J -no-emul-boot -boot-load-size 4  -boot-info-table -b $isolinuxbin -c $bootcat $targetisodir
+genisoimage -o $outputiso -J -U -joliet-long -r -no-emul-boot -boot-load-size 4  -boot-info-table -b $isolinuxbin -c $bootcat $targetisodir
 
 fi;stagepointer=300; #iso remastered
 if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
@@ -256,7 +272,7 @@ if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else
 
 cd $tmpdir
 qemu-img create -f qcow2 $qcow2img $bigness
-ls $tmpinitdir $loopdir $tmpdir; ls -l $outputiso $qcow2img
+#qcow2:copy-on-write
 
 fi;stagepointer=400; 
 if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
@@ -264,11 +280,13 @@ if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else
 
 #killall qemu-system-x86_64
 cd $tmpdir
-$qemu -hda $qcow2img -cdrom $outputiso -boot d -m $ram  
+#$qemuparam=""
+ps faux|grep "lightdm"|grep -v grep||qemuparam="-nographic"
+$qemu -hda $qcow2img -cdrom $outputiso -boot d -m $ram $qemuparam 
 
 fi;stagepointer=500; 
 if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
-if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "stage $stagepointer laumch clean install";
+if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "stage $stagepointer laumch clean installed image";
 
 # debugging: for early logs, but seems not to be working: after first connect no fs sync.. ??
 # umount /dev/nbd0p1 
@@ -276,7 +294,9 @@ if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else
 # mount /dev/nbd0p1 
 # qemu-nbd --connect=/dev/nbd0 /tmp/debian.qcow
 cd $tmpdir
-echo $redir::22
+echo $redir::22 'kill -9 `ps ax|grep "qemu.*redir tcp:$redir"|grep -v grep|cut -c-5`'
+
+kill -9 `ps ax|grep "qemu.*redir tcp:$redir"|grep -v grep|cut -c-5`
 $qemu -m $ram -hda $qcow2img -boot order=c -redir tcp:$redir::22 &
 
 fi;stagepointer=600; 
@@ -351,6 +371,8 @@ echo "Go check oracle with gocr"
 
 
 echo "hello stage xx: x-user-capable-ready-to-use-machine"
+[ $dropacopy -eq "1" ] && cp $qcow2img $qcow2img"er_icewm_lightdm_dillo"$stagepointer #real	1m27.453s
+
 fi;stagepointer=800; 
 if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
 if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "stage $stagepointer prepare home dummy";

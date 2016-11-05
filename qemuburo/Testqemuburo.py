@@ -194,7 +194,7 @@ class qemuburoTestCase(unittest.TestCase):
                 
         print self.endstage + self.startstage
         
-	command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh "+"--tmpdir " + self.testpath +" --endstage " + self.endstage+" --startstage " + self.startstage + " --dropacopy " + self.dropacopy +" --redir " + self.redir #+">>"+self.testpath+"log.txt 2>&1"
+	command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh "+"--tmpdir " + self.testpath +" --endstage " + self.endstage+" --startstage " + self.startstage + " --dropacopy " + self.dropacopy +" --redir " + self.redir +">>"+self.testpath+"log.txt 2>&1"
 	#--nstaples 2 --duplex 2 --slot nonadf --startstage startstage2
         print command
 	os.system(command)
@@ -204,32 +204,36 @@ class qemuburoTestCase(unittest.TestCase):
 
     def test_install_on_local_maschine_preseediso2ssh(self):
 	'''
-	postregression install test on vm 
+	postregression install test on vm installs mudanca project and run to stage 400 
 	'''
 	print "self.regession "+self.regession
 	self.startstage="500" #default                
         self.endstage="500" #default                               
         self.redir="2224" #default
-        self.qcow2img="debian.qcowssh_ready_runnable600"
+        self.qcow2img="debian.qcower_icewm_lightdm_dillo700"
                 
- 	command='pkill -f "qemu.*-redir tcp:"'+self.redir
-        print command
-	os.system(command)
-	
-	#make a copy pls
- 	command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh "+"--tmpdir " + self.testpath + " --endstage " + self.endstage+" --startstage " + self.startstage + " --qcow2img " + self.qcow2img +" --redir " + self.redir #+">>"+self.testpath+"log.txt 2>&1"
-	#--nstaples 2 --duplex 2 --slot nonadf --startstage startstage2
-        print command
-	os.system(command)
+ 	###command='pkill -f "qemu.*-redir tcp:"'+self.redir
+        ###print command
+	###os.system(command)
+
+ 	###command='cp '+ self.testpath + self.qcow2img + ' '+ self.testpath+self.qcow2img+'_'
+        ###print command + " >> "+self.testpath+"log.txt 2>&1"
+	###os.system(command)
+	####make a copy pls
+ 	
+ 	###command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh "+"--tmpdir " + self.testpath + " --endstage " + self.endstage+" --startstage " + self.startstage + " --qcow2img " + self.qcow2img +"_ --redir " + self.redir +">>"+self.testpath+"log.txt 2>&1"
+	####--nstaples 2 --duplex 2 --slot nonadf --startstage startstage2
+        ###print command
+	###os.system(command)
 	
         ##scp install_on_local_maschine_preseediso2ssh to 2224
-        ##ssh run it
-        command= "sleep 100; cat " + self.testsscripts + "qemuburodpkg/install_on_local_maschine.sh | ssh -q -o 'StrictHostKeyChecking no' -p " + self.redir + " root@localhost 'cat >install_on_local_maschine.sh'"
+        ##ssh run it sleep 100;
+        command= sleep 100;"(cat " + self.testsscripts + "qemuburodpkg/install_on_local_maschine.sh | ssh -q -o 'StrictHostKeyChecking no' -p " + self.redir + " root@localhost 'cat >install_on_local_maschine.sh')" +">>"+self.testpath+"log.txt 2>&1"
         
         print command
 	os.system(command)
 	
-        command= "ssh -q -o 'StrictHostKeyChecking no' -p " + self.redir + " root@localhost bash install_on_local_maschine.sh"
+        command= "ssh -q -o 'StrictHostKeyChecking no' -p " + self.redir + " root@localhost bash install_on_local_maschine.sh"+">>"+self.testpath+"log.txt 2>&1"
         
         print command
 	os.system(command)
