@@ -1,41 +1,30 @@
 Readme:
-This is alpha alpha, upload for early sharing, just read the code
+This is alpha. A running prototype.
 
-Usage:
-- the test environment is half setup, unit test __mocked
-python -m unittest Testqemuburo.qemuburoTestCase.test_all_preseediso2ssh
+Usage: 
+This program provides debian flavor oses with x, ssh etc on key press
+See examples file for commandlines and read Document Userinterface.
+-Example: -one can as well hold it as a but working (because tested) collection of command lines for such usecases
+-Tutorial: you can read the script as a tutorial for preseeding (compare URL pointers in code)
 
-github_qemuburo/qemuburo$ python -m unittest Testqemuburo.qemuburoTestCase.test_all_preseediso2ssh
-bash ./github_qemuburo/Testsscripts/qemuburodpkg/preseediso2ssh.sh --tmpdir /tmp/qemuburotest/ --preseedcfg /tmp/qemuburotest/preseed_test0.cfg>>/tmp/qemuburotest/log.txt 2>&1
-.
-----------------------------------------------------------------------
-Ran 1 test in 3189.267s
+Contribute:
+send me patches for your feature requests and bug fixes!
 
-OK
+
+Basic function: 
+from downloaded debian netinstall installation image qemu installation is performed, keypressless (completely non-interactive), ready for authenticated ssh login.
+
+Tests: This got two q/a tested functionalities.
 Tested on:
 -host ubuntu 10.04, guest debian jessie 8.6
 
-Basic function: 
-from downloaded debian netinstall installation image qemu installation is performed, keypressless (completely non-interactive), ready for authenticated ssh login
--Example: one can as well hold it as a but working (because tested) collection of command lines for such usecases
--Tutorial: you can read the script as a tutorial for preseeding (compare URL pointers in code)
 
 Install 
--requirements:
--you need enough disk space, around 3+3+x g on your physical machine, default dir /tmp
-### Install instruction, tested on clean vm
-#as root 
-[1]+  Stopped                 
-#bg
-tail -f /tmp/qemuburotest/log.txt
-###
-
-
-
+Follow the instructions and execute contents of install_on_local_maschine.sh!
 
 Man
-- Install Howto Usage manpage, 
-- update/request Debian Howtos, 
+- see doc files packages 
+-  
 
 
 
