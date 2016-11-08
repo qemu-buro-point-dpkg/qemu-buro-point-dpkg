@@ -80,7 +80,7 @@ ps ax|grep -v grep|grep lightdm||(qemuparampgraphic="-nographic";kernelopts="con
 
 
 conffile=$tmpdir"mudanca.conf"
-test -e $conffile && source $conffile
+#test -e $conffile && source $conffile
 
 
 
@@ -142,7 +142,7 @@ while :; do
 
 
         -v|--verbose)
-	    echo hello2
+	    echo "verbose + 1"
             verbose=$((verbose + 1)) # Each -v argument adds 1 to verbosity.
             ;;
         --)              # End of all options.
@@ -168,10 +168,21 @@ rm -r /tmp/setupdone/
 
 
 stagepointer=200; 
-#echo hello>/tmp/qemuburotest/world; exit #mock
-if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n "exit"; fi
+if [ $endstage -lt $stagepointer ]; then echo "out before"$stagepointer; exit; else echo -n " "; fi
 if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "download official image $stagepointer";
-#echo hello>/tmp/qemuburotest/world; exit #mock
+#~/.ssh/id_rsa.pub.
+#Next, add the contents of the public key file into ~/.ssh/authorized_keys on remote(guest)
+
+cd $tmpdir
+if test -e $cpisofromdir$isoimage; then cp $cpisofromdir$isoimage .; else wget -q $isourl$isourlimage -O $tmpdir$isoimage; fi
+wget -q $isourl$MD5SUMS -O $tmpdir$MD5SUMS
+echo $(grep $isourlimage $MD5SUMS|cut -f1 -d" ")"  "$isoimage | md5sum -c|grep OK||exit
+
+
+fi;stagepointer=250; #iso remastered
+if [ $endstage -lt $stagepointer ]; then echo "out before"$stagepointer exit; else echo -n ""; fi
+if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "create qcow $stagepointer";
+
 #Regression=1
 #rm -fr $tmpinitdir
 #rm -fr $loopdir
@@ -185,19 +196,6 @@ test -d $tmpdir$targetisodir||mkdir -p $tmpdir$targetisodir
 #check before, if ssh key are present on the host, else generate
 #rm $HOME/.ssh/id_rsa* # default use testers pub key  
 test -e $HOME/.ssh/id_rsa ||echo -e  'y'|ssh-keygen -t rsa -q -f "$HOME/.ssh/id_rsa" -N ""
-#~/.ssh/id_rsa.pub.
-#Next, add the contents of the public key file into ~/.ssh/authorized_keys on remote(guest)
-
-cd $tmpdir
-if test -e $cpisofromdir$isoimage; then cp $cpisofromdir$isoimage .; else wget -q $isourl$isourlimage -O $tmpdir$isoimage; fi
-wget -q $isourl$MD5SUMS -O $tmpdir$MD5SUMS
-echo $(grep $isourlimage $MD5SUMS|cut -f1 -d" ")"  "$isoimage | md5sum -c|grep OK||exit
-
-
-fi;stagepointer=250; #iso remastered
-if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
-if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "create qcow $stagepointer";
-
 
 #ls $tmpinitdir $loopdir $tmpdir $outputiso $qcow2img
 #user-mount, cp iso unwritable content to targetisodir, unmount $loopdir
@@ -267,7 +265,7 @@ ls $tmpdir$targetisodir$bootcat $tmpdir$targetisodir$isolinuxbin $tmpdir$targeti
 genisoimage -o $outputiso -J -U -joliet-long -r -no-emul-boot -boot-load-size 4  -boot-info-table -b $isolinuxbin -c $bootcat $targetisodir
 
 fi;stagepointer=300; #iso remastered
-if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
+if [ $endstage -lt $stagepointer ]; then echo "out before"$stagepointer; exit; else echo -n ""; fi
 if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "create qcow $stagepointer";
 
 cd $tmpdir
@@ -275,17 +273,18 @@ qemu-img create -f qcow2 $qcow2img $bigness
 #qcow2:copy-on-write
 
 fi;stagepointer=400; 
-if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
+if [ $endstage -lt $stagepointer ]; then echo "out before"$stagepointer; exit; else echo -n ""; fi
 if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "stage launch install $stagepointer";
 
 #killall qemu-system-x86_64
 cd $tmpdir
 #$qemuparam=""
+kill -9 `ps ax|grep "qemu.*redir tcp:$redir"|grep -v grep|cut -c-5`
 ps faux|grep "lightdm"|grep -v grep||qemuparam="-nographic"
 $qemu -hda $qcow2img -cdrom $outputiso -boot d -m $ram $qemuparam 
 
 fi;stagepointer=500; 
-if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
+if [ $endstage -lt $stagepointer ]; then echo "out before"$stagepointer; exit; else echo -n ""; fi
 if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "stage $stagepointer laumch clean installed image";
 
 # debugging: for early logs, but seems not to be working: after first connect no fs sync.. ??
@@ -300,7 +299,7 @@ kill -9 `ps ax|grep "qemu.*redir tcp:$redir"|grep -v grep|cut -c-5`
 $qemu -m $ram -hda $qcow2img -boot order=c -redir tcp:$redir::22 &
 
 fi;stagepointer=600; 
-if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
+if [ $endstage -lt $stagepointer ]; then echo "out before"$stagepointer; exit; else echo -n ""; fi
 if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo "stage ssh_ready_runnable $stagepointer";
 
 # time out
@@ -322,21 +321,22 @@ cat $HOME/.ssh/id_rsa.pub |ssh -q -o 'StrictHostKeyChecking no' -p $redir root@l
 ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "ssh-keygen -f '/root/.ssh/known_hosts' -R [localhost]:$redir"
 #ssh -vvv -o 'StrictHostKeyChecking no' -p $redir root@localhost
 ssh -q -o 'StrictHostKeyChecking no' -p $redir $U@localhost "cat /world">/tmp/qemuburotest/world
-cat /tmp/qemuburotest/world
+#check that if ssh is up
 
+ssh -o 'StrictHostKeyChecking no' -p $redir root@localhost "sync"
+sync
 [ $dropacopy -eq "1" ] && cp $qcow2img $qcow2img"ssh_ready_runnable"$stagepointer #real	1m27.453s
-
+sync
 
 
 fi;stagepointer=700; 
-if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
-if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo  "stage lightdm icewm $stagepointer";
+if [ $endstage -lt $stagepointer ]; then echo "out before"$stagepointer; exit; else echo -n ""; fi
+if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo  "stage lightdm icewm install $stagepointer";
 #now we got a ssh ready machine but for a usecase of soft user migragtion to other hardware, we need a pachage list, wie found 1 4 Ways: 1 0extract from history, 2 extract it from log (1 und 2 name: 77lastaptgetinstalls), 3 dump it, 4 metapackage such icewm install
 cd $tmpdir
-echo $stagepointer
-#scp -P$redir ./77lastaptgetinstalls root@localhost:/root/
-#ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "a=`cat 77lastaptgetinstalls`; apt-get install $a"#>/tmp/qemuburotest/world bugs, ..
-ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "DEBIAN_FRONTEND=noninteractive apt-get --yes --force-yes install xserver-common xinit icewm xterm screen nmap lightdm dillo" #>/tmp/qemuburotest/world
+
+
+ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "DEBIAN_FRONTEND=noninteractive apt-get --yes --force-yes install xserver-common xinit icewm xterm screen nmap lightdm dillo" 
 #add user and unlock for him
 ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "DEBIAN_FRONTEND=noninteractive apt-get --yes --force-yes install whois" #>/
 ssh -o 'StrictHostKeyChecking no' -p $redir root@localhost "useradd -m -p t -s /bin/bash t"
@@ -348,13 +348,11 @@ ssh -o 'StrictHostKeyChecking no' -p $redir root@localhost "useradd -m -p t -s /
 echo $TARGETAUTHKEYPATH
 cat $HOME/.ssh/id_rsa.pub |ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "mkdir -p $TARGETUSERHOME/.ssh && cat >> $TARGETAUTHKEYPATH"
 #as root unlock light dem
-ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "cp -a /etc/lightdm/ /etc/lightdmbk; cp /etc/lightdmbk/lightdm.conf /etc/lightdm/;sed -ie 's/#autologin-user=/autologin-user=t/' /etc/lightdm/lightdm.conf;sed -ie 's/#autologin-user-timeout/autologin-user-timeout/' /etc/lightdm/lightdm.conf;cat /etc/lightdm/lightdm.conf|grep autol" #; echo "hello"
-echo "above command exits here shell, when pasted in console"
-echo "hello2"
+ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "cp -a /etc/lightdm/ /etc/lightdmbk; sed -ie 's/#autologin-user=/autologin-user=t/' /etc/lightdm/lightdm.conf;sed -ie 's/#autologin-user-timeout/autologin-user-timeout/' /etc/lightdm/lightdm.conf;sync;cat /etc/lightdm/lightdm.conf|grep autol" 
 
 #/etc/init.d/lightdm restart
-ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "/etc/init.d/lightdm restart" #>/tmp/qemuburotest/world
-echo "hello3/etc/init.d/lightdm restart"
+ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "/etc/init.d/lightdm restart" 
+echo "/etc/init.d/lightdm restart"
 #lightdm xappears at machine
 sleep 10
 #login through new user accaunt
@@ -363,18 +361,42 @@ ssh -q -o 'StrictHostKeyChecking no' -p $redir $U@localhost "ls -l $TARGETAUTHKE
 
 #issued by user: can from users seat = simulation: 
 #open a an x-application by the users xterm, print out inspection and evoke from this shell another xterm
-ssh -q -o 'StrictHostKeyChecking no' -p $redir $U@localhost 'DISPLAY=:0 xterm -title japmon -e sh -c "xterm&echo hello>2&w;nmap localhost;dillo https://wiki.debian.org/DebianMentorsFaq#What_is_the_debian-mentors_mailing_list_for.3F;bash;"'& #>/tmp/qemuburotest/world
+ssh -q -o 'StrictHostKeyChecking no' -p $redir $U@localhost 'DISPLAY=:0 xterm -title japmon -e sh -c "xterm&echo hello>2&w;nmap localhost;dillo https://wiki.debian.org/DebianMentorsFaq#What_is_the_debian-mentors_mailing_list_for.3F;bash;"'& 
 
 sleep 5
 
 echo "Go check oracle with gocr"
 
+echo "stage"$stagepointer": x-user-capable-ready-to-use-machine"
 
-echo "hello stage xx: x-user-capable-ready-to-use-machine"
-[ $dropacopy -eq "1" ] && cp $qcow2img $qcow2img"er_icewm_lightdm_dillo"$stagepointer #real	1m27.453s
+#lastimaty there are consequent errors due to dirty copies...
+if [ $dropacopy -eq "1" ] ; then 
+ssh -o 'StrictHostKeyChecking no' -p $redir root@localhost "sync"
+sync
+ssh -o 'StrictHostKeyChecking no' -p $redir root@localhost "halt"
+sleep 50
+kill -9 `ps ax|grep "qemu.*redir tcp:$redir"|grep -v grep|cut -c-5`
+echo "cp $qcow2img $qcow2img"er_icewm_lightdm_dillo"$stagepointer "
+cp $qcow2img $qcow2img"er_icewm_lightdm_dillo"$stagepointer
+#real	1m27.453s
+$qemu -m $ram -hda $qcow2img -boot order=c -redir tcp:$redir::22 &
+sleep 100
+#we need anyway an xterm window. If not, mouse pointer disappears in the icewm. (;
+ssh -q -o 'StrictHostKeyChecking no' -p $redir $U@localhost 'DISPLAY=:0 xterm -title japmon -e sh -c "xterm&echo hello>2&w;nmap localhost;dillo https://wiki.debian.org/DebianMentorsFaq#What_is_the_debian-mentors_mailing_list_for.3F;bash;"'& 
+fi
+
+sync
+ssh -q -o 'StrictHostKeyChecking no' -p $redir $U@localhost "ps -ax|grep lightdm|grep -v grep">/tmp/qemuburotest/worldXup
+sync
+
+fi;stagepointer=790; 
+if [ $endstage -lt $stagepointer ]; then echo "out before"$stagepointer; exit; else echo -n ""; fi
+if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "stage $stagepointer prepare home dummy";
+echo "to be implemented: drop clean copy,halt the machine, make then the copy, reboot it"
+
 
 fi;stagepointer=800; 
-if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
+if [ $endstage -lt $stagepointer ]; then echo "out before"$stagepointer; exit; else echo -n ""; fi
 if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "stage $stagepointer prepare home dummy";
 
 mkdir -p $HOME/Downloads/qemuhomeudir
@@ -392,12 +414,12 @@ du -sh $HOME/Downloads/qemuhomeudir/
 
 
 fi;stagepointer=900; 
-if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
+if [ $endstage -lt $stagepointer ]; then echo "out before"$stagepointer; exit; else echo -n ""; fi
 if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "stage $stagepointer empty ";
 
 
 fi;stagepointer=1000; 
-if [ $endstage -lt $stagepointer ]; then echo hello>/tmp/qemuburotest/world; exit; else echo -n ""; fi
+if [ $endstage -lt $stagepointer ]; then echo "out before"$stagepointer; exit; else echo -n ""; fi
 if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "stage $stagepointer chromium";
 cd $tmpdir
 echo $stagepointer

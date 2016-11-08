@@ -66,22 +66,22 @@ class qemuburoTestCase(unittest.TestCase):
 	self.regessionnr="0" #clean full run
 	for i2 in range(len (self.stripped)):
             if self.stripped[i2][0]=="Regression":
-                print self.stripped[i2][1]
-                print self.stripped[i2][0]
+                #print self.stripped[i2][1]
+                #print self.stripped[i2][0]
                 self.regessionnr=self.stripped[i2][1]
                 
 
 	line=self.regession
 
 	if self.regessionnr=="1":
-            print "postregression no cleaning"
+            #print "postregression no cleaning"
             pass
         else:
-            print "cleaning tmp"
+            #print "cleaning tmp"
             #clean for new test
             filelist = glob.glob(self.testpath+"*")
             for f in filelist:
-                print f
+                #print f
                 try:os.remove(f)
                 except:pass
                 try:shutil.rmtree(f)
@@ -101,7 +101,7 @@ class qemuburoTestCase(unittest.TestCase):
 
 	
 	args = parser.parse_args()
-	print args
+	#print args
 	if "args"!="":
 	    level=args.loglevel
 	else:
@@ -163,64 +163,67 @@ class qemuburoTestCase(unittest.TestCase):
 	    #print dst,src
 	    shutil.copyfile(src,dst)   
 
-	print "self.regession "+self.regession
+	#print "self.regession "+self.regession
 	self.startstage="000" #default
 	for i2 in range(len (self.stripped)):
             if self.stripped[i2][0]=="startstage":
-                print self.stripped[i2][1]
-                print self.stripped[i2][0]
+                #print self.stripped[i2][1]
+                #print self.stripped[i2][0]
                 self.startstage=self.stripped[i2][1]
                 
         self.endstage="10000" #default
 	for i2 in range(len (self.stripped)):
             if self.stripped[i2][0]=="endstage":
-                print self.stripped[i2][1]
-                print self.stripped[i2][0]
+                #print self.stripped[i2][1]
+                #print self.stripped[i2][0]
                 self.endstage=self.stripped[i2][1]
                 
         self.dropacopy="1" #default
 	for i2 in range(len (self.stripped)):
             if self.stripped[i2][0]=="dropacopy":
-                print self.stripped[i2][1]
-                print self.stripped[i2][0]
+                #print self.stripped[i2][1]
+                #print self.stripped[i2][0]
                 self.dropacopy=self.stripped[i2][1]
                 
         self.redir="2222" #default
 	for i2 in range(len (self.stripped)):
             if self.stripped[i2][0]=="redir":
-                print self.stripped[i2][1]
-                print self.stripped[i2][0]
+                #print self.stripped[i2][1]
+                #print self.stripped[i2][0]
                 self.redir=self.stripped[i2][1]
                 
-        print self.endstage + self.startstage
+        #print self.endstage + self.startstage
         
 	command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh "+"--tmpdir " + self.testpath +" --endstage " + self.endstage+" --startstage " + self.startstage + " --dropacopy " + self.dropacopy +" --redir " + self.redir +">>"+self.testpath+"log.txt 2>&1"
 	#--nstaples 2 --duplex 2 --slot nonadf --startstage startstage2
         print command
 	os.system(command)
+	#oracle: return ok, if X is up and if ssh is up
 	self.failUnless(os.stat(self.testpath+"world").st_size>4)
+	self.failUnless(os.stat(self.testpath+"worldXup").st_size>50)
 
-	#print self.testpath+"doctemp004-p001.tiff"
+	
 
     def test_install_on_local_maschine_preseediso2ssh(self):
 	'''
 	postregression install test on vm installs mudanca project and run to stage 400 
 	'''
-	print "self.regession "+self.regession
+	#print "self.regession "+self.regession
 	self.startstage="500" #default                
         self.endstage="500" #default                               
         self.redir="2224" #default
         self.qcow2img="debian.qcower_icewm_lightdm_dillo700"
                 
  	command='pkill -f "qemu.*-redir tcp:"'+self.redir
-        print command
+        #print command
 	os.system(command)
 
  	command='cp '+ self.testpath + self.qcow2img + ' '+ self.testpath+self.qcow2img+'_'
-        print command + " >> "+self.testpath+"log.txt 2>&1"
+        #print command + " >> "+self.testpath+"log.txt 2>&1"
 	os.system(command)
 	#make a copy pls
  	
+ 	#fire up that one machine
  	command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh "+"--tmpdir " + self.testpath + " --endstage " + self.endstage+" --startstage " + self.startstage + " --qcow2img " + self.qcow2img +"_ --redir " + self.redir +">>"+self.testpath+"log.txt 2>&1"
 	#--nstaples 2 --duplex 2 --slot nonadf --startstage startstage2
         print command
@@ -237,15 +240,19 @@ class qemuburoTestCase(unittest.TestCase):
 	#run local script
         command= "ssh -q -o 'StrictHostKeyChecking no' -p " + self.redir + " root@localhost bash install_on_local_maschine.sh"+">>"+self.testpath+"log.txt 2>&1"
         
-        print command
+        #print command
 	os.system(command)
 	
-	
-	
-	
-	self.failUnless(os.stat(self.testpath+"world").st_size>4)
+	#at the end fetch the oracle
+	command= "ssh -q -o 'StrictHostKeyChecking no' -p " + self.redir + " root@localhost ls /tmp/qemuburotest/test.iso"+">>"+self.testpath+"worldvminstallinvm 2>&1"
+        #print command
+	os.system(command)
 
-	#print self.testpath+"doctemp004-p001.tiff"
+	
+        #oracle: return ok, if tests.iso (stage 3 output) is found
+	self.failUnless(os.stat(self.testpath+"worldvminstallinvm").st_size>8)
+	#"ls /tmp/qemuburotest/test.iso">/tmp/qemuburotest/worldvminstallinvm
+
 
 
     def test_stage2_multistaple_duplex_orc_scanning_to_distributed_pdfs_scanndistribute150825(self):
