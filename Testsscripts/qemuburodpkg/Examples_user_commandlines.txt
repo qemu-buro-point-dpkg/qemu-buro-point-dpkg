@@ -1,0 +1,34 @@
+#10851 # This monstrum will start a given vm ssh capable log in 100s time shiftet and ran a later stage intervall with it.
+# In this case we need a X machine out of: it. So stage 500 to lauch such, and stage 700 to give him some X. 
+# so we capsulate to get these two command line:
+kill -9 `ps ax|grep "qemu.*redir tcp:$redir"|grep -v grep|cut -c-5`;cd /tmp/qemuburotest;cp debian.qcowssh_ready_runnable600 debian.cqow
+a=700;(cd $Qemuburo_install_dir"qemuburo/"; Regression="Regression=1 startstage=500 endstage=500" python -m unittest Testqemuburo.qemuburoTestCase.test_all_preseediso2ssh; sleep 100;
+cd $Qemuburo_install_dir"qemuburo/"; Regression="Regression=1 startstage=$a endstage=$a" python -m unittest Testqemuburo.qemuburoTestCase.test_all_preseediso2ssh;)|tee -a -i /tmp/qemuburotest/log.txt
+#buggy?
+
+#I want to get the above image (ssh_non_X_capable) cleaned up and from scretch pls now! (1h15)
+cd /tmp/qemuburotest;cd $Qemuburo_install_dir"qemuburo/"; (Regression="startstage=000 endstage=600" python -m unittest Testqemuburo.qemuburoTestCase.test_all_preseediso2ssh; )
+
+#I want the monitor/status/logs being popped up
+watch "(ls -l; tail -n1 log.txt)"
+
+#first social spare server produced X maschine
+cd /tmp/qemuburotest;cd $Qemuburo_install_dir"qemuburo/"; (Regression="Regression=1 startstage=250 endstage=700" python -m unittest Testqemuburo.qemuburoTestCase.test_all_preseediso2ssh; )
+
+
+##The two tests: 1.:Demo/qa:"pop up fresh icewm to use in vm"
+#===========================================================
+##Demo/qa: run installation routine on another vm and build another vm (to stage 300) in it
+
+# do reqression test: run whole script with with defaults and initial clean up
+cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_all_preseediso2ssh;
+#Ran 1 test in 10959.167sOK
+
+echo hello #python unit test breaks greediness bug?
+# take image debian.qcower_icewm_lightdm_dillo700, start it, run the projekt pachage install routine in its vm
+cd $Qemuburo_install_dir"qemuburo/"; Regression="Regression=1" python -m unittest Testqemuburo.qemuburoTestCase.test_install_on_local_maschine_preseediso2ssh;
+#Ran 1 test in 1247.397sOK
+
+##End of: The two tests
+
+
