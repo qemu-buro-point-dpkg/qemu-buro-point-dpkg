@@ -220,8 +220,11 @@ gzip -d < $initdir | cpio --extract --verbose --make-directories --no-absolute-f
 #noisy
 chmod -R u+w $tmpdir$tmpinitdir  $tmpdir$targetisodir
 
-
+#preseedfile to the root dir of the initrd 
 cp $p_preseedcfg $tmpdir$tmpinitdir"preseed.cfg"
+#and/or to the root of the iso: yessy
+cp $p_preseedcfg $tmpdir$targetisodir"preseed.cfg"
+
 #file is to placed a higher hierarchy order dir of initrd fs, why, who says it?https://www.debian.org/releases/stable/amd64/apbs02.html.en#preseed-loading first paragraph
 
 debconf-set-selections -c $tmpdir$tmpinitdir"preseed.cfg" 2>&1|grep -v "ds.dat\|warning"&& (echo "Syntax error preseed.cfg"; exit)
@@ -361,7 +364,7 @@ ssh -q -o 'StrictHostKeyChecking no' -p $redir $U@localhost "ls -l $TARGETAUTHKE
 
 #issued by user: can from users seat = simulation: 
 #open a an x-application by the users xterm, print out inspection and evoke from this shell another xterm
-ssh -q -o 'StrictHostKeyChecking no' -p $redir $U@localhost 'DISPLAY=:0 xterm -title japmon -e sh -c "xterm&echo hello>2&w;nmap localhost;dillo https://wiki.debian.org/DebianMentorsFaq#What_is_the_debian-mentors_mailing_list_for.3F;bash;"'& 
+ssh -q -o 'StrictHostKeyChecking no' -p $redir $U@localhost '  xterm -title japmon -e sh -c "xterm&echo hello>2&w;nmap localhost;dillo https://wiki.debian.org/DebianMentorsFaq#What_is_the_debian-mentors_mailing_list_for.3F;bash;"'& 
 
 sleep 5
 
