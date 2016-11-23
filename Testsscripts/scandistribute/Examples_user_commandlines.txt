@@ -1,0 +1,72 @@
+#run all command lines as qa test
+#bash $Qemuburo_install_dir"Testsscripts/scandistribute/Examples_user_commandlines.txt"
+
+
+# This monstrum will ...
+
+#lets just (re)read the config. 
+# stage 200
+cd $Qemuburo_install_dir"qemuburo/"; Regression="Regression=1 startstage=200 endstage=200" python -m unittest Testqemuburo.qemuburoTestCase.test_stage2_multistaple_duplex_orc_scanning_to_distributed_pdfs_scanndistribute150825;
+#Ran 1 test in 46.394s
+
+#OK
+
+
+#I want the monitor/status/logs being popped up! So execute before start in another xterm you open yourself: (pty rather than tty)  
+#watch "(ls -l --time-style=+"%b %d %Y %H:%M:%S" /tmp/qemuburotest; tail -n10 log.txt)"
+
+# stage 250
+##do just that paper-feed-processing,
+#case 1 staple non duplex; this means laying the paper staple into the slot, pressing only one keys once in the whole, to say that one to trigger this command.
+#(commented because attended hardware test: someone needs to feed the paper slot before each run
+#cd $Qemuburo_install_dir"qemuburo/"; Regression="Regression=1 startstage=000 endstage=250" python -m unittest Testqemuburo.qemuburoTestCase.test_qa_ui_hw_1_staple_leafs_and_slots_non_interactively_through_all_stages;
+#Ran 1 test in 35.213s
+
+#OK
+#case 2 staple duplex, 
+#no example given
+
+#qa now 1: I want that 1 staple paper in the adf slot non duplex (both side written on) on key processed, remove all previous temporary docs (recommended)
+## case: to disk 
+cd $Qemuburo_install_dir"qemuburo/"; Regression="Regression=1 startstage=000 endstage=500" python -m unittest Testqemuburo.qemuburoTestCase.test_qa_ui_hw_1_staple_leafs_and_slots_non_interactively_through_all_stages;
+#Ran 1 test in 99.236s
+
+#OK
+
+# stage 300
+##do just the step: bind read tiff to cumulative non ocr-pdf
+cd $Qemuburo_install_dir"qemuburo/"; Regression="Regression=1 startstage=300 endstage=300" python -m unittest Testqemuburo.qemuburoTestCase.test_stage2_multistaple_duplex_orc_scanning_to_distributed_pdfs_scanndistribute150825;
+ls -l /tmp/qemuburotest/doctempbundle.pdf
+# ok
+
+# stage 400
+##do just the step: make such smart ocr-sandwhich pdf (fulltext search with original view),
+cd $Qemuburo_install_dir"qemuburo/"; Regression="Regression=1 startstage=400 endstage=400" python -m unittest Testqemuburo.qemuburoTestCase.test_stage2_multistaple_duplex_orc_scanning_to_distributed_pdfs_scanndistribute150825;
+ls -l /tmp/qemuburotest/doctempbundlesandw1.pdf
+# ok
+
+# stage 500
+##(re)do just the step: so than copy the files according to the config2 scheme 
+cd $Qemuburo_install_dir"qemuburo/"; Regression="Regression=1 startstage=500 endstage=500" python -m unittest Testqemuburo.qemuburoTestCase.test_stage2_multistaple_duplex_orc_scanning_to_distributed_pdfs_scanndistribute150825;
+
+
+##and/or to be popped out ##and/or to be printed on paper ("copy")## and wait: given the case I do the hw processing from any leaf 157 (no lets say from leaf 2 of stapel1) on. (at frequent paper feeding hardware errors)
+# Answer: grasp command line options from: (second hardware attended test therefor commented out)
+#cd $Qemuburo_install_dir"qemuburo/"; Regression="Regression=1 startstage=0 endstage=500" python -m unittest Testqemuburo.qemuburoTestCase.test_at_number_157_after_physical_paper_feeding_error_to_be_continued_non_interactively_through_all_stages;
+
+#bash /home/githubqemuburo/github_qemuburo/Testsscripts/scandistribute/scanndistribute150825.sh   --tmpdir /tmp/qemuburotest/ --config /tmp/qemuburotest/scandistribute.conf_donotread --config2 /tmp/qemuburotest/scandistribute2.conf.sh --endstage 500 --startstage 0 --nstaples 1 --duplex 1 --stage1batchmode 1 --istart 1 --leafstart 2 --display_time 36000 --printout 1 >> /tmp/qemuburotest/log.txt 2>&1
+
+
+#Ran 1 test in 55.744s
+
+#OK
+
+#qa now 2: I want that multiple staple paper duplex on as few keys as possible processed to disk ..
+
+#how to on key install from internet? 
+#answer: Just execute the tested install routine on your computer.tbi 
+
+#do multiple stage 500; use multiple user scripts or templates on the output, that means process the output ot arbirary channels
+## good luck; you can use bash's for and unix's sed for on key processing, can not you?
+
+

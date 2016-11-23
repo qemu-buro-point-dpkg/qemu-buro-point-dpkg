@@ -222,7 +222,7 @@ chmod -R u+w $tmpdir$tmpinitdir  $tmpdir$targetisodir
 
 #preseedfile to the root dir of the initrd 
 cp $p_preseedcfg $tmpdir$tmpinitdir"preseed.cfg"
-#and/or to the root of the iso: yessy
+#and/or to the root of the iso: jessy
 cp $p_preseedcfg $tmpdir$targetisodir"preseed.cfg"
 
 #file is to placed a higher hierarchy order dir of initrd fs, why, who says it?https://www.debian.org/releases/stable/amd64/apbs02.html.en#preseed-loading first paragraph

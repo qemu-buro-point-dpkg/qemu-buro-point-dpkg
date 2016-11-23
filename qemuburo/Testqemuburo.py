@@ -21,10 +21,13 @@ import os
 import shutil
 #print "update loaded modules"
 #sys.path.append("/home/kubuntu/freecad/lib/")
-# There is existing a environment variable from the set from the installer user: 1) search for python modules there!
+# There is existing a environment variable from the set from the installer user: 1) search for python modules there! 
+# Structure: If not set, add application dirs of project. 
 if str(sys.path).rfind(os.environ["Qemuburo_install_dir"]+"qemuburo")<1:
     sys.path.append(os.environ["Qemuburo_install_dir"]+"qemuburo")
     sys.path.append(os.environ["Qemuburo_install_dir"]+"Testsscripts/bebo/")
+    sys.path.append(os.environ["Qemuburo_install_dir"]+"Testsscripts/scandistribute/")
+
 #print str(sys.path).rfind(os.environ["Qemuburo_install_dir"]+"qemuburo")
 #print str(sys.path)
 import unittest
@@ -201,7 +204,6 @@ class qemuburoTestCase(unittest.TestCase):
 	#oracle: return ok, if X is up and if ssh is up
 	self.failUnless(os.stat(self.testpath+"world").st_size>4)
 	self.failUnless(os.stat(self.testpath+"worldXup").st_size>50)
-
 	
 
     def test_install_on_local_maschine_preseediso2ssh(self):
@@ -254,19 +256,35 @@ class qemuburoTestCase(unittest.TestCase):
 	#"ls /tmp/qemuburotest/test.iso">/tmp/qemuburotest/worldvminstallinvm
 
 
-
     def test_stage2_multistaple_duplex_orc_scanning_to_distributed_pdfs_scanndistribute150825(self):
 	'''
 	Ran 1 test in 82.374s OK one page through all stages
 	#multistaple,duplex,stage2, stage 3 distributing
 	does not touch physical scanner device, stage1 skipped
 	'''
+		#print "self.regession "+self.regession
+	self.startstage="000" #default
+	for i2 in range(len (self.stripped)):
+            if self.stripped[i2][0]=="startstage":
+                #print self.stripped[i2][1]
+                #print self.stripped[i2][0]
+                self.startstage=self.stripped[i2][1]
+                
+        self.endstage="10000" #default
+	for i2 in range(len (self.stripped)):
+            if self.stripped[i2][0]=="endstage":
+                #print self.stripped[i2][1]
+                #print self.stripped[i2][0]
+                self.endstage=self.stripped[i2][1]
+ 
 	filelist=[\
 	    "doctemp001-p002.tiff",\
 	    "doctemp001-p001.tiff",\
 	    "doctemp002-p001.tiff",\
 	    "doctemp003-p001.tiff",\
 	    "doctemp004-p002.tiff",\
+	    "scandistribute.conf",\
+	    "scandistribute2.conf.sh",\
 	    "doctemp004-p001.tiff"]
 
 
@@ -278,11 +296,34 @@ class qemuburoTestCase(unittest.TestCase):
 	    #print dst,src
 	    shutil.copyfile(src,dst)   
 
-	#command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" 2 2 "+ self.testpath + " 1 nonadf  startstage2  >> "+self.testpath+"log.txt 2>&1"
-	command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" --tmpdir "+ self.testpath + " --nstaples 2 --duplex 2 --slot nonadf --startstage startstage2 >> "+self.testpath+"log.txt 2>&1"
-	#print command
+	#from mudanca
+	#command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh "+"--tmpdir " + self.testpath +" --endstage " + self.endstage+" --startstage " + self.startstage + " --dropacopy " + self.dropacopy +" --redir " + self.redir +">>"+self.testpath+"log.txt 2>&1"
+	
+	command= "bash "+self.testsscripts+"scandistribute/scanndistribute150825.sh  " +" --tmpdir "+ self.testpath \
+	+" --config "+ self.testpath + "scandistribute.conf"\
+	+" --config2 "+ self.testpath +"scandistribute2.conf.sh"\
+	+" --endstage " + self.endstage+" --startstage " + self.startstage + " --nstaples 2 --duplex 2 --slot nonadf --startstage_  startstage2 >> "+self.testpath+"log.txt 2>&1"
+	print command
 	os.system(command)
-	self.failUnless(os.stat(self.testpath+"Bescheide/Verwaltungsakte/Vereinbarung/DialektikderAufklaerung/Undinger/bedingungslosesgrundeinkommenfueralleMenschenaufderweltjetzt/oderderboeseonkelkantkommtauchnoch/oderderliebeonkelsade/Gliedi.pdf").st_size>16804)
+	
+
+        #oracle 1: pdf-bound-t0-65M test, cumulative file size
+        #command= 
+        self.failUnless(os.stat(self.testpath+"doctempbundle.pdf").st_size>20000008)
+        # doctempbundle.pdf
+        
+        #oracle 2: ocr-to-0.6M-pdf-okular-up-test, cumulative file size
+	#command=
+	 	
+        if int(self.endstage)>=400:
+            self.failUnless(os.stat(self.testpath+"doctempbundlesandw1.pdf").st_size>300000)
+            #todo: + search for string + "tail durch ihr Verhalten verhindern" logs,
+            #todo: + seach ps ax|grep "okular|sandw1"|
+            
+            #oracle 3: sade-path test
+            #command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" 2 2 "+ self.testpath + " 1 nonadf  startstage2  >> "+self.testpath+"log.txt 2>&1"
+            #oracle 3
+            self.failUnless(os.stat(self.testpath+"Bescheide/Verwaltungsakte/Vereinbarung/DialektikderAufklaerung/Undinger/bedingungslosesgrundeinkommenfueralleMenschenaufderweltjetzt/oderderboeseonkelkantkommtauchnoch/oderderliebeonkelsade/Gliedi.pdf").st_size>16804)
 
 	#print self.testpath+"doctemp004-p001.tiff"
 
@@ -304,7 +345,7 @@ class qemuburoTestCase(unittest.TestCase):
 
 	
 	#command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" 1 1 "+ self.testpath + " 1 nonadf >> "+self.testpath+"log.txt 2>&1"
-	command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" --tmpdir "+ self.testpath + " --nstaples 1 --duplex 1 --slot nonadf --stage1batchmode 1 >> "+self.testpath+"log.txt 2>&1"
+	command= "bash "+self.testsscripts+"scandistribute/scanndistribute150825.sh  " +" --tmpdir "+ self.testpath + " --nstaples 1 --duplex 1 --slot nonadf --stage1batchmode 1 >> "+self.testpath+"log.txt 2>&1"
 	print command 
 	os.system(command)
 	#Oracle:
@@ -323,6 +364,149 @@ class qemuburoTestCase(unittest.TestCase):
 	# ?__? Annoying me that scanner is not mute, beepsk at display k
 	#
     
+    def test_qa_ui_hw_1_staple_leafs_and_slots_non_interactively_through_all_stages(self):
+	'''
+	Tests for hw:1 staple in slot non interactivly (feature ui, hw)
+              for overall usage (qa)
+	'''
+		#print "self.regession "+self.regession
+	self.startstage="000" #default
+	for i2 in range(len (self.stripped)):
+            if self.stripped[i2][0]=="startstage":
+                #print self.stripped[i2][1]
+                #print self.stripped[i2][0]
+                self.startstage=self.stripped[i2][1]
+                
+        self.endstage="10000" #default
+	for i2 in range(len (self.stripped)):
+            if self.stripped[i2][0]=="endstage":
+                #print self.stripped[i2][1]
+                #print self.stripped[i2][0]
+                self.endstage=self.stripped[i2][1]
+ 
+	filelist=[\
+	    #"doctemp001-p002.tiff",\
+	    #"doctemp001-p001.tiff",\
+	    #"doctemp002-p001.tiff",\
+	    #"doctemp003-p001.tiff",\
+	    #"doctemp004-p002.tiff",\
+	    "scandistribute.conf",\
+	    "scandistribute2.conf.sh"]
+
+
+
+	import shutil
+	for f in filelist:
+	    dst=self.testpath+f #
+	    src=self.testpathressources+f
+	    #print dst,src
+	    shutil.copyfile(src,dst)   
+
+	#from mudanca
+	#command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh "+"--tmpdir " + self.testpath +" --endstage " + self.endstage+" --startstage " + self.startstage + " --dropacopy " + self.dropacopy +" --redir " + self.redir +">>"+self.testpath+"log.txt 2>&1"
+	
+	command= "bash "+self.testsscripts+"scandistribute/scanndistribute150825.sh  " +" --tmpdir "+ self.testpath \
+	+" --config "+ self.testpath + "scandistribute.conf_donotread"\
+	+" --config2 "+ self.testpath +"scandistribute2.conf.sh"\
+	+" --endstage " + self.endstage+" --startstage " + self.startstage + " --nstaples 1 --duplex 1 --rmdoctemp 1 --stage1batchmode 1 >> "+self.testpath+"log.txt 2>&1"
+	print command
+	os.system(command)
+	
+
+        #oracle 1: case 1 staple non duplex test: is on 1 read file of . tiff and naming and size there?
+        #command= 
+        self.failUnless(os.stat(self.testpath+"doctemp001-p001.tiff").st_size>64130)
+        #1064130 Nov 18 22:52 doctemp001-p001.tiff
+
+        
+        # doctempbundle.pdf
+        
+        #oracle 2: ocr-to-0.6M-pdf-okular-up-test, cumulative file size
+	#command=
+	if int(self.endstage)>=400:
+            self.failUnless(os.stat(self.testpath+"doctempbundlesandw1.pdf").st_size>100000)
+            #todo: + search for string + "tail durch ihr Verhalten verhindern" logs,
+            #todo: + seach ps ax|grep "okular|sandw1"|
+            #oracle 3: sade-path test
+            #command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" 2 2 "+ self.testpath + " 1 nonadf  startstage2  >> "+self.testpath+"log.txt 2>&1"
+            #oracle 3
+            self.failUnless(os.stat(self.testpath+"Bescheide/Verwaltungsakte/Vereinbarung/DialektikderAufklaerung/Undinger/bedingungslosesgrundeinkommenfueralleMenschenaufderweltjetzt/oderderboeseonkelkantkommtauchnoch/oderderliebeonkelsade/Gliedi.pdf").st_size>16804)
+
+	#print self.testpath+"doctemp004-p001.tiff"
+
+    def test_at_number_157_after_physical_paper_feeding_error_to_be_continued_non_interactively_through_all_stages(self):
+	'''
+	Tests for hw:1 staple in slot non interactivly (feature ui, hw)
+              for overall usage (qa)
+	'''
+		#print "self.regession "+self.regession
+	self.startstage="000" #default
+	for i2 in range(len (self.stripped)):
+            if self.stripped[i2][0]=="startstage":
+                #print self.stripped[i2][1]
+                #print self.stripped[i2][0]
+                self.startstage=self.stripped[i2][1]
+                
+        self.endstage="10000" #default
+	for i2 in range(len (self.stripped)):
+            if self.stripped[i2][0]=="endstage":
+                #print self.stripped[i2][1]
+                #print self.stripped[i2][0]
+                self.endstage=self.stripped[i2][1]
+ 
+	filelist=[\
+	    #"doctemp001-p002.tiff",\
+	    "doctemp001-p001.tiff",\
+	    #"doctemp002-p001.tiff",\
+	    #"doctemp003-p001.tiff",\
+	    #"doctemp004-p002.tiff",\
+	    "scandistribute.conf",\
+	    "scandistribute2.conf.sh"\
+                ]
+
+
+
+	import shutil
+	for f in filelist:
+	    dst=self.testpath+f #
+	    src=self.testpathressources+f
+	    #print dst,src
+	    shutil.copyfile(src,dst)   
+
+	#from mudanca
+	#command= "bash "+self.testsscripts+"qemuburodpkg/preseediso2ssh.sh "+"--tmpdir " + self.testpath +" --endstage " + self.endstage+" --startstage " + self.startstage + " --dropacopy " + self.dropacopy +" --redir " + self.redir +">>"+self.testpath+"log.txt 2>&1"
+	
+	command= "bash "+self.testsscripts+"scandistribute/scanndistribute150825.sh  " +" --tmpdir "+ self.testpath \
+	+" --config "+ self.testpath + "scandistribute.conf_donotread"\
+	+" --config2 "+ self.testpath +"scandistribute2.conf.sh"\
+	+" --endstage " + self.endstage+" --startstage " + self.startstage + " --nstaples 1 --duplex 1 --stage1batchmode 1 --istart 1 --leafstart 2 --display_time 36000 --printout 1 >> "+self.testpath+"log.txt 2>&1"
+	print command
+	os.system(command)
+	
+
+        #oracle 1: case 1 staple non duplex test: is on 1 read file of . tiff and naming and size there?
+        #command= 
+        self.failUnless(os.stat(self.testpath+"doctemp001-p001.tiff").st_size>64130)
+        #1064130 Nov 18 22:52 doctemp001-p001.tiff
+
+        
+        # doctempbundle.pdf
+ 	if int(self.endstage)>=400:
+            #oracle 2: ocr-to-0.6M-pdf-okular-up-test, cumulative file size
+            #command=
+            self.failUnless(os.stat(self.testpath+"doctempbundlesandw1.pdf").st_size>100000)
+            #todo: + search for string + "tail durch ihr Verhalten verhindern" logs,
+            #todo: + seach ps ax|grep "okular|sandw1"|
+            
+            #oracle 3: sade-path test
+            #command= "bash "+self.testsscripts+"scanndistribute150825.sh  " +" 2 2 "+ self.testpath + " 1 nonadf  startstage2  >> "+self.testpath+"log.txt 2>&1"
+            #oracle 3
+            self.failUnless(os.stat(self.testpath+"Bescheide/Verwaltungsakte/Vereinbarung/DialektikderAufklaerung/Undinger/bedingungslosesgrundeinkommenfueralleMenschenaufderweltjetzt/oderderboeseonkelkantkommtauchnoch/oderderliebeonkelsade/Gliedi.pdf").st_size>16804)
+
+	#print self.testpath+"doctemp004-p001.tiff"
+    
+    #def test_qa_print_it_as_ordinary_copy_maschine(self):
+
     def test_pre_and_post_instalaion_tests_from_qemu_generation_to_ready_use_image(self):
 	pass
 	return
@@ -339,8 +523,8 @@ class qemuburoTestCase(unittest.TestCase):
 	#preeseeded_install(self.latexpdf)
 	#Oracle:	self.failUnless(os.stat(self.testpath+"Readmeqemuburu.txt").st_size==60723)
 
+
     def test_bebo_report_engine_valid_pdf_from_text_bricks_and_addresses(self):
-		
 	filelist=[\
 	    "pic_2_report_piece1_valid_direct_complete.png",\
 	    "pic_1_report_piece1_valid_direct_complete.png"]
@@ -356,21 +540,21 @@ class qemuburoTestCase(unittest.TestCase):
 
 	self.report_table_tex=[[['2D heat conduction analysis with elmer-gmsh-python tool chain', ''], ['quadrangles and treshold mesh size at vertices', ''], ['There has been found over mesh size converging plateau. The results are therefore: usable', ''], ['', ''], ["['flux-elmer', 'gmsh-minsize', 'gmsh-maxsize', 'nodes-el-bnd', 'T min', 'T at A', 'T at b', 'T at c', 'T at d', 'T at e', 'T at f', 'T at g', 'T at h', 'T at i']", "[-9.514125896996, '0.000134846556315', '5.3938622526', '279    271    52   ', '2.737317717687E+002', '2.800945438183E+002', '-3.000312954969E-001', '-1.617285991924E-002', '-1.268605172516E+001', '1.406335645152E-002', '1.103134932622E+001', '0.000000000000E+000', '0.000000000000E+000', '0.000000000000E+000']"], ['Kelvin Boundary 1-2 ', '273.0 - 293.0'], ['Rsi,e  Km\xc2\xb2/W', '0.06 - 0.11'], ['[lambda, material] /body  ', "[[1.15, u'Beton'], [0.12, u'Holz'], [0.029, u'Waermedaemung'], [230.0, u'Aluminium']]"], ['S3prepgeo3', 0], ['S4msh', -0.0], ['S4.1cert', -7.587], ['S5solv', -0.124], ['S6rdsavesc', -0.6], ['s7end', -0.0005]], [['2D heat conduction analysis with elmer-gmsh-python tool chain', ''], ['Triangle and tplan mesh size at vertices', ''], ['There has been found over mesh size converging plateau. The results are therefore: usable', ''], ['', ''], ['S3prepgeo3', 0], ['S4msh', -0.0], ['S4.1cert', 'testdata'], ['S5solv', -0.037], ['S6rdsavesc', -0.35], ['s7end', -0.0006]]]
 	self.texpics=['pic_1_report_piece1_valid_direct_complete.png', 'pic_2_report_piece1_valid_direct_complete.png']
-	bebo_report_engine.prepares_filelist_valid_cummulative_tex(self.report_table_tex, self.texpics, self.testpath, debug=1001)
-    #6901 Mär  1 00:49 pic_2_report_piece1_valid_direct_complete.png
-    #6901 Mär  1 00:49 pic_1_report_piece1_valid_direct_complete.png
-    #16804 Mär  9 19:00 tmp_graph_1.eps
-    #2201 Mär  9 19:00 cumulative1.tex
-	#self.failUnless(os.stat(self.testpath+"cumulative1.tex").st_size==2201)
 	
-	latexpdf="/usr/bin/pdflatex"
-	self.cumulativetex_file="cumulative1.tex"
-	bebo_report_engine.prepares_pdf_cummulativ_tex_and_latexpdf(latexpdf, self.cumulativetex_file, self.testpath, debug=1000)	
-	self.failUnless(1200< os.stat(self.testpath+"cumulative1.pdf").st_size <60400)
+    #def bebo_report_engine.prepares_filelist_valid_cummulative_tex(self.report_table_tex, self.texpics, self.testpath, debug=1001):
+        #''' #6901 Mär  1 00:49 pic_2_report_piece1_valid_direct_complete.png
+        ##6901 Mär  1 00:49 pic_1_report_piece1_valid_direct_complete.png
+        ##16804 Mär  9 19:00 tmp_graph_1.eps
+        ##2201 Mär  9 19:00 cumulative1.tex
+        ##self.failUnless(os.stat(self.testpath+"cumulative1.tex").st_size==2201)'''
+        #latexpdf="/usr/bin/pdflatex"
+        #self.cumulativetex_file="cumulative1.tex"
+        #bebo_report_engine.prepares_pdf_cummulativ_tex_and_latexpdf(latexpdf, self.cumulativetex_file, self.testpath, debug=1000)	
+        #self.failUnless(1200< os.stat(self.testpath+"cumulative1.pdf").st_size <60400)
 
-	pass
-	#Oracle:	self.failUnless(os.stat(self.testpath+"Readmeqemuburu.txt").st_size==60723
-	return
+        #pass
+        ##Oracle:	self.failUnless(os.stat(self.testpath+"Readmeqemuburu.txt").st_size==60723
+        #return
     
     def test_multiple_AzAeA_lcgsp_ready_for_mailing(self):
 	pass
