@@ -1,4 +1,4 @@
-#run all command lines as qa test
+1#run all command lines as qa test
 #bash $Qemuburo_install_dir"Testsscripts/scandistribute/Examples_user_commandlines.txt"
 
 

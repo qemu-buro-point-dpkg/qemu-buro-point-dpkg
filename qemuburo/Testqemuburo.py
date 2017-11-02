@@ -512,10 +512,6 @@ class qemuburoTestCase(unittest.TestCase):
 	return
     
 
-    def tearDown(self):
-	pass
-	return
-    # free the stuff you did in setUp
     
     def test_prepares_preeseeded_install(self):
 	pass
@@ -596,3 +592,140 @@ class qemuburoTestCase(unittest.TestCase):
 	#Oracleself.failUnless(os.stat(self.testpath+"Readmeqemuburu.AzAeA ").st_size==60723
 	return
  
+    def test_buildingdamon_say_hello(self):
+	pass
+        filelist=[\
+	    #"doctemp001-p002.tiff",\
+	    "Buildingloggerdemon.userconfig.sh",\
+	    "tmp_triggertimes.log"]
+        command= "cp -r " + self.testpathressources + "/Buildingdemon "+ self.testpath 
+                
+        ##''' how populated the test dirs 
+        ##urldq=http://www.gutenberg.org/cache/epub/2000/pg2000.txt
+        ##wget -cq -O- $urldq|tee 2|grep -C5 -a  Capit
+
+        ##let n=0
+        ##let abase=1000
+        ##let bbase=1000
+        ##let incrementor=5 #lines
+        ##mkdir -p {a,b}/{e,f,g}/{h,i,j}
+        ##find a/ -name "**" -type d|tee 1
+        ##for i in `cat 1`; 
+            ##do let n+=1; 
+            ##let abase=bbase
+            ##let bbase=abase+incrementor
+            ##s=`cat 2|sed -n "$abase,$bbase"p`
+            
+            ##echo "$s">$i.txt; 
+            ##echo "sinabase      "$s"  "$i" "$n" "$abase; 
+        ##done
+
+        ##'''
+        print("Layer -1 "+command)
+	os.system(command)
+	import shutil
+	for f in filelist:
+	    dst=self.testpath+f #
+	    src=self.testpathressources+f
+	    #print dst,src
+	    shutil.copyfile(src,dst)  
+	self.timetoken=1234567890 #seconds from now
+	ratio=40.0 #it is tune a time test window of demon running that we got a eight time slots in a 200 a ms from its samples.
+	timetoken_from_now_offset=13.4/ratio# for python test runtime window #
+	timetoken_from_now_offset2_sec=1 #for to place a ticket from now
+	timetoken_from_now_offset2_ns=1000000000
+        self.samplerate=(0.20/ratio) # +ratio in seconds, in gnu coreutils sleep
+        a=1;b=2.0;c=a/b; print(c)
+        print("Layer -1 + self.samplerate "+str(self.samplerate)+"  c "+str(c))
+	
+	runtime_window=(timetoken_from_now_offset+self.samplerate*1.1)
+        #2,2 s
+	import subprocess
+	nowdateinseconds = subprocess.check_output(['date', "+%s%N"])
+	#os.system('date')
+	
+	self.timetoken=int(nowdateinseconds)+int(timetoken_from_now_offset2_sec*timetoken_from_now_offset2_ns/ratio) #last a second to event
+        print("Layer -1 nowdatei ns econds"+nowdateinseconds+" timetoken "+str(self.timetoken))
+	self.testdebug="1" #on, huge logs non defaults
+	self.every=int(self.samplerate*1000000000) #frequence intervall, length in ns, here as long as a step is: 1 second, but reclaimed in nano
+	self.times="1" #periods admitted
+        command= "bash "+self.testsscripts+"/buildingdamon/Buildingloggerdemon.sh  " +" --tmpdir "+ self.testpath \
+            +" --samplerate "+ str(self.samplerate) \
+            +" --timetoken "+ str(self.timetoken) \
+            +" --every "+ str(self.every) \
+            +" --times "+ str(self.times) \
+            +" --testdebug "+ str(self.testdebug) +" &"
+        print("Layer -1 "+command)
+	os.system(command)
+	import time
+	#test runtime window
+        time.sleep(runtime_window)
+	
+	#clean from global process list 
+        command= "date; ps ax|grep Buildingloggerdemon.sh|grep -v grep;kill $(ps ax|grep Build|cut -c -6)" # > /dev/null 2"
+        print("Layer -1 kill: "+command)
+	os.system(command)
+        
+        #command= "grep 'a' "+self.testpath+"tmp_triggertimes.log > "+self.testpath+"tmp_first_and_second_beat_hit.test"
+        #print("Layer -1: "+command)
+	#os.system(command)
+		
+	#Oracle:
+	#16804 Mär  9 18:29 tmp_graph_1.eps
+	self.failUnless(os.stat(self.testpath+"/Buildingdemon/a/e.txt").st_size>334)
+        #self.failUnless(False)
+	#self.failUnless(os.stat(self.testpath+"tmp_first_and_second_beat_hit.test").st_size>9)
+        #Test_five_times_every tuesday execute_a_greeter_using_user_greeter_utc_2_hrdf_project_interface_basing_on_a_stampable_time_table
+	##Test_go_once_a_year_fill_the_# implement frequency and phase offset, in table as postfix
+	self.failUnless(os.stat(self.testpath+"tmp_triggertimes.log").st_size>267)
+	return
+
+    def test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example(self):
+	#invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
+	pass
+        filelist=[\
+	    #"doctemp001-p002.tiff",\
+	    #"doctemp001-p002.tiff",\
+	    "doctemp004-p003.tiff"]
+        command= "cp -r " + self.testpathressources + "Buildingdemon "+ self.testpath 
+                ##'''
+        ##urldq=http://www.gutenberg.org/cache/epub/2000/pg2000.txt
+        ##wget -cq -O- $urldq|tee 2|grep -C5 -a  Capit
+
+        ##let n=0
+        ##let abase=1000
+        ##let bbase=1000
+        ##let incrementor=5 #lines
+        ##mkdir -p {a,b}/{e,f,g}/{h,i,j}
+        ##find a/ -name "**" -type d|tee 1
+        ##for i in `cat 1`; 
+            ##do let n+=1; 
+            ##let abase=bbase
+            ##let bbase=abase+incrementor
+            ##s=`cat 2|sed -n "$abase,$bbase"p`
+            
+            ##echo "$s">$i.txt; 
+            ##echo "sinabase      "$s"  "$i" "$n" "$abase; 
+        ##done
+
+        ##'''
+        #u="pwd"
+        #print(u)
+        print(command)
+	os.system(command)
+	import shutil
+	for f in filelist:
+	    dst=self.testpath+f #
+	    src=self.testpathressources+f
+	    #print dst,src
+	    shutil.copyfile(src,dst)   
+        command= "bash "+self.testsscripts+"yournextgnuclihelloprojectdemo.sh  " +" --tmpdir "+ self.testpath 
+        print(command)
+	os.system(command)
+	
+	#Oracle:
+	self.failUnless(os.stat(self.testpath+"logs").st_size>91)
+	return
+
+        
+        
