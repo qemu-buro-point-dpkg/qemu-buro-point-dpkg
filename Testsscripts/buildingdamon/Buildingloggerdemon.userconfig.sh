@@ -36,12 +36,11 @@
 # # installpath=$tmpdir
 # # conffile=$tmpdir"Buildingloggerdemon.userconfig.sh"
 
-#The user interface and confiq executed:
-
+#user interface:
 #timetoken="150887562023415219500"
 ticket_hrdf="20171024220700234152195"
 #user interface note: the line date_format="%s%N" #for date utc with nanoseconds
-# sets the machine format: nanoseconds ns since 1970, called in date manual language "utc", there are several more human-like formats iso, rfc, we choose our own. It goes a days' format as if: 20171024, hour, minutes, seconds: 220700 plus a 9 place long number of nanoseconds, all arbitrary. This is the 24.th of Oktober, ten a clock pm we are speeking of, right?
+# sets the machine format: nanoseconds ns since 1970, called in date manual language "utc", there are several more human-like formats iso, rfc, we choose our own. It goes a days' format as if: 20171024, hour, minutes, seconds: 220700 plus a 9 place long number of nanoseconds, all arbitrary. This is the 24.th of Oktober, ten a clock pm we are speeking of
 converted_utc_ns=hrdf_ns2hrdf_ns $ticket_hrdf
 echo "Layer 0 converted_utc_ns:" $converted_utc_ns
 timetoken=$converted_utc_ns
@@ -52,4 +51,8 @@ demo=$1;
 echo demo
 return $demo; }
 
+# ticket_hrdf="20171024220700234152195"
+# converted_utc_ns=hrdf_ns2hrdf_ns $ticket_hrdf
+# echo "converted_utc_ns:" $converted_utc_ns
+# #########
 

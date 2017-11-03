@@ -649,12 +649,18 @@ class qemuburoTestCase(unittest.TestCase):
 	self.testdebug="1" #on, huge logs non defaults
 	self.every=int(self.samplerate*1000000000) #frequence intervall, length in ns, here as long as a step is: 1 second, but reclaimed in nano
 	self.times="1" #periods admitted
+        
+        a=""
+        if self.regession!="":
+            a=" --userconfigpath "+ str(self.regession)
+            
         command= "bash "+self.testsscripts+"/buildingdamon/Buildingloggerdemon.sh  " +" --tmpdir "+ self.testpath \
             +" --samplerate "+ str(self.samplerate) \
             +" --timetoken "+ str(self.timetoken) \
             +" --every "+ str(self.every) \
             +" --times "+ str(self.times) \
-            +" --testdebug "+ str(self.testdebug) +" &"
+            +" --testdebug "+ str(self.testdebug) \
+            + a +" &"
         print("Layer -1 "+command)
 	os.system(command)
 	import time

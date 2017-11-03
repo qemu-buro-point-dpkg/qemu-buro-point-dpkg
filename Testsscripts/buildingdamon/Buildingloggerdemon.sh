@@ -15,8 +15,8 @@ converted_hrdf_sec=$(date -d @$ticket_utc_sec +%Y%m%d%H%M%S)
 #echo "converted_hrdf_sec:" $converted_hrdf_sec
 converted_hrdf_ns=$converted_hrdf_sec$ticket_utc_ns
 #echo "converted_hrdf_ns:" $converted_hrdf_ns
-#echo $1;
-return $converted_hrdf_ns; }
+echo $converted_hrdf_ns;
+}
 
 # ticket_utc="150887562023415219500"
 # converted_hrdf_ns=utc_ns2hrdf_ns $ticket_utc
@@ -37,19 +37,24 @@ time=${tichet_hrdf_sec:8:4}
 converted_utc_min=$(date -d "$date $time" +%s)
 converted_utc_sec=$converted_utc_min${tichet_hrdf_sec:12:2}
 converted_utc_ns=$converted_utc_sec$ticket_hrdf_ns
-#echo $1;
-return $converted_utc_ns; }
+echo $converted_utc_ns;
+}
 
 # ticket_hrdf="20171024220700234152195"
-# converted_utc_ns=hrdf_ns2hrdf_ns $ticket_hrdf
+# converted_utc_ns=hrdf_ns2utc_ns $ticket_hrdf
 # echo "converted_utc_ns:" $converted_utc_ns
 # #########
 
 #########
-# a "handler" function
+# a "handler" function: functional demo
 demogreeter () {
 demo=$1; 
-echo $demo
+    echo "Layer 5 buildinhandler1 Hello "$demo
+return; }
+# another "handler" function: needed for tests
+demogreeter1 () {
+    demo=$1; 
+    echo "Layer 5 buildinhandler2 Hello "$demo
 return; }
 
 
@@ -59,7 +64,7 @@ tmpdir="$HOME/Downloads"
 
 logs="logs" #
 sample_run_counter=0
-tmpdir="/tmp/qemuburotest" #path for temporary and out put data?
+tmpdir="/tmp/qemuburotest/" #path for temporary and out put data?
 mkdir "/tmp/qemuburotest" 2>/dev/null
 
 timetoken="150887562023415219500"
@@ -67,8 +72,11 @@ samplerate=1 # seconds sleeping between firing (sleep builtin)
 
 triggertimeslogs="tmp_triggertimes.log" # file name of (future) events list 
 
+functionname="demogreeter"
+comment="demogreeter0"
+
 execution_stamp_prefix="a"$sample_run_counter"a" # to use a timetable and a program data base alike
-execution_stamp_postfix="Ω"$every_offset_ns"Ω"$times1"Ω" # 
+execution_stamp_postfix="Ω"$every_offset_ns"Ω"$times1"Ω"$functionname"Ω"$comment"Ω" # 
 
 
 tokenarray="" #inner variable, list of acute tokens found at sampling time
@@ -88,8 +96,9 @@ file_offset=0 #line number, where uncommented switches to commented,inner variab
 file_length=0 #of time table inner variable
 
 testdebug="0" # derault off, since huge logs
-installpath=$tmpdir
-conffile=$tmpdir"Buildingloggerdemon.userconfig.sh"
+installpath=$tmpdir #no
+userconfigpath=$tmpdir #user configs default: read from output path
+conffile="Buildingloggerdemon.userconfig.sh" #userconfigs default file name
 
 #snipped according
 #/abs-guide.html#STANDARD-OPTIONS
@@ -137,6 +146,12 @@ while :; do
                 shift
             fi
             ;;
+        --userconfigpath)       # Takes an option argument, ensuring it has been specified.
+            if [ -n "$2" ]; then
+                userconfigpath=$2
+                shift
+            fi
+            ;;
         -v|--verbose)
             echo hello2
             verbose=$((verbose + 1)) # Each -v argument adds 1 to verbosity.
@@ -158,13 +173,20 @@ done
 
 #read a userconfig default from output dir, tb completed to a debian standard
 cd $tmpdir
-time test -f $conffile && source $conffile
-echo "Layer 0 sample_run_counter "$conffile #`test -e $conffile`
+#userconfigpath=$userconfigpath" "$userconfigpath
+  for a in $userconfigpath;
+      do time test -f $a$conffile && source $a$conffile $tmpdir
+  done 
+#source /tmp/qemuburotest/Buildingloggerdemon.userconfig.sh 
+echo "Layer 0 sample_run_counter userconfigpath "
+#mydemogreeter "skoll" 
+
+echo "Layer 0 sample_run_counter userconfigpath "$userconfigpath "conffile "$a$conffile #`test -e $conffile`
 cd $tmpdir
 
 #initialize db databas with options and timetoken
 echo "Layer 0 sample_run_counter $sample_run_counter before "$(cat $triggertimeslogs) |tr " " "\n"
-execution_stamp_postfix="Ω"$every_offset_ns"Ω"$times1"Ω" #"Iamanoption"
+execution_stamp_postfix="Ω"$every_offset_ns"Ω"$times1"Ω"$functionname"Ω"$comment"Ω" #"Iamanoption"
 echo "$timetoken""$execution_stamp_postfix">>$triggertimeslogs
 sort -n $triggertimeslogs>tmp.1
 mv tmp.1 $triggertimeslogs
@@ -188,11 +210,14 @@ while true; do echo "helo">/dev/null
         do 
         let l1_incr=+1  
         
-        timetoken=`echo $dbtoken|sed -e "s/\(^[1-9].*\)Ω\(.*\)Ω\(.*\)Ω/\1/"`
-        every_offset_ns=`echo $dbtoken|sed -e "s/\(^[1-9].*\)Ω\(.*\)Ω\(.*\)Ω/\2/"`
+        timetoken=`echo $dbtoken|sed -e "s/\(^[1-9].*\)Ω\(.*\)Ω\(.*\)Ω\(.*\)Ω\(.*\)Ω/\1/"`
+        every_offset_ns=`echo $dbtoken|sed -e "s/\(^[1-9].*\)Ω\(.*\)Ω\(.*\)Ω\(.*\)Ω\(.*\)Ω/\2/"`
         times1=""
-        times1=`echo $dbtoken|sed -e "s/\(^[1-9].*\)Ω\(.*\)Ω\(.*\)Ω/\3/"`
-
+        times1=`echo $dbtoken|sed -e "s/\(^[1-9].*\)Ω\(.*\)Ω\(.*\)Ω\(.*\)Ω\(.*\)Ω/\3/"`
+        functionname=`echo $dbtoken|sed -e "s/\(^[1-9].*\)Ω\(.*\)Ω\(.*\)Ω\(.*\)Ω\(.*\)Ω/\4/"`
+        comment=`echo $dbtoken|sed -e "s/\(^[1-9].*\)Ω\(.*\)Ω\(.*\)Ω\(.*\)Ω\(.*\)Ω/\5/"`
+        echo "Layer 2 sample_run_counter $sample_run_counter times1 every_offset_ns  timetoken functionname comment "$times1 $every_offset_ns  $timetoken $functionname $comment
+        
         a=$timetoken    
         b=$(date +$date_format)
         echo "Layer 2 sample_run_counter $sample_run_counter asked for time token a $a lesser than  now b $b   every_offset_ns $every_offset_ns times1 $times1" 
@@ -202,15 +227,15 @@ while true; do echo "helo">/dev/null
             echo "Layer 3 sample_run_counter $sample_run_counter in this case register ticket's expiring"
             echo "Layer 3 sample_run_counter $sample_run_counter cat triggertimeslogs before an register"; cat $triggertimeslogs
             
-            $greetervar "skoll"; #echo skoll
-            
+            #$greetervar "skoll"; #echo skoll
+            $functionname "skoll" $comment
             #Project timetable sorting policy (obsoleted itsself, )
             #file_offset=0;file_offset=$(cat tmp_triggertimes.log |grep -n "^[1-9]"|head -n1|cut -d":" -f1);
             #echo $file_offset
             # what does this "spell"? "comment uppest uncommented!"
             #stamp execution of obsoleting timetoken, case at it very timetable data base place: it gets a prefix
             execution_stamp_prefix="a"$sample_run_counter"a" #$timetoken # to use a timetable and a program data base alike
-            execution_stamp_postfix="Ω"$every_offset_ns"Ω"$times1"Ω" # 
+            execution_stamp_postfix="Ω"$every_offset_ns"Ω"$times1"Ω"$functionname"Ω"$comment"Ω" # 
             
             timetable_line_format="$timetoken""$execution_stamp_postfix"
             sed -i $triggertimeslogs -e "s/\($timetable_line_format\)/$execution_stamp_prefix$timetoken$execution_stamp_postfix/"
@@ -228,7 +253,7 @@ while true; do echo "helo">/dev/null
                 #tbi enhance nothing very old, too old: hi 
                 echo "Layer 4 sample_run_counter $sample_run_counter cat triggertimeslogs"; cat $triggertimeslogs
                 
-                execution_stamp_postfix="Ω"$every_offset_ns"Ω""$times1""Ω"
+                execution_stamp_postfix="Ω"$every_offset_ns"Ω""$times1""Ω"$functionname"Ω"$comment"Ω"
                 echo "$nexttimetoken""$execution_stamp_postfix">>$triggertimeslogs
                 sort -n $triggertimeslogs>tmp.1
                 mv tmp.1 $triggertimeslogs
