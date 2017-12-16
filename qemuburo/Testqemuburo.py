@@ -597,7 +597,8 @@ class qemuburoTestCase(unittest.TestCase):
         filelist=[\
 	    #"doctemp001-p002.tiff",\
 	    "Buildingloggerdemon.userconfig.sh",\
-	    "tmp_triggertimes.log"]
+	    "tmp_triggertimes.log"] 
+            #program timetables
         command= "cp -r " + self.testpathressources + "/Buildingdemon "+ self.testpath 
                 
         ##''' how populated the test dirs 
@@ -621,6 +622,10 @@ class qemuburoTestCase(unittest.TestCase):
         ##done
 
         ##'''
+        ### how to prepare user config to call a (libreoffice)-greeter
+        #patch the 
+        ###
+        
         print("Layer -1 "+command)
 	os.system(command)
 	import shutil
@@ -684,6 +689,61 @@ class qemuburoTestCase(unittest.TestCase):
         #Test_five_times_every tuesday execute_a_greeter_using_user_greeter_utc_2_hrdf_project_interface_basing_on_a_stampable_time_table
 	##Test_go_once_a_year_fill_the_# implement frequency and phase offset, in table as postfix
 	self.failUnless(os.stat(self.testpath+"tmp_triggertimes.log").st_size>267)
+	return
+
+    def test_soffice_uno_raw(self):
+	pass
+        filelist=[\
+	    #"doctemp001-p002.tiff",\
+	    #"doctemp001-p002.tiff",\
+	    "doctemp004-p003.tiff"]
+        command= "cp -r " + self.testpathressources + "Buildingdemon "+ self.testpath 
+                ##'''
+        ##urldq=http://www.gutenberg.org/cache/epub/2000/pg2000.txt
+        ##wget -cq -O- $urldq|tee 2|grep -C5 -a  Capit
+
+        ##let n=0
+        ##let abase=1000
+        ##let bbase=1000
+        ##let incrementor=5 #lines
+        ##mkdir -p {a,b}/{e,f,g}/{h,i,j}
+        ##find a/ -name "**" -type d|tee 1
+        ##for i in `cat 1`; 
+            ##do let n+=1; 
+            ##let abase=bbase
+            ##let bbase=abase+incrementor
+            ##s=`cat 2|sed -n "$abase,$bbase"p`
+            
+            ##echo "$s">$i.txt; 
+            ##echo "sinabase      "$s"  "$i" "$n" "$abase; 
+        ##done
+
+        ##'''
+        #u="pwd"
+        #print(u)
+        print(command)
+	os.system(command)
+	import shutil
+	for f in filelist:
+	    dst=self.testpath+f #
+	    src=self.testpathressources+f
+	    #print dst,src
+	    shutil.copyfile(src,dst)   
+
+        a=""
+        if self.regession!="":
+            a=" --config_file "+ str(self.regession)
+        else:
+            a=" --config_file "+self.testsscripts+"losed/losed_config.py" 
+            
+        command= "python3 "+self.testsscripts+"losed/losed.py " +" --loadComponentFromabsoluteURL "+ self.testpath +"Buildingdemon/b/e/i/test1.doc"\
+            + a 
+        
+        print(command)
+	os.system(command)
+	
+	#Oracle:
+	self.failUnless(os.stat(self.testpath+"logs").st_size>21)
 	return
 
     def test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example(self):

@@ -48,7 +48,7 @@ timetoken=$converted_utc_ns
 
 mydemogreeter () {
 demo=$1; 
-echo demo
+echo "Layer 5 formal User Hello"$demo>>$outpath$logs
 return $demo; }
 
 # ticket_hrdf="20171024220700234152195"

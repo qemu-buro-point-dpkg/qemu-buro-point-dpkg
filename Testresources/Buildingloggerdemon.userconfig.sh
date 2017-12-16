@@ -95,6 +95,10 @@ demo=$1;
 outpath="/tmp/qemuburotest/"
 logs="logs"
 echo "Layer 5 User Hello"$demo>>$outpath$logs
+path="$Qemuburo_install_dir"Testsscripts/buildingdamon/greeter_libreoffice.sh
+source $path
+echo "Layer 5 User Hello Qemuburo_install_dir$Qemuburo_install_dir"" $demo">>$outpath$logs
+
 return 0; }
 
 # ticket_hrdf="20171024220700234152195"
