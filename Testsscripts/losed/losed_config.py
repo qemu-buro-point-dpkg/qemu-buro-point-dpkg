@@ -56,17 +56,21 @@ absoluteUrltxt="/tmp/qemuburotest/Buildingdemon/b/e/i/test1.txt"
 absoluteUrlpdf="/tmp/qemuburotest/Buildingdemon/b/e/i/test1.pdf"
 loadComponentFromabsoluteURL="/tmp/qemuburotest/Buildingdemon/b/e/i/test1.doc" # 
 
+absoluteUrlstr="/tmp/qemuburotest/Buildingdemon/b/e/i/"
+#we got a seven files, in test: one out of another
+#loadComponentFromabsoluteURL="/tmp/qemuburotest/Buildingdemon/b/e/i/test1.doc" # 
+
 filetype1a='writer_pdf_Export'
-filetype2b=""
+filetype1b="test1.pdf"
 
 filetype2a='Text'
-filetype2b=""
+filetype2b="test1.txt"
 
 filetype3a='MS Word 97'
-filetype3b="test2.doc"
+filetype3b="test1.doc"
 
 filetype4a='writer8'
-filetype4b="test2.odt"
+filetype4b="test1.odt"
 
 #https://github.com/LibreOffice/core/blob/3168c5e09f084e65a32b5865d975ea9a9524d7c3/desktop/source/lib/init.cxx
  #{ "doc",   "MS Word 97" },

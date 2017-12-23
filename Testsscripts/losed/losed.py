@@ -1,10 +1,10 @@
 #!/usr/bin/python3
-searchSearchString = "^...."#first 4 char in line
+searchSearchString = "^."#first 4 char in line
 
 searchReplaceString = "foobar\n\r"
 searchReplaceString = "\1"
 collapseflag="left" # for doc insert
-replaceAllflag="of1f"
+replaceAllflag="off"
 
 incedent=5
 insert="\njj\n" #string to be inserted for or appended to selection
@@ -13,56 +13,65 @@ appendflag=1
 
 ### spawn the  multiline selection to a uno-regex2
 incedent2=2
-searchSearchString2="la"
+searchSearchString2=""
 
 #the inserted TOC needs to be updated
-TOCupdateflag=1
+TOCupdateflag=0
 
 #howto lookup values: 1 macrorecorder, 2. python console readline completion >>> oCursor.ParaA 3. idl file grep
-
+#("CharWeight: SEMIBOLD = 110.000000-150", "CharPosture: ?"
 setPropertyValue1a="CharColor"
-setPropertyValue1b=255
+setPropertyValue1a=""
+setPropertyValue1b=255 #blue, red?
+
+#setPropertyValue1a="CharWeight"
+#setPropertyValue1b=110 
+
 
 setPropertyValue2a="NumberingStyleName"
+setPropertyValue2a=""
 setPropertyValue2b="Outline"
  #second "index marks" Numbering continuing: "outline" else: Numbering 1
 
 setPropertyValue3a="CharHeight"
-setPropertyValue3b=8
+setPropertyValue3a=""
+setPropertyValue3b=12
 
 #setPropertyValue4a="CharUnderline"
 #setPropertyValue4b=1
 
 setPropertyValue4a="ParaAdjust"
-setPropertyValue4b=2
+setPropertyValue4a=""
+setPropertyValue4b=0
 
 #LEFT    = 0RIGHT   = 1BLOCK   = 2CENTER  = 3TRETCH = 0
 
 ParaStyleName="Heading 1"
+ParaStyleName=""
 
 
 STYLESFILE="/tmp/qemuburotest/Buildingdemon/b/g/test2.doc" # defunct?
+STYLESFILE=""
 #style families 5
 #CharacterStyles NumberingStyles  ParagraphStyles  #FrameStyles PageStyles
 
 
 ChapterFILE="/tmp/qemuburotest/Buildingdemon/b/g/test2.doc"#input#./Buildingdemon/b/g/test2.doc
+ChapterFILE=""
 logfile="/tmp/qemuburotest/logs"#o
 logsline="hello_libreoffice-python"
 
 absoluteUrlstr="/tmp/qemuburotest/Buildingdemon/b/e/i/"
 #we got a seven files, in test: one out of another
-absoluteUrltxt="/tmp/qemuburotest/Buildingdemon/b/e/i/test1.txt"
-absoluteUrlpdf="/tmp/qemuburotest/Buildingdemon/b/e/i/test1.pdf"
-loadComponentFromabsoluteURL="/tmp/qemuburotest/Buildingdemon/b/e/i/test1.doc" # 
+#loadComponentFromabsoluteURL="/tmp/qemuburotest/Buildingdemon/b/e/i/test1.doc" # 
 
 filetype1a='writer_pdf_Export'
-filetype2b=""
+filetype1b="test1.pdf"
 
 filetype2a='Text'
-filetype2b=""
+filetype2b="test1.txt"
 
-filetype3a='MS Word 97'
+filetype3a='MS Word 97' #bug
 filetype3b="test2.doc"
 
 filetype4a='writer8'
@@ -88,6 +97,16 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('-c', '--config_file')
 parser.add_argument('-l', '--loadComponentFromabsoluteURL')
+parser.add_argument('-i', '--incedent')
+parser.add_argument('-o', '--tmpdir')
+parser.add_argument('-p', '--insert')
+parser.add_argument('-s', '--searchSearchString')
+parser.add_argument('-t', '--absoluteUrltxt')
+parser.add_argument('-f', '--filetype4b')
+parser.add_argument('-1a', '--setPropertyValue1a')
+parser.add_argument('-1b', '--setPropertyValue1b')
+
+setPropertyValue1a
 args = parser.parse_args()
 if args.config_file!=None:
     pass
@@ -96,14 +115,35 @@ if args.config_file!=None:
     with open(config_file) as f:
         code = compile(f.read(), config_file, 'exec')
         exec(code, globals(), locals())
+        ##https://stackoverflow.com/a/37611448 ". conf.sh"
+
 if args.loadComponentFromabsoluteURL!=None:
     loadComponentFromabsoluteURL=args.loadComponentFromabsoluteURL
     pass
 
 
+if args.incedent!=None:
+    incedent=args.incedent
+if args.tmpdir!=None:
+    absoluteUrlstr=args.tmpdir
+if args.insert!=None:
+    insert=str(args.insert) #+'\npp\n'
+    insert=insert.replace("\\n", "\n")
+    insert=insert.replace("|", " ")
+    #print("insertffffffff"+repr(insert))
+if args.searchSearchString!=None:
+    searchSearchString=args.searchSearchString
+if args.filetype4b!=None:
+    filetype4b=args.filetype4b
+if args.setPropertyValue1b!=None:
+    setPropertyValue1b=args.setPropertyValue1b
+    if (setPropertyValue1b[:3]=="_i_"):
+        setPropertyValue1b=int(setPropertyValue1b.replace('_i_',''))
+#if args.setPropertyValue1a!=None:
+    setPropertyValue1a=args.setPropertyValue1a
 
 
-##https://stackoverflow.com/a/37611448 ". conf.sh"
+
 #print(replaceAllflag)
 
 
@@ -192,7 +232,7 @@ if replaceAllflag!="off":
     selsreplace =file.replaceAll(search)
 
 #insert/ ChapterFILE/string before/after regex 1/regex1-2
-oSel =selsFound.getByIndex(incedent)
+oSel =selsFound.getByIndex(int(incedent))
 oCursor = oSel.getText().createTextCursorByRange(oSel)
 
 
@@ -212,17 +252,16 @@ if appendflag==1:
     appendstr=oCursor.getString()
 oCursor.setString(insert+appendstr)
 #oCursor.collapseToStart() #??
+print( setPropertyValue1a, setPropertyValue1b )
+if setPropertyValue1a!="":oCursor.setPropertyValue(setPropertyValue1a,setPropertyValue1b) 
 
-oCursor.setPropertyValue( setPropertyValue1a, setPropertyValue1b ) 
+if setPropertyValue2a!="":oCursor.setPropertyValue(setPropertyValue2a,setPropertyValue2b)
 
-oCursor.ParaStyleName=ParaStyleName #toc things
+if setPropertyValue3a!="":oCursor.setPropertyValue(setPropertyValue3a,setPropertyValue3b)
 
-oCursor.setPropertyValue(setPropertyValue2a,setPropertyValue2b)
+if setPropertyValue4a!="":oCursor.setPropertyValue(setPropertyValue4a,setPropertyValue4b)
 
-oCursor.setPropertyValue(setPropertyValue3a,setPropertyValue3b)
-
-oCursor.setPropertyValue(setPropertyValue4a,setPropertyValue4b)
-
+if ParaStyleName!="":oCursor.ParaStyleName=ParaStyleName #toc things
 
 # doc insert
 if collapseflag=="left":
@@ -267,19 +306,37 @@ sections = file.Links.Sections
 for name in sections:
     sections[name].dispose()
 
-args = (PropertyValue('FilterName',0,'writer_pdf_Export',0),)
-file.storeToURL("file://"+ absoluteUrlpdf,args)
+#args = (PropertyValue('FilterName',0,'writer_pdf_Export',0),)
+#argsurl="file://"+ absoluteUrlstr+"test2.doc"
+#file.storeToURL(argsurl,argstxt)
 
-argstxt = (PropertyValue('FilterName',0,'Text',0),)
-file.storeToURL("file://"+ absoluteUrltxt,argstxt)
+#file.storeToURL("file://"+ absoluteUrlpdf,args)
 
-argstxt = (PropertyValue('FilterName',0,'MS Word 97',0),)
-argsurl="file://"+ absoluteUrlstr+"test2.doc"
-print(argsurl)
+#argstxt = (PropertyValue('FilterName',0,'Text',0),)
+#argsurl="file://"+ absoluteUrlstr+"test2.doc"
+#file.storeToURL(argsurl,argstxt)
+
+#file.storeToURL("file://"+ absoluteUrltxt,argstxt)
+
+argstxt = (PropertyValue('FilterName',0,filetype1a,0),)
+argsurl="file://"+ absoluteUrlstr+filetype1b
 file.storeToURL(argsurl,argstxt)
 
-args = (PropertyValue('FilterName',0,'writer8',0),)
-argsurl="file://"+ absoluteUrlstr+"test2.odt"
+
+argstxt = (PropertyValue('FilterName',0,filetype2a,0),)
+argsurl="file://"+ absoluteUrlstr+filetype2b
+file.storeToURL(argsurl,argstxt)
+
+
+argstxt = (PropertyValue('FilterName',0,filetype3a,0),)
+argsurl="file://"+ absoluteUrlstr+filetype3b
+#file.storeToURL(argsurl,argstxt)
+#bug
+
+args = (PropertyValue('FilterName',0,filetype4a,0),)
+argsurl="file://"+ absoluteUrlstr+filetype4b
+print(argsurl)
+
 file.storeToURL(argsurl,args)
 
 

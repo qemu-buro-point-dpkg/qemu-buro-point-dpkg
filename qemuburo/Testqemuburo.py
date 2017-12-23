@@ -746,6 +746,31 @@ class qemuburoTestCase(unittest.TestCase):
 	self.failUnless(os.stat(self.testpath+"logs").st_size>21)
 	return
 
+    def test_superscript_losed_letter(self):
+	#invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
+	pass
+        filelist=[\
+	    "1.tmp",\
+	    "2.tmp",\
+	    "3.tmp",\
+	    "4.tmp",\
+	    "5.tmp",\
+	    "emptyodttemplate.odt"]
+	import shutil
+	for f in filelist:
+	    dst=self.testpath+f #
+	    src=self.testpathressources+f
+	    #print dst,src
+	    shutil.copyfile(src,dst)   
+        command= "bash "+self.testsscripts+"losed/superscript_losed_letter.sh  "  +" --losedpy "+self.testsscripts+"losed/losed.py " #\
+            #" --insert "+self.testsscripts+"losed/losed.py "
+        print(command)
+	os.system(command)
+	
+	#Oracle:
+	self.failUnless(os.stat(self.testpath+"logs").st_size>9)
+	return
+
     def test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example(self):
 	#invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
 	pass
