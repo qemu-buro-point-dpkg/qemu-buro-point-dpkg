@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # unittest 
 # Author: 
@@ -769,6 +770,58 @@ class qemuburoTestCase(unittest.TestCase):
 	
 	#Oracle:
 	self.failUnless(os.stat(self.testpath+"logs").st_size>9)
+	return
+
+    def test_10_viable_job_applications(self):
+        #todo: touch driver_fault2db.sh 20_job_application.sh 30 private_tasks_storage_script.sh 
+	#invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
+	pass
+        filelist=[\
+	    #"file:///home/githubqemuburo/github_qemuburo/Testresources/
+            "emptyodttemplate.odt",\
+            "Buildingdemon/a/g/h/Johann_Peter_Eckermann_Gespraeche_mit_Goethe_in_den_letzten_Jahren_seines_Lebens18_10_1827.txt",\
+	    "twgc_plain_gnu_jobboerse.arbeitsagentur.de_Elekroingenieur_Berlin_10_takes_rambo_style_5_2016"]
+ #       command= "cp -r " + self.testpathressources + "Buildingdemon "+ self.testpath 
+                ##'''
+        ##urldq=http://www.gutenberg.org/cache/epub/2000/pg2000.txt
+        ##wget -cq -O- $urldq|tee 2|grep -C5 -a  Capit
+
+        ##let n=0
+        ##let abase=1000
+        ##let bbase=1000
+        ##let incrementor=5 #lines
+        ##mkdir -p {a,b}/{e,f,g}/{h,i,j}
+        ##find a/ -name "**" -type d|tee 1
+        ##for i in `cat 1`; 
+            ##do let n+=1; 
+            ##let abase=bbase
+            ##let bbase=abase+incrementor
+            ##s=`cat 2|sed -n "$abase,$bbase"p`
+            
+            ##echo "$s">$i.txt; 
+            ##echo "sinabase      "$s"  "$i" "$n" "$abase; 
+        ##done
+
+        ##'''
+        #u="pwd"
+        #print(u)
+ #       print(command)
+#	os.system(command)
+	import shutil
+	for f in filelist:
+	    f1=os.path.basename(f)
+	    dst=self.testpath+f1 #
+	    src=self.testpathressources+f
+	    #print dst,src
+	    shutil.copyfile(src,dst)   
+
+        command= "bash "+self.testsscripts+"losed/20_job_application.sh  "
+        print(command)
+	os.system(command)
+	
+	#Oracle:
+	self.failUnless(os.stat(self.testpath+"logsdriver").st_size>6) #more than 6 hits(reliable input interfaces of a letter)?ok	
+	#self.failUnless(os.stat(self.testpath+"Herr_Weachy_18.10.1827.odt").st_size>17200)
 	return
 
     def test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example(self):
