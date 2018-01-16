@@ -7,6 +7,7 @@
 tmpdir="/tmp/qemuburotest/"
 cd $tmpdir
 bash $Qemuburo_install_dir"Testsscripts/losed/""driver_fault2db.sh"
+#tbi-1 we need a the commandline flow of the " --vault-path and a configpath" here
 ls -l /tmp/qemuburotest/Johann_Peter_Eckermann_Gespraeche_mit_Goethe_in_den_letzten_Jahren_seines_Lebens18_10_1827.txt >>/tmp/qemuburotest/logs
 #1839
 
@@ -14,7 +15,7 @@ incmax=$(cat "$tmpdir""logsdriver"|wc -l )
 echo "ss""$tmpdir""logsdriver""sss""$incmax"
 for ((inc=0;inc<$incmax;inc++)); do
    #echo  
-   a=4 #$(wc -l <tmpfile$inc"address") 
+   a=2 #$(wc -l <tmpfile$inc"address") 
    b=1 #1$(wc -l <tmpfile$inc"addressee")
    c=1 #$(wc -l <tmpfile$inc"adds")
 #He wishes the address block as: person, enterprise, street, postal
@@ -38,7 +39,7 @@ for ((inc=0;inc<$incmax;inc++)); do
     cat tmpfile"$inc"__x.address_5> 5.tmp
 
     command="bash "$Qemuburo_install_dir"Testsscripts/losed/""superscript_losed_letter.sh --losedpy "$Qemuburo_install_dir"Testsscripts/losed/"losed.py  
-    $command
+    #$command
 
  
     
@@ -47,13 +48,35 @@ for ((inc=0;inc<$incmax;inc++)); do
    fi;
    done; 
 
-   #command= "bash "+self.testsscripts+"losed/superscript_losed_letter.sh  "  +" --losedpy "+self.testsscripts+"losed/losed.py " #\
+   #command= "bash "+self.testsscripts+"losed/superscript_losed_letter.sh  "  +" --losedpy "+self.testsscripts+"losed/losed.py " #
 
-   command="bash "$Qemuburo_install_dir"Testsscripts/losed/""superscript_losed_letter.sh --losedpy "$Qemuburo_install_dir"Testsscripts/losed/"losed.py  
+date=20130122
+nowutc=$(date +%s)
+time=1455
+#if date""?uu:uu 
+# i.e. 2013 01 22
+dayutc=$(date -d "$date" +%s)
+daysoffset=5 # five days later
+
+a=dayutc+60*60*24*$daysoffset
+#date -d "$date" +%s
+b=nowutc+60*60*24*$daysoffset
+filedatum=date -d @$a +'%Y%m%d'
+letterdatum=date -d @$b +'%Y.%m.%d' # %H:%M:%S
+fakeutc=$(date -d "$date $time" +%s)
+
+utcofamonthbeginning=$(date -d "$date1" +%Y%m)
+#1 d$(date ) 2 3 
+
+   salutationline="Guten Tag ,"
+   outfile="$tmpdir"DATE""$inc""FirmaReferenze.pdf"
+   command="bash "$Qemuburo_install_dir"Testsscripts/losed/""superscript_losed_letter.sh --losedpy "$Qemuburo_install_dir"Testsscripts/losed/""losed.py""  \
+    --outfile $outfile\
+    --endsalutation MfG"
 
    
    echo $command
-   #$command
+   $command
    
 #tmpfile7__9adds
 #tmpfile7__9subjectads

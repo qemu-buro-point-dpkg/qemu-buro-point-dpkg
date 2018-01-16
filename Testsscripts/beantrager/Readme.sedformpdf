@@ -1,0 +1,16 @@
+Hallo,
+this alpha. 
+For usage check testlogs below.
+
+Featurelist:
+This is a kinda btw, but not unproudly, lanced, cheap, anyhow robust or versatile, gnu-command-line like tool, ment to be used like a stream editor for setting pdf formulars. 
+-ready for everyday, feature complete usage of processing formular entries 
+-changes textfields and formular buttons alike 
+
+Testlog:
+@:$ cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_sedformpdf
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.636s
+
+OK

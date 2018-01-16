@@ -27,13 +27,16 @@ textblock=$(cat $tmp_dir"4.tmp"|sed 's/$/\\n/' | tr -d '\n')
 
 date_string=$(head -n1 $tmp_dir"2.tmp")
 #Salutation logic, tbi
+salutationline=""
 salutation="Buenos dias "
 generic_salutation="Buenos dias senioras y Seniores "
 if [ "$addressee" == "" ] ; then salutation=$generic_salutation; fi
 
 
 endsalutation="Saludos"
-outfile=$tmp_dir"$(echo $addressee|tr " " "_")""_""$date_string"".odt"
+#outfileext=".pdf"
+outfileext=".odt"
+outfile=$tmp_dir"$(echo $addressee|tr " " "_")""_""$date_string""$outfileext"
 
 
 
@@ -44,11 +47,11 @@ outfile=$tmp_dir"$(echo $addressee|tr " " "_")""_""$date_string"".odt"
 #3 #from file
 #address_complete='Don 
 #Quijote'
-echo "$address_complete" >/tmp/qemuburotest/1
-address_complete=$(cat /tmp/qemuburotest/1)
-address_complete="${address_complete//$'\n'/\\\n}"
+# echo "$address_complete" >/tmp/qemuburotest/1
+# address_complete=$(cat /tmp/qemuburotest/1)
+# address_complete="${address_complete//$'\n'/\\\n}"
 #
-
+conffile=$Qemuburo_install_dir"losed/superscript_losed_letter.userconfig.sh" 
 
 RANGE=1 # number of staples 
 dup=2 # duplex=2 else 1, beidseitig
@@ -80,21 +83,21 @@ while :; do
                 shift
             fi
             ;;
-        --duplex)       # Takes an option argument, ensuring it has been specified.
+        --conffile)       # Takes an option argument, ensuring it has been specified.
             if [ -n "$2" ]; then
-                dup=$2
+                $conffile=$2
                 shift
             fi
             ;;
-        --stage1batchmode)       # Takes an option argument, ensuring it has been specified.
+        --outfile)       # Takes an option argument, ensuring it has been specified.
             if [ -n "$2" ]; then
-                stage1batchmode=$2
+                outfile=$2
                 shift
             fi
             ;;
-        --slot)       # Takes an option argument, ensuring it has been specified.
+        --endsalutation)       # Takes an option argument, ensuring it has been specified.
             if [ -n "$2" ]; then
-                Slot=$2
+                endsalutation=$2
                 shift
             fi
             ;;
@@ -125,9 +128,12 @@ while :; do
     shift
 done
 
+test -f $conffile && source $conffile
+
+
 ls $tmp_dir
 #we fill the logs of a def test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example(self):
-echo PPool$PPool RANGE$RANGE dup$dup stage1batchmode$stage1batchmode Slot$Slot startstage$startstage > $tmp_dir"logs"
+#echo PPool$PPool RANGE$RANGE dup$dup stage1batchmode$stage1batchmode Slot$Slot startstage$startstage > $tmp_dir"logs"
 
 inc=1
 
@@ -198,6 +204,7 @@ surname="Panza"
 pref="Senior"
 insertstring="\n Querido $surname $pref"
 insertstring="\n $salutation$addressee"
+#if insertstring="\n $salutationline"
 
 insertline=6
 command1=' --insert '$(echo $insertstring|tr " " "|")
@@ -252,5 +259,6 @@ command="python3 $losedpy  \
 $command0$command1$command2$command3$command4$command5$command6"
 #echo -e $command
 $command
-#tbi torse date to 143500413
-cp $tmp_dir'tmpfile'`expr $inc + 1`".odt" $outfile
+#tbi torse date to 143500413: we are not file namer
+basename $outfile|grep pdf>/dev/null&&cp $tmp_dir"test1.pdf" $outfile
+basename $outfile|grep odt>/dev/null&&cp $tmp_dir'tmpfile'`expr $inc + 1`".odt" $outfile

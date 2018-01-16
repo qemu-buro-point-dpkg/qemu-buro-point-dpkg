@@ -769,7 +769,7 @@ class qemuburoTestCase(unittest.TestCase):
 	os.system(command)
 	
 	#Oracle:
-	self.failUnless(os.stat(self.testpath+"logs").st_size>9)
+	self.failUnless(os.stat(self.testpath+"tmpfile7.odt").st_size>10258)
 	return
 
     def test_10_viable_job_applications(self):
@@ -777,11 +777,83 @@ class qemuburoTestCase(unittest.TestCase):
 	#invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
 	pass
         filelist=[\
-	    #"file:///home/githubqemuburo/github_qemuburo/Testresources/
             "emptyodttemplate.odt",\
             "Buildingdemon/a/g/h/Johann_Peter_Eckermann_Gespraeche_mit_Goethe_in_den_letzten_Jahren_seines_Lebens18_10_1827.txt",\
 	    "twgc_plain_gnu_jobboerse.arbeitsagentur.de_Elekroingenieur_Berlin_10_takes_rambo_style_5_2016"]
- #       command= "cp -r " + self.testpathressources + "Buildingdemon "+ self.testpath 
+        
+	import shutil
+	for f in filelist:
+	    f1=os.path.basename(f)
+	    dst=self.testpath+f1 #
+	    src=self.testpathressources+f
+	    #print dst,src
+	    shutil.copyfile(src,dst)   
+
+        command= "bash "+self.testsscripts+"losed/20_job_application.sh  "
+        print(command)
+	os.system(command)
+	
+	#Oracle:
+	self.failUnless(os.stat(self.testpath+"logsdriver").st_size>6) #more than 6 hits(reliable input interfaces of a letter)?ok	
+	#self.failUnless(os.stat(self.testpath+"Herr_Weachy_18.10.1827.pdf").st_size>17200)
+	return
+
+    #def test_t20ja-flat(self):
+	##invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
+	#pass
+        #filelist=[\
+	    ##"doctemp001-p002.tiff",\
+	    ##"doctemp001-p002.tiff",\
+	    #"doctemp004-p003.tiff"]
+        #command= "cp -r " + self.testpathressources + "Buildingdemon "+ self.testpath 
+                ###'''
+        ###urldq=http://www.gutenberg.org/cache/epub/2000/pg2000.txt
+        ###wget -cq -O- $urldq|tee 2|grep -C5 -a  Capit
+
+        ###let n=0
+        ###let abase=1000
+        ###let bbase=1000
+        ###let incrementor=5 #lines
+        ###mkdir -p {a,b}/{e,f,g}/{h,i,j}
+        ###find a/ -name "**" -type d|tee 1
+        ###for i in `cat 1`; 
+            ###do let n+=1; 
+            ###let abase=bbase
+            ###let bbase=abase+incrementor
+            ###s=`cat 2|sed -n "$abase,$bbase"p`
+            
+            ###echo "$s">$i.txt; 
+            ###echo "sinabase      "$s"  "$i" "$n" "$abase; 
+        ###done
+
+        ###'''
+        ##u="pwd"
+        ##print(u)
+        #print(command)
+	#os.system(command)
+	#import shutil
+	#for f in filelist:
+	    #dst=self.testpath+f #
+	    #src=self.testpathressources+f
+	    ##print dst,src
+	    #shutil.copyfile(src,dst)   
+        #command= "bash "+self.testsscripts+"yournextgnuclihelloprojectdemo.sh  " +" --tmpdir "+ self.testpath 
+        #print(command)
+	#os.system(command)
+	
+	##Oracle:
+	#self.failUnless(os.stat(self.testpath+"logs").st_size>91)
+	#return
+
+    def test_testslogger(self):
+	#invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
+	pass
+        self.testpath="/tmp/qemuburotestlog/"
+        filelist=[\
+	    #"doctemp001-p002.tiff",\
+	    #"doctemp001-p002.tiff",\
+	    "doctemp004-p003.tiff"]
+        command= "cp -r " + self.testpathressources + "Buildingdemon "+ self.testpath 
                 ##'''
         ##urldq=http://www.gutenberg.org/cache/epub/2000/pg2000.txt
         ##wget -cq -O- $urldq|tee 2|grep -C5 -a  Capit
@@ -805,23 +877,352 @@ class qemuburoTestCase(unittest.TestCase):
         ##'''
         #u="pwd"
         #print(u)
- #       print(command)
-#	os.system(command)
+        print(command)
+	os.system(command)
 	import shutil
 	for f in filelist:
-	    f1=os.path.basename(f)
-	    dst=self.testpath+f1 #
+	    dst=self.testpath+f #
 	    src=self.testpathressources+f
-	    #print dst,src
+	    #print dst,src 
 	    shutil.copyfile(src,dst)   
-
-        command= "bash "+self.testsscripts+"losed/20_job_application.sh  "
+        command= "bash "+self.testsscripts+"release/testlogger.sh  " +" --tmpdir "+ self.testpath 
         print(command)
 	os.system(command)
 	
 	#Oracle:
-	self.failUnless(os.stat(self.testpath+"logsdriver").st_size>6) #more than 6 hits(reliable input interfaces of a letter)?ok	
-	#self.failUnless(os.stat(self.testpath+"Herr_Weachy_18.10.1827.odt").st_size>17200)
+	self.failUnless(os.stat(self.testpath+"logs").st_size>9)
+	return
+
+    #def test_20ja_bleeding_edge_test_sikuli_wohnungs_webifdb_prototyp_to_CAD-programmers-juggling_textsnipped(self):
+	##invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
+	#pass
+        #filelist=[\
+	    ##"doctemp001-p002.tiff",\
+	    ##"doctemp001-p002.tiff",\
+	    #"doctemp004-p003.tiff"]
+        #command= "cp -r " + self.testpathressources + "Buildingdemon "+ self.testpath 
+                ###'''
+        ###urldq=http://www.gutenberg.org/cache/epub/2000/pg2000.txt
+        ###wget -cq -O- $urldq|tee 2|grep -C5 -a  Capit
+
+        ###let n=0
+        ###let abase=1000
+        ###let bbase=1000
+        ###let incrementor=5 #lines
+        ###mkdir -p {a,b}/{e,f,g}/{h,i,j}
+        ###find a/ -name "**" -type d|tee 1
+        ###for i in `cat 1`; 
+            ###do let n+=1; 
+            ###let abase=bbase
+            ###let bbase=abase+incrementor
+            ###s=`cat 2|sed -n "$abase,$bbase"p`
+            
+            ###echo "$s">$i.txt; 
+            ###echo "sinabase      "$s"  "$i" "$n" "$abase; 
+        ###done
+
+        ###'''
+        ##u="pwd"
+        ##print(u)
+        #print(command)
+	#os.system(command)
+	#import shutil
+	#for f in filelist:
+	    #dst=self.testpath+f #
+	    #src=self.testpathressources+f
+	    ##print dst,src
+	    #shutil.copyfile(src,dst)   
+        #command= "bash "+self.testsscripts+"yournextgnuclihelloprojectdemo.sh  " +" --tmpdir "+ self.testpath 
+        #print(command)
+	#os.system(command)
+	
+	##Oracle:
+	#self.failUnless(os.stat(self.testpath+"logs").st_size>91)
+	#return
+
+    def test_beantrager(self):
+	#invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
+	
+	pass
+        filelist=[\
+	    #"doctemp001-p002.tiff",\
+	    #"doctemp001-p002.tiff",\
+	    "foo.pdf"]
+        command= "cp -r " + self.testpathressources + "Buildingdemon "+ self.testpath 
+                ##'''
+        ##urldq=http://www.gutenberg.org/cache/epub/2000/pg2000.txt
+        ##wget -cq -O- $urldq|tee 2|grep -C5 -a  Capit
+
+        ##let n=0
+        ##let abase=1000
+        ##let bbase=1000
+        ##let incrementor=5 #lines
+        ##mkdir -p {a,b}/{e,f,g}/{h,i,j}
+        ##find a/ -name "**" -type d|tee 1
+        ##for i in `cat 1`; 
+            ##do let n+=1; 
+            ##let abase=bbase
+            ##let bbase=abase+incrementor
+            ##s=`cat 2|sed -n "$abase,$bbase"p`
+            
+            ##echo "$s">$i.txt; 
+            ##echo "sinabase      "$s"  "$i" "$n" "$abase; 
+        ##done
+
+        ##'''
+        #u="pwd"
+        #print(u)
+        
+        
+        
+        a=""
+        if self.regession!="":
+            a=" --userconfigpath "+ str(self.regession)
+            
+        #print(command)
+	#os.system(command)
+	import shutil
+	for f in filelist:
+	    dst=self.testpath+f #
+	    src=self.testpathressources+f
+	    #print dst,src
+	    shutil.copyfile(src,dst)   
+        command= "bash "+self.testsscripts+"beantrager/beantrager.sh  " +" --tmpdir "+ self.testpath \
+            + a +" #&"
+        print(command)
+	os.system(command)
+	
+        ###command= "bash "+self.testsscripts+"/buildingdamon/Buildingloggerdemon.sh  " +" --tmpdir "+ self.testpath \
+            ###+" --samplerate "+ str(self.samplerate) \
+            ###+" --timetoken "+ str(self.timetoken) \
+            ###+" --every "+ str(self.every) \
+            ###+" --times "+ str(self.times) \
+            ###+" --testdebug "+ str(self.testdebug) \
+            ###+ a +" &"
+        ###print("Layer -1 "+command)
+
+	
+	
+	#Oracle:
+	#self.failUnless(os.stat(self.testpath+"antragxy").st_size>91)
+	#test_fdf_patch_a_pdf_corsett_ok
+	self.failUnless(os.stat(self.testpath+"filled.pdf").st_size>1)
+	#self.failUnless(os.stat(self.testpath+"greppedWeber.log").st_size>1)
+	
+	#self.failUnless(os.stat(self.testpath+"logs").st_size>91)
+	return        
+
+    def test_sedformpdf(self):
+	#invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
+	
+	pass
+        filelist=[\
+	    #"doctemp001-p002.tiff",\
+	    #"doctemp001-p002.tiff",\
+	    "foo.pdf"]
+        command= "cp -r " + self.testpathressources + "Buildingdemon "+ self.testpath 
+                ##'''
+        ##urldq=http://www.gutenberg.org/cache/epub/2000/pg2000.txt
+        ##wget -cq -O- $urldq|tee 2|grep -C5 -a  Capit
+
+        ##let n=0
+        ##let abase=1000
+        ##let bbase=1000
+        ##let incrementor=5 #lines
+        ##mkdir -p {a,b}/{e,f,g}/{h,i,j}
+        ##find a/ -name "**" -type d|tee 1
+        ##for i in `cat 1`; 
+            ##do let n+=1; 
+            ##let abase=bbase
+            ##let bbase=abase+incrementor
+            ##s=`cat 2|sed -n "$abase,$bbase"p`
+            
+            ##echo "$s">$i.txt; 
+            ##echo "sinabase      "$s"  "$i" "$n" "$abase; 
+        ##done
+
+        ##'''
+        #u="pwd"
+        #print(u)
+        
+        
+        
+        a=""
+        if self.regession!="":
+            a=" --userconfigpath "+ str(self.regession)
+            
+        #print(command)
+	#os.system(command)
+	import shutil
+	for f in filelist:
+	    dst=self.testpath+f #
+	    src=self.testpathressources+f
+	    #print dst,src
+	    shutil.copyfile(src,dst)   
+        command= "bash "+self.testsscripts+"beantrager/driver_fdf_in_out_pdf_in_out_foopl.sh  " +" --tmpdir "+ self.testpath \
+            + a +" #&"
+        print(command)
+	os.system(command)
+	
+        ###command= "bash "+self.testsscripts+"/buildingdamon/Buildingloggerdemon.sh  " +" --tmpdir "+ self.testpath \
+            ###+" --samplerate "+ str(self.samplerate) \
+            ###+" --timetoken "+ str(self.timetoken) \
+            ###+" --every "+ str(self.every) \
+            ###+" --times "+ str(self.times) \
+            ###+" --testdebug "+ str(self.testdebug) \
+            ###+ a +" &"
+        ###print("Layer -1 "+command)
+
+	
+	
+	#Oracle:
+	#self.failUnless(os.stat(self.testpath+"antragxy").st_size>91)
+	#test_fdf_patch_a_pdf_corsett_ok
+	self.failUnless(os.stat(self.testpath+"filled.pdf").st_size>1)
+	self.failUnless(os.stat(self.testpath+"greppedWeber.log").st_size>1)
+	
+	#self.failUnless(os.stat(self.testpath+"logs").st_size>91)
+	return        
+
+    #def Test_release_all2releaselogs(self):
+	##invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
+	#pass
+        #filelist=[\
+	    ##"doctemp001-p002.tiff",\
+	    ##"doctemp001-p002.tiff",\
+	    #"doctemp004-p003.tiff"]
+        #command= "cp -r " + self.testpathressources + "Buildingdemon "+ self.testpath 
+                ###'''
+        ###urldq=http://www.gutenberg.org/cache/epub/2000/pg2000.txt
+        ###wget -cq -O- $urldq|tee 2|grep -C5 -a  Capit
+
+        ###let n=0
+        ###let abase=1000
+        ###let bbase=1000
+        ###let incrementor=5 #lines
+        ###mkdir -p {a,b}/{e,f,g}/{h,i,j}
+        ###find a/ -name "**" -type d|tee 1
+        ###for i in `cat 1`; 
+            ###do let n+=1; 
+            ###let abase=bbase
+            ###let bbase=abase+incrementor
+            ###s=`cat 2|sed -n "$abase,$bbase"p`
+            
+            ###echo "$s">$i.txt; 
+            ###echo "sinabase      "$s"  "$i" "$n" "$abase; 
+        ###done
+
+        ###'''
+        ##u="pwd"
+        ##print(u)
+        #print(command)
+	#os.system(command)
+	#import shutil
+	#for f in filelist:
+	    #dst=self.testpath+f #
+	    #src=self.testpathressources+f
+	    ##print dst,src
+	    #shutil.copyfile(src,dst)   
+        #command= "bash "+self.testsscripts+"yournextgnuclihelloprojectdemo.sh  " +" --tmpdir "+ self.testpath 
+        #print(command)
+	#os.system(command)
+	
+	##Oracle:
+	#self.failUnless(os.stat(self.testpath+"logs").st_size>91)
+	#return
+
+    def test_t20jaflatstray(self):
+	#invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
+	pass
+        filelist=[\
+	    #"doctemp001-p002.tiff",\
+	    #"doctemp001-p002.tiff",\
+	    "doctemp004-p003.tiff"]
+        command= "cp -r " + self.testpathressources + "Buildingdemon "+ self.testpath 
+                ##'''
+        ##urldq=http://www.gutenberg.org/cache/epub/2000/pg2000.txt
+        ##wget -cq -O- $urldq|tee 2|grep -C5 -a  Capit
+
+        ##let n=0
+        ##let abase=1000
+        ##let bbase=1000
+        ##let incrementor=5 #lines
+        ##mkdir -p {a,b}/{e,f,g}/{h,i,j}
+        ##find a/ -name "**" -type d|tee 1
+        ##for i in `cat 1`; 
+            ##do let n+=1; 
+            ##let abase=bbase
+            ##let bbase=abase+incrementor
+            ##s=`cat 2|sed -n "$abase,$bbase"p`
+            
+            ##echo "$s">$i.txt; 
+            ##echo "sinabase      "$s"  "$i" "$n" "$abase; 
+        ##done
+
+        ##'''
+        #u="pwd"
+        #print(u)
+        print(command)
+	os.system(command)
+	import shutil
+	for f in filelist:
+	    dst=self.testpath+f #
+	    src=self.testpathressources+f
+	    #print dst,src
+	    shutil.copyfile(src,dst)   
+        command= "bash "+self.testsscripts+"losed/t20ja-flat-stray.sh " +" --tmpdir "+ self.testpath 
+        print(command)
+	os.system(command)
+	
+	#Oracle:
+	self.failUnless(os.stat(self.testpath+"logs").st_size>9)
+	return
+    
+    def test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example(self):
+	#invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
+	pass
+        filelist=[\
+	    #"doctemp001-p002.tiff",\
+	    #"doctemp001-p002.tiff",\
+	    "doctemp004-p003.tiff"]
+        command= "cp -r " + self.testpathressources + "Buildingdemon "+ self.testpath 
+                ##'''
+        ##urldq=http://www.gutenberg.org/cache/epub/2000/pg2000.txt
+        ##wget -cq -O- $urldq|tee 2|grep -C5 -a  Capit
+
+        ##let n=0
+        ##let abase=1000
+        ##let bbase=1000
+        ##let incrementor=5 #lines
+        ##mkdir -p {a,b}/{e,f,g}/{h,i,j}
+        ##find a/ -name "**" -type d|tee 1
+        ##for i in `cat 1`; 
+            ##do let n+=1; 
+            ##let abase=bbase
+            ##let bbase=abase+incrementor
+            ##s=`cat 2|sed -n "$abase,$bbase"p`
+            
+            ##echo "$s">$i.txt; 
+            ##echo "sinabase      "$s"  "$i" "$n" "$abase; 
+        ##done
+
+        ##'''
+        #u="pwd"
+        #print(u)
+        print(command)
+	os.system(command)
+	import shutil
+	for f in filelist:
+	    dst=self.testpath+f #
+	    src=self.testpathressources+f
+	    #print dst,src
+	    shutil.copyfile(src,dst)   
+        command= "bash "+self.testsscripts+"yournextgnuclihelloprojectdemo.sh  " +" --tmpdir "+ self.testpath 
+        print(command)
+	os.system(command)
+	
+	#Oracle:
+	self.failUnless(os.stat(self.testpath+"logs").st_size>91)
 	return
 
     def test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example(self):
@@ -870,6 +1271,3 @@ class qemuburoTestCase(unittest.TestCase):
 	#Oracle:
 	self.failUnless(os.stat(self.testpath+"logs").st_size>91)
 	return
-
-        
-        
