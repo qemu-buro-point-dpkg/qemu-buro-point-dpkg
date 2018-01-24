@@ -1006,10 +1006,16 @@ class qemuburoTestCase(unittest.TestCase):
 	#Oracle:
 	#self.failUnless(os.stat(self.testpath+"antragxy").st_size>91)
 	#test_fdf_patch_a_pdf_corsett_ok
+	#
+	#test_migra1_user_config_variable_path_ui
+	if self.regession!="":
+            self.failUnless(os.stat(self.testpath+"filled.pdf").st_size>2)
 	self.failUnless(os.stat(self.testpath+"filled.pdf").st_size>1)
+	
+	
 	#self.failUnless(os.stat(self.testpath+"greppedWeber.log").st_size>1)
 	
-	#self.failUnless(os.stat(self.testpath+"logs").st_size>91)
+
 	return        
 
     def test_sedformpdf(self):
@@ -1046,8 +1052,8 @@ class qemuburoTestCase(unittest.TestCase):
         #print(u)
         
         
-        
-        a=""
+        b=" --conffile "+"driver_fdf_in_out_pdf_in_out_foopl.userconfig_donate_for_books_uni_library_chemnitz.sh" 
+        a=" --userconfigpath "+ self.testsscripts +"beantrager/"
         if self.regession!="":
             a=" --userconfigpath "+ str(self.regession)
             
@@ -1060,6 +1066,7 @@ class qemuburoTestCase(unittest.TestCase):
 	    #print dst,src
 	    shutil.copyfile(src,dst)   
         command= "bash "+self.testsscripts+"beantrager/driver_fdf_in_out_pdf_in_out_foopl.sh  " +" --tmpdir "+ self.testpath \
+            + " " + b + " " \
             + a +" #&"
         print(command)
 	os.system(command)
@@ -1178,7 +1185,7 @@ class qemuburoTestCase(unittest.TestCase):
 	self.failUnless(os.stat(self.testpath+"logs").st_size>9)
 	return
     
-    def test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example(self):
+    def test_sophokles_hello(self):
 	#invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
 	pass
         filelist=[\
@@ -1222,7 +1229,7 @@ class qemuburoTestCase(unittest.TestCase):
 	os.system(command)
 	
 	#Oracle:
-	self.failUnless(os.stat(self.testpath+"logs").st_size>91)
+	self.failUnless(os.stat(self.testpath+"logs").st_size>1)
 	return
 
     def test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example(self):

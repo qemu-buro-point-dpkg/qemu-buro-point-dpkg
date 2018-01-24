@@ -47,7 +47,7 @@ testdebug="0" # derault off, since huge logs
 installpath=$tmpdir #no
 userconfigpath=$tmpdir #user configs default: read from output path
 conffile="beantrager.userconfig.sh" #userconfigs default file name
-
+driveroptions=""
 
 #snipped according
 #/abs-guide.html#STANDARD-OPTIONS
@@ -148,7 +148,14 @@ voultfilename="doctemp004-p003.tiff" #twgc-format
 # test of code for fdf driver while processing
 # demo and check injecting something
 #call to just read structure
-bash $Qemuburo_install_dir"Testsscripts/beantrager/driver_fdf_in_out_pdf_in_out_foopl.sh"
+##testend
+#just produce till fdf stage of first released form in tempdir 
+#echo "10v">filled.pdf
+#echo "10v"
+command="bash ""$Qemuburo_install_dir""Testsscripts/beantrager/driver_fdf_in_out_pdf_in_out_foopl.sh""$driveroptions"
+$command
+
+#echo hhh$command
 #echo "time bash $Qemuburo_install_dir""Testsscripts/beantrager/driver_fdf_in_out_pdf_in_out_foopl.sh"
 
 #call to read value tbi

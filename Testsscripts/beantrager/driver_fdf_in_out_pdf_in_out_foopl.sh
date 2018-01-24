@@ -11,25 +11,33 @@ foopl="" # project wide fdf-coin
 inpdf="foo.pdf"
 outpdf="filled.pdf"
 thirdpartycodepath="$Qemuburo_install_dir""Testsscripts/beantrager/thirdpartycode/"
-a1="" #a1: "user interfae parameter and table representation of user manipulation input data"
+a1="" #a1: "user interfae parameter and table representation of user manipulation input data" to input
 #prepare array such: Textfeld|1'Antonius|Weber Textfeld|2'
-fdf_value_ui="" #user interface, if to enter a single entry in a certain form field 
+fdf_value_ui="" #user interface, if to esegment a file in bash sednter a single entry in a certain form field 
 fdf_fieldname_ui=""
 a1_i_value=""
 a1_i_number=""
 #uncommented before release, however still syntax template
-patchfieldname="Textfeld 4"
 #fdf_value_ui="Antonius Weber" #user interface, if to enter a single entry in a certain form field 
 #fdf_fieldname_ui="Textfeld 2"
-patchvalue="Brunswick"
-
 a1_i_value="5er"
 a1_i_number=5
 #tbi juggling
 
-#alfoo.pdfpha set_form_buttons_by_name_interface for buttons
-patchvalue1="Yes"
+#scaling pdfform types:consult support form types list
+
+#fdf_FieldType=Text
+fdf_FieldType="Button"
+
+patchvalue1="Yes" #for buttons, Off
 patchfieldname1="Markierfeld 3"
+
+
+patchvalue="Brunswick" #for text
+patchfieldname="Textfeld 4"
+
+
+
 foofdf=foo.fdf
 
 greetervar=demogreeter 
@@ -41,33 +49,6 @@ sample_run_counter=0
 tmpdir="/tmp/qemuburotest/" #path for temporary and out put data?
 mkdir "/tmp/qemuburotest" 2>/dev/null
 
-# timetoken="150887562023415219500"
-# samplerate=1 # seconds sleeping between firing (sleep builtin)
-# 
-# triggertimeslogs="tmp_triggertimes.log" # file name of (future) events list 
-# 
-# functionname="demogreeter"
-# comment="demogreeter0"
-# 
-# execution_stamp_prefix="a"$sample_run_counter"a" # to use a timetable and a program data base alike
-# execution_stamp_postfix="Ω"$every_offset_ns"Ω"$times1"Ω"$functionname"Ω"$comment"Ω" # 
-# 
-# 
-# tokenarray="" #inner variable, list of acute tokens found at sampling time
-# date_format="%s%N" #for date utc with nanoseconds
-# 
-# # "every" (tuesday)" function of a human user interface
-# sectonanoconverter="000000000"
-# every_offset_sec=360000000 #if in "every"-User-mode: alternating unending mode
-# #*60*60*24*7,*365 #every n days, year, not week, weekdays, month, years, 
-# 
-# every_offset_ns=$every_offset_sec$sectonanoconverter
-# times1=2 #event decrementer
-# 
-# 
-# nexttimetoken="" #inner, next token to set in repition mode
-# file_offset=0 #line number, where uncommented switches to commented,inner variable
-# file_length=0 #of time table inner variable
 
 testdebug="0" # derault off, since huge logs
 installpath=$tmpdir #no
@@ -109,9 +90,9 @@ while :; do
                 shift
             fi
             ;;
-        --times)       # Takes an option argument, ensuring it has been specified.
+        --conffile)       # Takes an option argument, ensuring it has been specified.
             if [ -n "$2" ]; then
-                times1=$2
+                conffile=$2
                 shift
             fi
             ;;
@@ -192,22 +173,71 @@ fi
 # so nothing, where other go the highway, we chuggle the forest path side way besides..
 # carefully enpackaged our lunch package, right? First, to fullfill ui needs A1 and A2. So?
 #empackage read data a1: "user interfae parameter and table representation of user manipulation input data"
-#fdf_specifier_fomat_string="Textfeld"
+dump=dump
+#fdf_specifier_fomat_string="Textfeld" #FieldType: Text
+fdf_specifier_fomat_string_="FieldType: Text" # 
+a2=""
 if [ "$a1" = "" ]; then
-    #pdftk $inpdf dump_data_fields|head -n23 
-    a1=$(pdftk $inpdf dump_data_fields|grep -A2 Textfeld|grep -v "\-\-\|FieldFlag"|sed -e "s/FieldValue: /lue:/"|sed -e "s/FieldName: /ame:/"|tr " " "|"  |tr "\n" "\'"|sed -e "s/'ame/ ame/g")
+    pdftk $inpdf dump_data_fields>$dump    
+        #A2=A2
+    sectionlines=$(pdftk $inpdf dump_data_fields|grep -n "\-\-\-"|cut -f1 -d":")
+    # convert to project voult-format
+    inc1=0; for i in $sectionlines; do let inc1+=1;
+    #echo "i inc $i $inc1"; 
+    sed -e "$i""s/---/---"$inc1"/" -i $dump ; done; #grep "\-\-" $dump
+    # section it voult and read into arays button and text #1.044s, python inlay?
+    let inc=inc+1
+    for ((inc=1;inc<inc1;inc++)); do
+    #echo  
+        cat $dump|sed -n "/---$inc$/,/---`expr $inc + 1`/p" >formtmpfile$inc 
+    # # #         cat formtmpfile$inc|grep -A19 "FieldType: Text"|grep "FieldName:\|FieldValue"   
+        a0=$(cat formtmpfile$inc|grep -A39 "FieldType: Text"|grep "FieldName:\|FieldValue"|sed -e "s/FieldValue: /lue:/"|sed -e "s/FieldName: /ame:/"|tr " " "|"  |tr "\n" "\'"|sed -e "s/'ame/ ame/g")
+        a2=$a2" "$a0
+
+        #fdf_FieldType=Text
+        
+        fdf_FieldType=Button
+        a3=$(cat formtmpfile$inc|grep -A39 "FieldType: $fdf_FieldType"|grep "FieldName:\|FieldValue"|sed -e "s/FieldValue: /lue:/"|sed -e "s/FieldName: /ame:/"|tr " " "|"  |tr "\n" "\'"|sed -e "s/'ame/ ame/g")
+        a4=$a4" "$a3
+
+        
+        #echo $a0    
+    
+#Test_all_entries_inarray?
+    done
+    #echo $a2>"$tmpdir"tmp_a2
+    
+    
+    #A2=A2
+     a1=$(pdftk $inpdf dump_data_fields|grep -"$(echo A2)" "$fdf_specifier_fomat_string"|grep -v "\-\-\|FieldFlag"|sed -e "s/FieldValue: /lue:/"|sed -e "s/FieldName: /ame:/"|tr " " "|"  |tr "\n" "\'"|sed -e "s/'ame/ ame/g")
     #dump voult to disk as for template
-    echo $a1>"$tmpdir"tmp_a1
+a1=$a2
+    #echo $a1>"$tmpdir"tmp_a1
+    echo $a2>"$tmpdir"tmp_a2
+    echo $a4>"$tmpdir"tmp_a4
+#echo $a1
 fi
 inc=0
+#fdf_fieldname_i=Text
+
+#take value and name pairs from array and in target
 for i in $a1; do
     #i="Textfeld|1'Antonius|Weber Textfeld|2"
     #i="ame:Textfeld|1'lue:Antonius|Weber"
-    fdf_fieldname_i=$(echo $i |cut -f1 -d"'" |tr "|" " "|cut -f2 -d":")
+    #echo $inc"____zzzzzzzzzzzzzzzzzzzzzZzZ"
+    fdf_fieldname_i=$(echo $i |cut -f1 -d"'" |tr "|" " "|cut -f2 -d":"|sed -e "s/\[/\\\[/g"|sed -e "s/\]/\\\]/")
     fdf_value_i=$(echo $i |cut -f2 -d"'" |tr "|" " "|cut -f2 -d":")
     ##sedpatch1 sed $foopl patch
     #'Textfeld 1'=>q{},
-    #echo $i $fdf_fieldname_i $fdf_value_i
+    #echo "fdf_fieldname_i"$fdf_fieldname_i 
+    #echo "_i"$i
+    #echo "fdf_value_i$fdf_value_i "
+    #fdf_fieldname_iALG2WBA[0].Seite4[0].TeilformularEinverstanden[0].OrtDatum1[0]
+    #_iame:ALG2WBA[0].Seite4[0].TeilformularEinverstanden[0].OrtDatum1[0]'lue:Berlin,29.5.15'
+    #fdf_value_iBerlin,29.5.15 
+
+    
+    
     sed -e "s/\('$fdf_fieldname_i'=>q{\).*\(}\)/\1$fdf_value_i\2/" -i $foopl
     #echo "sed -e ""s/\('$fdf_fieldname_i'=>q{\)\(}\)/\1$fdf_value_i\2/"" -i $foopl"
 
@@ -221,7 +251,7 @@ for i in $a1; do
     #after-patching the results for a set_text_by_index
     if [ $inc -eq  $a1_i_number ]; then
         #pdftk $inpdf dump_data_fields|head -n23 
-        echo $inc"inc"
+        #echo $inc"inc"
         sed -e "s/\('$fdf_fieldname_i'=>q{\).*\(}\)/\1$a1_i_value\2/" -i $foopl
         #dump voult to disk as for template
     fi
@@ -248,22 +278,63 @@ fi;
 perl "$thirdpartycodepath"genfdf.pl $foopl > foo.fdf
 # Does that say I could parse that simply? Does it says it? Yes, Yes.
 ## fdf manunipulation start
-foofdf=foo.fdf
+foofdf=foo.fdf #here above?, here
+for i in $a4; do
+    #i="Textfeld|1'Antonius|Weber Textfeld|2"
+    #i="ame:Textfeld|1'lue:Antonius|Weber"
+    #echo $inc"____zzzzzzzzzzzzzzzzzzzzzZzZ"
+    fdf_fieldname_i=$(echo $i |cut -f1 -d"'" |tr "|" " "|cut -f2 -d":"|sed -e "s/\[/\\\[/g"|sed -e "s/\]/\\\]/g")
+    fdf_value_i=$(echo $i |cut -f2 -d"'" |tr "|" " "|cut -f2 -d":")
+    ##sedpatch1 sed $foopl patch
+    #'Textfeld 1'=>q{},
+    #echo "fdf_fieldname_i"$fdf_fieldname_i 
+    #echo "_i"$i
+    #echo "fdf_value_i$fdf_value_i "
+    #fdf_fieldname_iALG2WBA[0].Seite4[0].TeilformularEinverstanden[0].OrtDatum1[0]
+    #_iame:ALG2WBA[0].Seite4[0].TeilformularEinverstanden[0].OrtDatum1[0]'lue:Berlin,29.5.15'
+    #fdf_value_iBerlin,29.5.15 
+
+    
+    
+    sed -e "s/\(<< \/T ($fdf_fieldname_i) \/V (\).*\()\)/\1$fdf_value_i\2/g" -i $foofdf 
+
+    #echo "sed -e ""s/\('$fdf_fieldname_i'=>q{\)\(}\)/\1$fdf_value_i\2/"" -i $foopl"
+
+    #cat $foopl|grep "Textfeld 1'"
+    #sed -e $foopl "s/$fdf_fieldname/fffff/g" #-i
+    # todo dive to perl syntax
+    #sedpatch2
+    #pseudocode: if inc=a1_i_number: sed $a1(inc) foo.pl
+    let inc+=1
+    #echo $inc"inc"
+    #after-patching the results for a set_text_by_index
+    if [ $inc -eq  $a1_i_number ]; then
+        #pdftk $inpdf dump_data_fields|head -n23 
+        echo $inc"inc"
+        sed -e "s/\('$fdf_fieldname_i'=>q{\).*\(}\)/\1$a1_i_value\2/" -i $foopl
+        #dump voult to disk as for template
+    fi
+
+    #ui manipulate form xy find by number of textfields
+done
+
+
+
 sed -e "s/\(<< \/T ($patchfieldname1) \/V (\).*\()\)/\1$patchvalue1\2/g" -i $foofdf 
 
 
-
-pdftk $inpdf fill_form foo.fdf output $outpdf
+# ui for "just the fdf no pdf"
+test -e $outpdf ||pdftk $inpdf fill_form foo.fdf output $outpdf
 # third party snippedend 
 
-#pwd
-pdftotext filled.pdf -|grep "Weber">greppedWeber.log
+pwd
+test -e $outpdf ||pdftotext filled.pdf -|grep "Weber">greppedWeber.log
 
 ##you had the text input, what about buttons?
 #button section
 
 #pdftk $outpdf dump_data_fields|grep Button -A6
-a2Buttons=$(pdftk $inpdf dump_data_fields|grep Button -A6)
+#a2Buttons=$(pdftk $inpdf dump_data_fields|grep Button -A6)
 #echo $a2Buttons
 #FieldType: Button FieldName: Markierfeld 4 FieldFlags: 0 FieldValue: FieldJustification: Left FieldStateOption: Off FieldStateOption: Yes -- FieldType: Button FieldName: Markierfeld 2 FieldFlags: 0 FieldValue: FieldJustification: Left FieldStateOption: Off FieldStateOption: Yes -- FieldType: Button FieldName: Markierfeld 3 FieldFlags: 0 FieldValue: FieldJustification: Left FieldStateOption: Off FieldStateOption: Yes
 
