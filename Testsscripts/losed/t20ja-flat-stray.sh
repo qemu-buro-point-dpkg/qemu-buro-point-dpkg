@@ -48,7 +48,10 @@ installpath=$tmpdir #no
 userconfigpath=$tmpdir #user configs default: read from output path
 conffile="t20ja-flat-stray.userconfig.sh" #userconfigs default file name
 
-timetablefullpath=""
+timetablefullpath="$Qemuburo_install_dir""/Testresources/tmp_triggertimes.log"
+
+dontrestart=0
+#default, to be modified in use case
 #snipped according
 #/abs-guide.html#STANDARD-OPTIONS
 #G.1. Standard Command-Line Options
@@ -65,9 +68,9 @@ while :; do
                 shift
             fi
             ;;
-        --samplerate)       # Takes an option argument, ensuring it has been specified.
+        --dontrestart)       # Takes an option argument, ensuring it has been specified.
             if [ -n "$2" ]; then
-                samplerate=$2
+                dontrestart=$2
                 shift
             fi
             ;;
@@ -146,7 +149,7 @@ voultfilename="doctemp004-p003.tiff" #twgc-format
 voultfile=$tmpdir$voultfilename
 #echo "hello $voultfile"
 
-   a=$(wc -l <logs) 
+   demonup=$(ps ax|grep Buildingloggerdemon|grep -v "grep\|watch"|wc -l) 
    b=$(wc -l <logs)
    c=$(wc -l <logs)
    
@@ -156,10 +159,11 @@ voultfile=$tmpdir$voultfilename
    
    #c=$(wc -l <tmpfile$inc"adds")
    #if contact from voult gets email, 3 lines address and sexualized addressee
-   echo $a " b" $b
-   if [ "$a" -gt "2" ] && [ "$b" == "1" ]  && [ "$c" == "1" ]; 
+   echo $a " b" $demonup
+   
+   if [ "$dontrestart" -eq "0" ] || [ "$demonup" -eq "0" ]; 
    then 
-   echo "run demon programmer a3 b1 e.g initialy default programm when time tmpfile non empty such wc s(grep t20ja, eg.when flagged to programm --flagreprogramm ""$timetablefullpath""ll"; 
+   echo "restart demon   ""$timetablefullpath""ll"; 
 #    Layer -1 
    kill -9 $(ps ax|grep Buildingloggerdemon|grep -v "grep\|watch"|cut -c -6)
    #bash "$Qemuburo_install_dir""Testsscripts/buildingdamon/Buildingloggerdemon.sh --tmpdir /tmp/qemuburotest/ --samplerate 5.005 --timetoken 1516938449858029610 --every 5000000 --times 1  --testdebug 0 --triggertimeslogs ""$timetablefullpath"" &"
@@ -174,14 +178,16 @@ voultfile=$tmpdir$voultfilename
   #echo " bash "$Qemuburo_install_dir"Testsscripts//buildingdamon/Buildingloggerdemon.sh   --tmpdir /tmp/qemuburotest/ --samplerate 5.005 --timetoken 1516948599402985606 --every 5000000 --times 1 --conffile $Buildingloggerdemonuserconfig --testdebug 0 --triggertimeslogs "$timetablefullpath"" --userconfigpath ""$userconfigpath" &" >>"$tmpdir""logs"
       #
     # Layer -1 kill: date; ps ax|grep Buildingloggerdemon.sh|grep -v grep;kill $(ps ax|grep Build|cut -c -6)
-   ps ax|grep Buildingloggerdemon.sh|grep -v grep;
-   let i1nc1+=1
-   echo $inc1>>"$tmpdir"'logs'driver
+   #echo $inc1>>"$tmpdir"'logs'
    #cat logsdriver
    else
-      echo "run demonscripte"; 
+      echo '$dontrestart" -eq "0" ] || [ "$demonup" -eq "0" ]"'"$dontrestart" -eq 0 ] || [ "$demonup" -eq "0" ]; 
    fi;
-#1508875620234121950ΩΩΩmydemogreeterΩdemogreeter4Ω
+       
+ps ax|grep Buildingloggerdemon|grep -v "grep\|watch"|tee $tmpdir"logs.testdaemonup">>"$tmpdir"'logs';
+  
+   
+   #1508875620234121950ΩΩΩmydemogreeterΩdemogreeter4Ω
 
 #Rückfragen und Bewerbungen an
 

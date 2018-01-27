@@ -135,7 +135,7 @@ let UTC2=UTC1+$monsec
 let UTC3=UTC2+$monsec
 
 # a "camel" sequence stamping for ja demoing. User use config file to program shop daimon
-   if [ "$ttentries" -eq "2" ]; 
+   if [ "$ttentries" -eq "3" ]; 
    then 
    echo "#stampUTC3 "$UTC3"$ns""$string">>$outpath$logs
    echo ""$UTC3"$ns""$string">>$timetablefullpath
@@ -143,7 +143,7 @@ let UTC3=UTC2+$monsec
    
    fi
 
-   if [ "$ttentries" -eq "1" ]; 
+   if [ "$ttentries" -eq "2" ]; 
    then 
    echo ""$UTC2"$ns""$string">>$outpath$logs
    echo ""$UTC3"$ns""$string">>$outpath$logs
@@ -153,7 +153,7 @@ let UTC3=UTC2+$monsec
    
    fi
 
-   if [ "$ttentries" -eq "0" ]; 
+   if [ "$ttentries" -eq "0" ]  || [ "$ttentries" -eq "1" ]; 
    then 
    echo ""$UTC1"$ns""$string">>$outpath$logs
    echo ""$UTC2"$ns""$string">>$outpath$logs
