@@ -1,0 +1,21 @@
+userinfo:  t20ja-flat-stray a demonwrapper as for servicing a gallary of products.
+
+#Installinstruction: 1. : execute this line at commandline or have it in .bashrc!
+export Qemuburo_install_dir=/home/...
+#2. to keep damon running for this tool, inject code in bashrc
+echo a=$a>>$HOME/.bashrc
+echo 'cd $Qemuburo_install_dir"qemuburo/"; Regression=$a   python -m unittest Testqemuburo.qemuburoTestCase.test_t20jaflatstray'>> $HOME/.bashrc
+
+FAQ: Where to a daemon handler: $HOME/ttcookie.script*
+
+You will hold a in ttcookie=$HOME"/ttcookie" 
+For these releases of engine read testlogs as usage instruction.
+
+
+Testlogs:
+:$ cd $Qemuburo_install_dir"qemuburo/";  Regression=$a  python -m unittest Testqemuburo.qemuburoTestCase.test_t20jaflatstray  #2>&1 
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.110s
+
+O

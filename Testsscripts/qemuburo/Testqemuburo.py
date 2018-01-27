@@ -1169,15 +1169,6 @@ class qemuburoTestCase(unittest.TestCase):
         ##'''
         #u="pwd"
         #print(u)
-        b=""
-        #b=" --conffile "+"driver_fdf_in_out_pdf_in_out_foopl.userconfig_donate_for_books_uni_library_chemnitz.sh" 
-        #a=" --userconfigpath "+ self.testsscripts +"beantrager/"
-        ###conffile="t20ja-flat-stray.userconfig.sh" 
-        a=""
-        if self.regession!="":
-            a=" --userconfigpath "+ str(self.regession)
-
-        
         print(command)
 	os.system(command)
 	import shutil
@@ -1186,16 +1177,9 @@ class qemuburoTestCase(unittest.TestCase):
 	    src=self.testpathressources+f
 	    #print dst,src
 	    shutil.copyfile(src,dst)   
-        command= "bash "+self.testsscripts+"losed/t20ja-flat-stray.sh " +" --tmpdir "+ self.testpath \
-            + " " + b + " " \
-            + a +" #&"
+        command= "bash "+self.testsscripts+"losed/t20ja-flat-stray.sh " +" --tmpdir "+ self.testpath 
         print(command)
 	os.system(command)
-
-        #command= "bash "+self.testsscripts+"beantrager/driver_fdf_in_out_pdf_in_out_foopl.sh  " +" --tmpdir "+ self.testpath \
-            #+ " " + b + " " \
-            #+ a +" #&"
-
 	
 	#Oracle:
 	self.failUnless(os.stat(self.testpath+"logs").st_size>9)

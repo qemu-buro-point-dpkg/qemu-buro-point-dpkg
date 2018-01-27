@@ -1,0 +1,77 @@
+﻿This is a Readme underconstruction, take info as well from https://qemuburopointdpkg.wordpress.com/2016/04/08/story-zum-projekt-qemu-buro-dpkg/. License is gpl.
+
+One introduction/first word on this concept:
+-------------------------
+This starts as a loose suite of process steps, as a toolbox of scripts in a typical "all-against-nobody-self-defense" buro put under unittest bound, thus obtaining a quality and adhoc usability property. (Added note: Well in the meanwhile we got apartments for different processes: these are at this time: 
+-mudanca cafe: you got a key-ready, fresh virtual machine from qemu and debian after some 20h.- and you got a vm install in a vm install in 200h+. (;
+-scandistribute: bulk paper leafs scanner facility
+-a report machine: for letters of love and generic reports/offers)
+
+These scripts can then be copied from the testsuite into the user's problem environment and called as in the test suite. As for desigh a carpet of templates, a "Template Teppich" can be build by cases of usage around them core scripts, so the core, pure script tested, can evelope.
+The user can choose to take the recently used template script for -lets say- ocr-scanning. The usage cases, seen as successful projects of yesterday, are the testscript of today, which is the template carpet of tomorrow.
+That is the dev idea of this project by now, at least.(test driven developement)
+Policies by now:
+    -Tmp: Programs that do not let themselves demonstrate in /tmp alone, shall be searched demonstration then in a VM, qemu or the like.
+    -local pathes: Scripts that depend heavily on pathes management as templates, can not be intergrated for privacy reasons. So the testscript will be crippled to one or two local pathes. There is no solution for the problem, that we all need pathes, but nobody shall know them.
+
+Completing state
+---------------
+10%
+
+
+   
+Installation on your local machine
+-----------------------------------
+export Qemuburo_install_dir= localinstallpath_user_defined
+echo "export Qemuburo_install_dir=localinstallpath_user_defined">> ~/.bashrc 
+#read in Testscript how to run Testfunction then! For example this dummy:
+cd qemuburo/
+~/github_qemuburo/qemuburo$ python -m unittest Testqemuburo.qemuburoTestCase.test_pre_and_post_instalaion_tests_from_qemu_generation_to_ready_use_image
+
+time python -m unittest Testqemuburo.qemuburoTestCase gives right now:
+#    .....
+#----------------------------------------------------------------------
+#Ran 5 tests in 98.254s
+#
+#OK
+
+
+
+Usage
+-----
+Well there is more than one way to Rome:
+1) The trick is find, how the tester calls his functions to be tested. For the user the thinking is other way around: if the test does so, for me is easiest and most secure to copy the invocation. 
+So uncomment the line in the function you are interested in with:#print command
+For example by running: 
+cd ~/localinstallpath_user_defined/qemuburo
+time python -m unittest Testqemuburo.qemuburoTestCase.test_is_flatbad_one_page_orc_scanning_to_pdf_scanndistribute150825
+
+you something like
+
+scanndistribute150825.sh   --tmpdir /tmp/qemuburotest/ --nstaples 1 --duplex 1 --slot nonadf --stage1batchmode 1 -o /tmp/1.pdf  > /dev/null 2>&1
+
+This is everyday command line for one paper scan from flatbed, ocred to /tmp/pdf please; lets say this is a quick scan. For multistaple usage case you can derive the command line from the other testfunction.
+
+This is how the script scanndistribute is used: without ADF, using the physical scanner device non interactively, OCR...
+2) Btw: this script can be used snippet wise by pasting it to console, too, this is neither forbidden nor to be underestimated. Nor testing it is forbidden. So there, is where you grasp the profit from running scripts that _will function. Especially the stages of private user scripts enhanced are better (fine enough) used this way, in order to keep track of your historic paths with some ease.
+
+Also: you may/can/should look up the files produced in ls -rtl /tmp/qemuburotest/ to control the processes - and the logs
+
+3) We offered a file Example_commandlines with specific use cases and its possible invocations
+
+4) Take a look at the file process specific User interface files, such as Userinface.pdf 
+
+FAQ
+---
+1) You do not know which is the functionality dealt with?: Just look at the testfunctions. Their name should be self explanatory, such as:test_is_flatbad_one_page_orc_scanning_to_pdf_scanndistribute150825. You can uncomment in much place to find the command line applied.
+2)Do you want me read python code? And bash code and unittest python code? Run that and construct my personal usage command line from it? Really? I am used to more comfort?   Answer: Yes, this is uncommon; these skill are_ in your self defense scope anyway. But we head for have it shippable within debian format once at least. 
+3)Why do you design a decent user interface for your program? This is a trade off and best choice: You can take anything from the anyway running test machine, without extra programming effort. That is we are making use off. 
+4) What about this whole noise message on the screen? Answer: It is a plague.
+
+Bugs/Problems/Support/Ideas/Fixes/Requests: 
+------------------------------------------
+use github forum
+
+Have fun
+
+

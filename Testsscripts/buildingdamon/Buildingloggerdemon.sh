@@ -146,9 +146,22 @@ while :; do
                 shift
             fi
             ;;
-        --userconfigpath)       # Takes an option argument, ensuring it has been specified.
+       --conffile)       # Takes an option argument, ensuring it has been specified.
+            if [ -n "$2" ]; then
+                conffile=$2
+                shift
+            fi
+            ;;
+        --userconfigpath)
+        # Takes an option argument, ensuring it has been specified.
             if [ -n "$2" ]; then
                 userconfigpath=$2
+                shift
+            fi
+            ;;
+       --triggertimeslogs)       # Takes an option argument, ensuring it has been specified.
+            if [ -n "$2" ]; then
+                triggertimeslogs=$2
                 shift
             fi
             ;;
@@ -178,33 +191,34 @@ cd $tmpdir
       do time test -f $a$conffile && source $a$conffile $tmpdir
   done 
 #source /tmp/qemuburotest/Buildingloggerdemon.userconfig.sh 
-echo "Layer 0 sample_run_counter userconfigpath "
+#echo "Layer 0 sample_run_counter userconfigpath "
 #mydemogreeter "skoll" 
 
-echo "Layer 0 sample_run_counter userconfigpath "$userconfigpath "conffile "$a$conffile #`test -e $conffile`
+#echo "Layer 0 sample_run_counter userconfigpath "$userconfigpath "conffile "$a$conffile #`test -e $conffile`
 cd $tmpdir
 
 #initialize db databas with options and timetoken
-echo "Layer 0 sample_run_counter $sample_run_counter before "$(cat $triggertimeslogs) |tr " " "\n"
+#echo "Layer 0 sample_run_counter $sample_run_counter before "$(cat $triggertimeslogs) |tr " " "\n"
 execution_stamp_postfix="Ω"$every_offset_ns"Ω"$times1"Ω"$functionname"Ω"$comment"Ω" #"Iamanoption"
+echo "echo "$timetoken""$execution_stamp_postfix">>$triggertimeslogs"
 echo "$timetoken""$execution_stamp_postfix">>$triggertimeslogs
 sort -n $triggertimeslogs>tmp.1
 mv tmp.1 $triggertimeslogs
 
 
-echo "Layer 0 sample_run_counter $sample_run_counter #adds to logs as requested  ""timetoken""  execution_stamp_postfix""$timetoken""$execution_stamp_postfix"
-echo "Layer 0 sample_run_counter $sample_run_counter "$(cat $triggertimeslogs) |tr " " "\n"
+#echo "Layer 0 sample_run_counter $sample_run_counter #adds to logs as requested  ""timetoken""  execution_stamp_postfix""$timetoken""$execution_stamp_postfix"
+#echo "Layer 0 sample_run_counter $sample_run_counter "$(cat $triggertimeslogs) |tr " " "\n"
 
-echo "Layer 0 sample_run_counter $sample_run_counter #server runs"
+#echo "Layer 0 sample_run_counter $sample_run_counter #server runs"
 while true; do echo "helo">/dev/null 
 
     let sample_run_counter+=1
-    echo "Layer 1 sample_run_counter $sample_run_counter ########new samplerate run "$sample_run_counter
+    #echo "Layer 1 sample_run_counter $sample_run_counter ########new samplerate run "$sample_run_counter
 
     #a data base read of a few lines
     tokenarray=`sort -n $triggertimeslogs|tee tmp.1|grep "^[1-9]"`
     echo "$tokenarray">>"testdb"$sample_run_counter"_""tokenarray"
-    echo "Layer 1 sample_run_counter $sample_run_counter we got tokenarray "$tokenarray 
+    #echo "Layer 1 sample_run_counter $sample_run_counter we got tokenarray "$tokenarray 
     l1_incr=0
     for dbtoken in $tokenarray;  # logical Layer 2 sample_run_counter $sample_run_counter: open tickets
         do 
@@ -216,16 +230,16 @@ while true; do echo "helo">/dev/null
         times1=`echo $dbtoken|sed -e "s/\(^[1-9].*\)Ω\(.*\)Ω\(.*\)Ω\(.*\)Ω\(.*\)Ω/\3/"`
         functionname=`echo $dbtoken|sed -e "s/\(^[1-9].*\)Ω\(.*\)Ω\(.*\)Ω\(.*\)Ω\(.*\)Ω/\4/"`
         comment=`echo $dbtoken|sed -e "s/\(^[1-9].*\)Ω\(.*\)Ω\(.*\)Ω\(.*\)Ω\(.*\)Ω/\5/"`
-        echo "Layer 2 sample_run_counter $sample_run_counter times1 every_offset_ns  timetoken functionname comment "$times1 $every_offset_ns  $timetoken $functionname $comment
+        #echo "Layer 2 sample_run_counter $sample_run_counter times1 every_offset_ns  timetoken functionname comment "$times1 $every_offset_ns  $timetoken $functionname $comment
         
         a=$timetoken    
         b=$(date +$date_format)
-        echo "Layer 2 sample_run_counter $sample_run_counter asked for time token a $a lesser than  now b $b   every_offset_ns $every_offset_ns times1 $times1" 
+        #echo "Layer 2 sample_run_counter $sample_run_counter asked for time token a $a lesser than  now b $b   every_offset_ns $every_offset_ns times1 $times1" 
         if [ "$a" -lt "$b" ]; then  # logical Layer 3 sample_run_counter $sample_run_counter: search first acute among Tickets
-            echo "Layer 3 sample_run_counter $sample_run_counter $a -lt $b \# lesser than";   
-            echo "Layer 3 sample_run_counter $sample_run_counter #(lesser than in an arithmetic comparison happening)"; 
-            echo "Layer 3 sample_run_counter $sample_run_counter in this case register ticket's expiring"
-            echo "Layer 3 sample_run_counter $sample_run_counter cat triggertimeslogs before an register"; cat $triggertimeslogs
+            #echo "Layer 3 sample_run_counter $sample_run_counter $a -lt $b \# lesser than";   
+            #echo "Layer 3 sample_run_counter $sample_run_counter #(lesser than in an arithmetic comparison happening)"; 
+            #echo "Layer 3 sample_run_counter $sample_run_counter in this case register ticket's expiring"
+            #echo "Layer 3 sample_run_counter $sample_run_counter cat triggertimeslogs before an register"; cat $triggertimeslogs
             
             #$greetervar "skoll"; #echo skoll
             $functionname "skoll" $comment
@@ -239,19 +253,19 @@ while true; do echo "helo">/dev/null
             
             timetable_line_format="$timetoken""$execution_stamp_postfix"
             sed -i $triggertimeslogs -e "s/\($timetable_line_format\)/$execution_stamp_prefix$timetoken$execution_stamp_postfix/"
-            echo "Layer 3 sample_run_counter $sample_run_counter cat triggertimeslogs after an register"; cat $triggertimeslogs
+            #echo "Layer 3 sample_run_counter $sample_run_counter cat triggertimeslogs after an register"; cat $triggertimeslogs
             
             if [ "$times1" != "" ] && [ $times1 -ne 0 ]; then ## logical Layer 4 sample_run_counter $sample_run_counter: are their renewal option for to stay present in the timetable ? Whileforifif
             #abs-guide.html: logical (boolean) operators for "Compound Condition Tests Using"
 
                 let nexttimetoken=$timetoken+$every_offset_ns
-                echo "Layer 4 sample_run_counter $sample_run_counter ******** add the next ticket to the wait loop nexttimetoken=timetoken+every_offset_ns "$nexttimetoken"="$timetoken"+"$every_offset_ns"  "$times1
+                #echo "Layer 4 sample_run_counter $sample_run_counter ******** add the next ticket to the wait loop nexttimetoken=timetoken+every_offset_ns "$nexttimetoken"="$timetoken"+"$every_offset_ns"  "$times1
                 let times1-=1
-                echo "Layer 4 sample_run_counter $sample_run_counter "$times1
+                #echo "Layer 4 sample_run_counter $sample_run_counter "$times1
                 
                 ##            echo "Layer 4 sample_run_counter $sample_run_counter next time token: 0:10 "${nexttimetoken:0:10}"  :10:9 "${nexttimetoken:10:9}"  {#"${#nexttimetoken}
                 #tbi enhance nothing very old, too old: hi 
-                echo "Layer 4 sample_run_counter $sample_run_counter cat triggertimeslogs"; cat $triggertimeslogs
+                #echo "Layer 4 sample_run_counter $sample_run_counter cat triggertimeslogs"; cat $triggertimeslogs
                 
                 execution_stamp_postfix="Ω"$every_offset_ns"Ω""$times1""Ω"$functionname"Ω"$comment"Ω"
                 echo "$nexttimetoken""$execution_stamp_postfix">>$triggertimeslogs

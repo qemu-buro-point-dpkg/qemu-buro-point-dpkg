@@ -5,7 +5,7 @@ demogreeter1 () {
     echo "Layer 5 buildinhandler2 Hello "$demo
 return; }
 
-fehler
+#fehler
 greetervar=demogreeter 
 
 tmpdir="$HOME/Downloads"
@@ -48,7 +48,7 @@ installpath=$tmpdir #no
 userconfigpath=$tmpdir #user configs default: read from output path
 conffile="t20ja-flat-stray.userconfig.sh" #userconfigs default file name
 
-
+timetablefullpath=""
 #snipped according
 #/abs-guide.html#STANDARD-OPTIONS
 #G.1. Standard Command-Line Options
@@ -122,7 +122,7 @@ done
 
 #read a userconfig default from output dir, tb completed to a debian standard
 cd $tmpdir
-#userconfigpath=$userconfigpath" "$userconfigpath
+echo userconfigpath=$userconfigpath #" "$userconfigpath
   for a in $userconfigpath;
       do time test -f $a$conffile && source $a$conffile $tmpdir
   done 
@@ -159,15 +159,29 @@ voultfile=$tmpdir$voultfilename
    echo $a " b" $b
    if [ "$a" -gt "2" ] && [ "$b" == "1" ]  && [ "$c" == "1" ]; 
    then 
-   echo "run demon programmer a3 b1 e.g initialy default programm when time tmpfile non empty such wc s(grep t20ja, eg.when flagged to programm --flagreprogramm"; 
+   echo "run demon programmer a3 b1 e.g initialy default programm when time tmpfile non empty such wc s(grep t20ja, eg.when flagged to programm --flagreprogramm ""$timetablefullpath""ll"; 
+#    Layer -1 
+   kill -9 $(ps ax|grep Buildingloggerdemon|grep -v "grep\|watch"|cut -c -6)
+   #bash "$Qemuburo_install_dir""Testsscripts/buildingdamon/Buildingloggerdemon.sh --tmpdir /tmp/qemuburotest/ --samplerate 5.005 --timetoken 1516938449858029610 --every 5000000 --times 1  --testdebug 0 --triggertimeslogs ""$timetablefullpath"" &"
+   Buildingloggerdemonuserconfig="Buildingloggerdemon.userconfig_for_camel.sh"
+   userconfigpath="$Qemuburo_install_dir""Testsscripts/losed/"
+   date>>"$tmpdir""logs"
+   echo "date above">>"$tmpdir""logs"
+   command="bash ""$Qemuburo_install_dir""Testsscripts//buildingdamon/Buildingloggerdemon.sh --tmpdir /tmp/qemuburotest/ --samplerate 5.005 --every 5000000 --times 1 --conffile ""$Buildingloggerdemonuserconfig"" --testdebug 0 --triggertimeslogs ""$timetablefullpath"" --userconfigpath ""$userconfigpath"' &'
+   echo $command >>"$tmpdir""logs"
+   $command&
+      #
+  #echo " bash "$Qemuburo_install_dir"Testsscripts//buildingdamon/Buildingloggerdemon.sh   --tmpdir /tmp/qemuburotest/ --samplerate 5.005 --timetoken 1516948599402985606 --every 5000000 --times 1 --conffile $Buildingloggerdemonuserconfig --testdebug 0 --triggertimeslogs "$timetablefullpath"" --userconfigpath ""$userconfigpath" &" >>"$tmpdir""logs"
+      #
+    # Layer -1 kill: date; ps ax|grep Buildingloggerdemon.sh|grep -v grep;kill $(ps ax|grep Build|cut -c -6)
+   ps ax|grep Buildingloggerdemon.sh|grep -v grep;
    let i1nc1+=1
    echo $inc1>>"$tmpdir"'logs'driver
    #cat logsdriver
    else
       echo "run demonscripte"; 
    fi;
-
-
+#1508875620234121950ΩΩΩmydemogreeterΩdemogreeter4Ω
 
 #Rückfragen und Bewerbungen an
 
