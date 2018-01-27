@@ -1144,7 +1144,7 @@ class qemuburoTestCase(unittest.TestCase):
         filelist=[\
 	    #"doctemp001-p002.tiff",\
 	    #"doctemp001-p002.tiff",\
-	    "doctemp004-p003.tiff"]
+	    "tmp_triggertimes.log"]
         command= "cp -r " + self.testpathressources + "Buildingdemon "+ self.testpath 
                 ##'''
         ##urldq=http://www.gutenberg.org/cache/epub/2000/pg2000.txt
