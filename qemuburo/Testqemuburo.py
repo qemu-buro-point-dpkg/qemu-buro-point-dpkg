@@ -83,13 +83,16 @@ class qemuburoTestCase(unittest.TestCase):
         else:
             #print "cleaning tmp"
             #clean for new test
-            filelist = glob.glob(self.testpath+"*")
-            for f in filelist:
+            #filelist = glob.glob(self.testpath+"*") + glob.glob(self.testpath+"[.]*")
+            #for f in filelist:
                 #print f
-                try:os.remove(f)
-                except:pass
-                try:shutil.rmtree(f)
-                except:pass
+                #try:os.remove(f)
+                #except:pass
+                #try:shutil.rmtree(f)
+                #except:pass
+            shutil.rmtree(self.testpath)
+            os.makedirs(self.testpath)
+
 	
 	from argparse import ArgumentParser
 		
@@ -684,7 +687,7 @@ class qemuburoTestCase(unittest.TestCase):
 		
 	#Oracle:
 	#16804 Mär  9 18:29 tmp_graph_1.eps
-	self.failUnless(os.stat(self.testpath+"/Buildingdemon/a/e.txt").st_size>334)
+	self.failUnless(os.stat(self.testpath+"/Buildingdemon/a/e.txt").st_size>325)
         #self.failUnless(False)
 	#self.failUnless(os.stat(self.testpath+"tmp_first_and_second_beat_hit.test").st_size>9)
         #Test_five_times_every tuesday execute_a_greeter_using_user_greeter_utc_2_hrdf_project_interface_basing_on_a_stampable_time_table
@@ -1169,10 +1172,11 @@ class qemuburoTestCase(unittest.TestCase):
         ##'''
         #u="pwd"
         #print(u)
-        b=""
+        
         #b=" --conffile "+"driver_fdf_in_out_pdf_in_out_foopl.userconfig_donate_for_books_uni_library_chemnitz.sh" 
         #a=" --userconfigpath "+ self.testsscripts +"beantrager/"
         ###conffile="t20ja-flat-stray.userconfig.sh" 
+        b=""
         a=""
         if self.regession!="":
             a=" --userconfigpath "+ str(self.regession)
@@ -1198,11 +1202,155 @@ class qemuburoTestCase(unittest.TestCase):
 
 	
 	#Oracle:
+	#
+	self.failUnless(os.stat(self.testpath+"logs.gallery_has_content").st_size>1)
         self.failUnless(os.stat(self.testpath+"logs.testdaemonup").st_size>300)
 	return
 	self.failUnless(os.stat(self.testpath+"logs").st_size>9)
 	return
     
+
+    def test_robust_camel_rabbit_shop_damon(self):
+	#invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
+	##Population start
+	pass
+        filelist=[\
+	    #"doctemp001-p002.tiff",\
+	    "Buildingloggerdemon.userconfig.sh",\
+	    "tmp_triggertimes.log"] 
+        command= "cp -rf " + self.testpathressources + "confroot/.ttconfig/ " + \
+        self.testpathressources + "voults/ " + \
+        self.testpathressources + "mydemogreeter_releasedirectory20171122/ " + \
+        self.testpathressources + "novhandler/ " + \
+        self.testpath
+            #program timetables                
+        #print("Layer -1 "+command)
+	os.system(command)
+	
+	#import shutil
+	#for f in filelist:
+	    #dst=self.testpath+f #
+	    #src=self.testpathressources+f
+	    ##print dst,src
+	    #shutil.copyfile(src,dst)  
+	###Population end    
+        
+        ########call stiffer test start: in a run time window independing in test programms time need, a stiffer test
+	self.timetoken=1234567890 #seconds from now
+	ratio=40.0 #it is tune a time test window of demon running that we got a eight time slots in a 200 a ms from its samples.
+	timetoken_from_now_offset=13.4/ratio# for python test runtime window #
+	timetoken_from_now_offset2_sec=1 #for to place a ticket from now
+	timetoken_from_now_offset2_ns=1000000000
+        self.samplerate=(0.20/ratio) # +ratio in seconds, in gnu coreutils sleep
+        a=1;b=2.0;c=a/b; 
+        #print(c)
+        #print("Layer -1 + self.samplerate "+str(self.samplerate)+"  c "+str(c))
+	
+	runtime_window=(timetoken_from_now_offset+self.samplerate*1.1) #+15
+        #2,2 s
+	import subprocess
+	nowdateinseconds = subprocess.check_output(['date', "+%s%N"])
+	#os.system('date')
+	
+	self.timetoken=int(nowdateinseconds)+int(timetoken_from_now_offset2_sec*timetoken_from_now_offset2_ns/ratio) #last a second to event
+        #print("Layer -1 nowdatei ns econds"+nowdateinseconds+" timetoken "+str(self.timetoken))
+	self.testdebug="1" #on, huge logs non defaults
+	self.every=int(self.samplerate*1000000000) #frequence intervall, length in ns, here as long as a step is: 1 second, but reclaimed in nano
+	self.times="1" #periods admitted
+	
+	#camel demo
+	self.binarypath=self.testpath+"yournextgnuclihelloprojectdemo.sh"
+	self.galleryroot=self.testpath
+        ## pretiming end
+        b=""
+        a=""
+        if self.regession!="":
+            a=" --userconfigpath "+ str(self.regession)
+            # tbi have it parced "a=bar b=foo; python"
+        #### user last min add end
+        #### open runtime window, by running command start
+        ##command= "bash "+self.testsscripts+"/buildingdamon/Buildingloggerdemon.sh  " +" --tmpdir "+ self.testpath \
+            ##+" --samplerate "+ str(self.samplerate) \
+            ##+" --timetoken "+ str(self.timetoken) \
+            ##+" --every "+ str(self.every) \
+            ##+" --times "+ str(self.times) \
+            ##+" --testdebug "+ str(self.testdebug) \
+            ##+ a +" &"
+        ###print("Layer -1 "+command)
+	###os.system(command)
+	
+	####second command
+	
+	#import shutil
+	#for f in filelist:
+	    #dst=self.testpath+f #
+	    #src=self.testpathressources+f
+	    ##print dst,src
+	    #shutil.copyfile(src,dst)   
+        command="nice -19 bash "+self.testsscripts+"losed/t20ja-flat-stray.sh " + " --tmpdir "+ self.testpath \
+            + " --samplerate "+ str(self.samplerate) \
+            + " --timetoken "+ str(self.timetoken) \
+            + " --every "+ str(self.every) \
+            + " --times "+ str(self.times) \
+            + " --testdebug "+ str(self.testdebug) \
+            + " --galleryroot "+ str(self.galleryroot) \
+            + " --gifts "+ str(self.times) \
+            + " --releasestring "+ str(self.testdebug) \
+            + " --testtimecompressor "+ str(self.galleryroot) \
+            + " --confroot "+ str(self.testpath) + "" \
+            + " --binarycall "+ str(self.binarypath)  + a #+ " 2>&1"
+                #--confroot user shall subject to handlers hardcoded search pattern \
+        
+        print(command)
+	os.system(command)
+
+	
+	##second command end
+	
+	
+	
+	## stiff runtime window waits
+	import time
+	#test runtime window
+        time.sleep(runtime_window)
+        
+        
+#       a nearest sign test finish
+#       file from test simu debug extra output of third eventhttps://stackoverflow.com/questions/21746750/check-and-wait-until-a-file-exists-to-read-it
+#	file_path=""
+	#while not os.path.exists(file_path):
+            #time.sleep(0.01)
+
+	#clean from global process list 
+        command="kill $(ps ax|grep Buildingloggerdemon|cut -c -6)  2>&1" # > /dev/null 2"
+        #print("Layer -1 kill: hhhhhhhhhhhh"+command)
+	os.system(command)
+        
+        ##close runtime window end, by killing the prozess
+        
+        #command= "grep 'a' "+self.testpath+"tmp_triggertimes.log > "+self.testpath+"tmp_first_and_second_beat_hit.test"
+        #print("Layer -1: "+command)
+	#os.system(command)
+	#####call stiffer test emd
+	
+	
+	#Oracle:
+	#16804 Mär  9 18:29 tmp_graph_1.eps
+	#self.failUnless(os.stat(self.testpath+"/Buildingdemon/a/e.txt").st_size>30)
+	#/tmp/qemuburotest/mydemogreeter___collection__20171224:
+        #total 20
+        #drwxrwxr-x  2  4096 Feb 14 00:16 .
+        #-rw-rw-r--  1   82 Feb 14 00:16 theoffer
+	self.failUnless(os.stat(self.testpath+"mydemogreeter___collection__20171224/theoffer").st_size>13)
+	self.failUnless(os.stat(self.testpath+"robusttest.extra.log").st_size>3)
+	#This test checks if the default mainhandler + a 3rd party handler from test timetable, deepest points in stack, are passed 
+        #self.failUnless(False)
+	#self.failUnless(os.stat(self.testpath+"tmp_first_and_second_beat_hit.test").st_size>9)
+        #Test_five_times_every tuesday execute_a_greeter_using_user_greeter_utc_2_hrdf_project_interface_basing_on_a_stampable_time_table
+	##Test_go_once_a_year_fill_the_# implement frequency and phase offset, in table as postfix
+	self.failUnless(os.stat(self.testpath+".ttconfig/tmp_triggertimes.log").st_size>45)
+	return
+
     def test_sophokles_hello(self):
 	#invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
 	pass
@@ -1290,6 +1438,101 @@ class qemuburoTestCase(unittest.TestCase):
 	    #print dst,src
 	    shutil.copyfile(src,dst)   
         command= "bash "+self.testsscripts+"yournextgnuclihelloprojectdemo.sh  " +" --tmpdir "+ self.testpath 
+        print(command)
+	os.system(command)
+	
+	#Oracle:
+	self.failUnless(os.stat(self.testpath+"logs").st_size>91)
+	return
+
+    def test_sophokles_hello(self):
+	#invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
+	pass
+        filelist=[\
+	    #"doctemp001-p002.tiff",\
+	    #"doctemp001-p002.tiff",\
+	    "doctemp004-p003.tiff"]
+        command= "cp -r " + self.testpathressources + "Buildingdemon "+ self.testpath 
+                ##'''
+        ##urldq=http://www.gutenberg.org/cache/epub/2000/pg2000.txt
+        ##wget -cq -O- $urldq|tee 2|grep -C5 -a  Capit
+
+        ##let n=0
+        ##let abase=1000
+        ##let bbase=1000
+        ##let incrementor=5 #lines
+        ##mkdir -p {a,b}/{e,f,g}/{h,i,j}
+        ##find a/ -name "**" -type d|tee 1
+        ##for i in `cat 1`; 
+            ##do let n+=1; 
+            ##let abase=bbase
+            ##let bbase=abase+incrementor
+            ##s=`cat 2|sed -n "$abase,$bbase"p`
+            
+            ##echo "$s">$i.txt; 
+            ##echo "sinabase      "$s"  "$i" "$n" "$abase; 
+        ##done
+
+        ##'''
+        #u="pwd"
+        #print(u)
+        print(command)
+	os.system(command)
+	import shutil
+	for f in filelist:
+	    dst=self.testpath+f #
+	    src=self.testpathressources+f
+	    #print dst,src
+	    shutil.copyfile(src,dst)   
+        command= "bash "+self.testsscripts+"yournextgnuclihelloprojectdemo.sh  " +" --tmpdir "+ self.testpath 
+        print(command)
+	os.system(command)
+	
+	#Oracle:
+	self.failUnless(os.stat(self.testpath+"logs").st_size>1)
+	return
+
+    def test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example(self):
+	#invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
+	pass
+        filelist=[\
+	    #"doctemp001-p002.tiff",\
+	    #"doctemp001-p002.tiff",\
+	    "doctemp004-p003.tiff"]
+        command= "cp -r " + self.testpathressources + "Buildingdemon "+ self.testpath 
+                ##'''
+        ##urldq=http://www.gutenberg.org/cache/epub/2000/pg2000.txt
+        ##wget -cq -O- $urldq|tee 2|grep -C5 -a  Capit
+
+        ##let n=0
+        ##let abase=1000
+        ##let bbase=1000
+        ##let incrementor=5 #lines
+        ##mkdir -p {a,b}/{e,f,g}/{h,i,j}
+        ##find a/ -name "**" -type d|tee 1
+        ##for i in `cat 1`; 
+            ##do let n+=1; 
+            ##let abase=bbase
+            ##let bbase=abase+incrementor
+            ##s=`cat 2|sed -n "$abase,$bbase"p`
+            
+            ##echo "$s">$i.txt; 
+            ##echo "sinabase      "$s"  "$i" "$n" "$abase; 
+        ##done
+
+        ##'''
+        #u="pwd"
+        #print(u)
+        #print(command)
+	os.system(command)
+	import shutil
+	for f in filelist:
+	    dst=self.testpath+f #
+	    src=self.testpathressources+f
+	    #print dst,src
+	    shutil.copyfile(src,dst)   
+        #command tested with given, nongiven and no releasedirs
+        command= "bash "+self.testsscripts+"yournextgnuclihelloprojectdemo.sh  " +" --tmpdir "+ self.testpath +" --releasedirs "+ "Buildingdemon\|foo\|§%"
         print(command)
 	os.system(command)
 	

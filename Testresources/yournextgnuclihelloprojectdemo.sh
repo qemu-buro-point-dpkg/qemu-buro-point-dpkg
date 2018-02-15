@@ -96,7 +96,7 @@ inc=0
 for toenter_or_tocreate in ${releasedirs//\|/ }; 
 do
     toenter_or_tocreate=${toenter_or_tocreate/§\%/} #??: This is the trick to run the code passage just once as if nothing, when not in releasedir mode, there might be cleaner solution though, ..${toenter_or_tocreate/§\%/} is void, so it acts on the tempdir as if nothing within brackets.
-    nottocreate=$(find $originaltmpdir |grep "$toenter_or_tocreate"|wc -l)
+    nottocreate=$(find . |grep "$toenter_or_tocreate"|wc -l)
     tmpdir="$originaltmpdir""$toenter_or_tocreate""/" 
     if [ "$nottocreate" == "0" ];  #|| [ "$toenter_or_tocreate" != "" ]; 
     then 
@@ -104,7 +104,7 @@ do
         mkdir $tmpdir
         cd $tmpdir 
     else
-        echo "not create and enter " >> "$logs"; 
+        echo "not create and enter ""$nottocreate" >> "$logs"; 
         cd $tmpdir 
     fi;
     
@@ -113,7 +113,7 @@ a="1 2 3";for i in $a; do if [ 1 -lt "$i" ] && [ "2" == "$i" ]; then echo "huhu"
 
 #tbi 
 let nrand=$RANDOM/5000
-fp_production_vaults=( ${fp_production_vaults//\|/" "/} )
+
 cat ${fp_production_vaults[$inc]}|tail -$nrand >>"$tmpdir""output1"".txt"
 let inc=+1
 # for i in $fp_production_vaults; do cat $i|tail -$nrand >>"$tmpdir""output1"".txt"; done;
@@ -124,24 +124,9 @@ echo -e "$(date)"" reportoutput">>"$tmpdir""report"".txt"
 echo -e "$(date)"" secondoutput">>"$tmpdir""output2"".txt"
 echo -e "" >>file
 echo tmpdir$tmpdir releasedirs$releasedirs toenter_or_tocreate $toenter_or_tocreate stage1batchmode$stage1batchmode Slot$Slot startstage$startstage >> "$logs"
-#Building stage 10
-#qa time
-#is output a good file? with more than a 13 might be.
-outputfile="$tmpdir""output1"".txt"
-reportfile="$tmpdir""report"".txt"
 
-# a bash builin in
-linenumber=$(cat $outputfile|wc -c)
-leastlinesboarder=13
-if [ "$linenumber" -gt $leastlinesboarder ]; then
-    line="file is not empty:ok"
-    echo "$line">>$reportfile
-else
-    echo ${line/"not"//}>>$reportfile
-fi
 done
-#Building stage 10 end
 
-#declare -p|grep "\-\-"|grep "[a-z].*"
+declare -p|grep "\-\-"|grep "[a-z].*"
 
 

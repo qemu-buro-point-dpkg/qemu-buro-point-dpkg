@@ -2,6 +2,7 @@
 #Function: this is another daemon for building purposes
 # It issues handled events, such as text print out on screen, in time stamping manner.
 
+
 #### two converter functions:
 utc_ns2hrdf_ns () {
 #date +%Y%m%d%H%S%N--%u-%V # hrdf human readable date format of a now
@@ -41,7 +42,7 @@ echo $converted_utc_ns;
 }
 
 # ticket_hrdf="20171024220700234152195"
-# converted_utc_ns=hrdf_ns2utc_ns $ticket_hrdf
+# converted_utc_ns=$(hrdf_ns2utc_ns $ticket_hrdf)
 # echo "converted_utc_ns:" $converted_utc_ns
 # #########
 
@@ -49,12 +50,12 @@ echo $converted_utc_ns;
 # a "handler" function: functional demo
 demogreeter () {
 demo=$1; 
-    echo "Layer 5 buildinhandler1 Hello "$demo
+    echo "Layer 5 buildin-handler1 demogreeter ${FUNCNAME[*]} Hello "$demo>>/dev/null
 return; }
 # another "handler" function: needed for tests
 demogreeter1 () {
     demo=$1; 
-    echo "Layer 5 buildinhandler2 Hello "$demo
+    echo "Layer 5 buildin-handler2 demogreeter1 ${FUNCNAME[0]} Hello "$demo
 return; }
 
 
@@ -66,14 +67,24 @@ logs="logs" #
 sample_run_counter=0
 tmpdir="/tmp/qemuburotest/" #path for temporary and out put data?
 mkdir "/tmp/qemuburotest" 2>/dev/null
+comment="demogreeter0"
 
-timetoken="150887562023415219500"
+timetoken="1508875666234152195"
+#hrdftimetoken of it 
+sectonanoconverter="000000000"
+utc_ns_timetoken="$timetoken""$sectonanoconverter"
+
+hrdf_ns_timetoken=$(utc_ns2hrdf_ns $utc_ns_timetoken)
+#echo "hrdf_ns_timetoken=utc_ns2hrdf_ns \$utc_ns_timetoken"
+
+comment+="-""${hrdf_ns_timetoken:2:12}""-"
+
 samplerate=1 # seconds sleeping between firing (sleep builtin)
 
 triggertimeslogs="tmp_triggertimes.log" # file name of (future) events list 
 
 functionname="demogreeter"
-comment="demogreeter0"
+
 
 execution_stamp_prefix="a"$sample_run_counter"a" # to use a timetable and a program data base alike
 execution_stamp_postfix="Ω"$every_offset_ns"Ω"$times1"Ω"$functionname"Ω"$comment"Ω" # 
@@ -188,7 +199,7 @@ done
 cd $tmpdir
 #userconfigpath=$userconfigpath" "$userconfigpath
   for a in $userconfigpath;
-      do time test -f $a$conffile && source $a$conffile $tmpdir
+      do test -f $a$conffile && source $a$conffile $tmpdir
   done 
 #source /tmp/qemuburotest/Buildingloggerdemon.userconfig.sh 
 #echo "Layer 0 sample_run_counter userconfigpath "
@@ -200,7 +211,8 @@ cd $tmpdir
 #initialize db databas with options and timetoken
 #echo "Layer 0 sample_run_counter $sample_run_counter before "$(cat $triggertimeslogs) |tr " " "\n"
 execution_stamp_postfix="Ω"$every_offset_ns"Ω"$times1"Ω"$functionname"Ω"$comment"Ω" #"Iamanoption"
-echo "echo "$timetoken""$execution_stamp_postfix">>$triggertimeslogs"
+
+#echo "echo "$timetoken""$execution_stamp_postfix">>$triggertimeslogs"
 echo "$timetoken""$execution_stamp_postfix">>$triggertimeslogs
 sort -n $triggertimeslogs>tmp.1
 mv tmp.1 $triggertimeslogs
