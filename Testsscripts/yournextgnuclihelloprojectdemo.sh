@@ -108,36 +108,38 @@ do
         cd $tmpdir 
     fi;
     
-#a template code start: array, for and if
-a="1 2 3";for i in $a; do if [ 1 -lt "$i" ] && [ "2" == "$i" ]; then echo "huhu">/dev/null;fi; done;
+    #a template code start: array, for and if
+    a="1 2 3";for i in $a; do if [ 1 -lt "$i" ] && [ "2" == "$i" ]; then echo "huhu">/dev/null;fi; done;
 
-#tbi 
-let nrand=$RANDOM/5000
-fp_production_vaults=( ${fp_production_vaults//\|/" "/} )
-cat ${fp_production_vaults[$inc]}|tail -$nrand >>"$tmpdir""output1"".txt"
-let inc=+1
-# for i in $fp_production_vaults; do cat $i|tail -$nrand >>"$tmpdir""output1"".txt"; done;
+    let nrand=$RANDOM/1000
+    fp_production_vaults=( ${fp_production_vaults//\|/" "/} )
 
-#tbi# random cdf windowappended, from voult, no?
-echo -e "$(date)"" firstoutput">>"$tmpdir""output1"".txt"
-echo -e "$(date)"" reportoutput">>"$tmpdir""report"".txt"
-echo -e "$(date)"" secondoutput">>"$tmpdir""output2"".txt"
-echo -e "" >>file
-echo tmpdir$tmpdir releasedirs$releasedirs toenter_or_tocreate $toenter_or_tocreate stage1batchmode$stage1batchmode Slot$Slot startstage$startstage >> "$logs"
-#Building stage 10
-#qa time
-#is output a good file? with more than a 13 might be.
-outputfile="$tmpdir""output1"".txt"
-reportfile="$tmpdir""report"".txt"
+    a=$(cat ${fp_production_vaults[$inc]}) 
+    let inc=+1
+    a1=${a:$nand:$nrand}
+    echo " ""${a:$nand:$nrand}" >>"$tmpdir""output1"".txt"
 
-# a bash builin in
-linenumber=$(cat $outputfile|wc -c)
-leastlinesboarder=13
-if [ "$linenumber" -gt $leastlinesboarder ]; then
-    line="file is not empty:ok"
-    echo "$line">>$reportfile
-else
-    echo ${line/"not"//}>>$reportfile
+    echo -e "$(date)"" firstoutput">>"$tmpdir""output1"".txt"
+    echo -e "$(date)"" reportoutput">>"$tmpdir""report"".txt"
+    echo -e "$(date)"" secondoutput">>"$tmpdir""output2"".txt"
+    echo -e "" >>file
+
+    echo tmpdir$tmpdir releasedirs$releasedirs toenter_or_tocreate $toenter_or_tocreate stage1batchmode$stage1batchmode Slot$Slot startstage$startstage >> "$logs"
+
+    #Building stage 10
+    #qa time
+    #is output a good file? with more than a 13 might be.
+    outputfile="$tmpdir""output1"".txt"
+    reportfile="$tmpdir""report"".txt"
+
+    # a bash builin in
+    linenumber=$(cat $outputfile|wc -c)
+    leastlinesboarder=13
+    if [ "$linenumber" -gt $leastlinesboarder ]; then
+        line="file is not empty:ok"
+        echo "$line">>$reportfile
+    else
+        echo ${line/"not"//}>>$reportfile
 fi
 done
 #Building stage 10 end

@@ -1,21 +1,35 @@
-userinfo:  t20ja-flat-stray a demonwrapper as for servicing a gallary of products.
+userinfo:  t20ja-flat-stray a daemonwrapper as for servicing a gallary of products.
 
 #Installinstruction: 1. : execute this line at commandline or have it in .bashrc!
 export Qemuburo_install_dir=/home/...
-#2. to keep damon running for this tool, inject code in bashrc
+(#2. to keep damon running for this tool, inject code in bashrc
 echo a=$a>>$HOME/.bashrc
-echo 'cd $Qemuburo_install_dir"qemuburo/"; Regression=$a   python -m unittest Testqemuburo.qemuburoTestCase.test_t20jaflatstray'>> $HOME/.bashrc
+echo 'cd $Qemuburo_install_dir"qemuburo/"; Regression=$a   python -m unittest Testqemuburo.qemuburoTestCase.test_t20jaflatstray'>> $HOME/.bashrc)
 
-FAQ: Where to a daemon handler: $HOME/ttcookie.script*
+FAQ1: Where to a daemon handler: $HOME/ttcookie.script*
+FAQ2: what is it: extract from the tested tool's feature list:
+Fun='
+1. #-aka "robust daemon shop": for arbitrary building functions #-aka a “medical tool”: in a field, where human spirit touches social world entities, such as "shop".
+compare quote: https://www.gnu.org/software/coreutils/manual/html_node/Date-input-formats.html
+#- a "camel rabbit" symptom simulator for preventing happening of “pseudo-activity”
+2. #- Feature: To a help a maybe superstitious  behavioural
+3.  mechanism: activity such as set to do for the upcoming 3 months (or minutes) to care for the upcoming 3 month, each month renewed. 
+4. #-snapping_stampupdating_respecting_user_contribution to use case
+5. #-organize maintaining a that any what ever function demos "into" a "1000 and 1 Nights"-Series-Galleries 
+6. #-registering "handler" function capable 
+7. #- for habitual usage just skip the shop windowing scheme 
+8. #-robust: This is an organ, that is, it is grows from grass play area effort, seen to help when in ordinary, "shops" urges, and published rather btw, thus tested for robustness arguably 
+'
+
+
 
 You will hold a in ttcookie=$HOME"/ttcookie" 
 For these releases of engine read testlogs as usage instruction.
 
 
-Testlogs:
-:$ cd $Qemuburo_install_dir"qemuburo/";  Regression=$a  python -m unittest Testqemuburo.qemuburoTestCase.test_t20jaflatstray  #2>&1 
+cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_robust_camel_rabbit_shop_damon #  |grep dirs1 #2>&1 
 .
 ----------------------------------------------------------------------
-Ran 1 test in 0.110s
+Ran 1 test in 0.799s
 
-O
+OK

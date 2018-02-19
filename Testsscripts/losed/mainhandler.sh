@@ -107,7 +107,7 @@ let secondsdurationsofintervall=$fouryearsseconds/$chapters
 vaultsdir="voults/" #hopefully ordered accourding to shop's sequencing scheme
 fpvaultsdir="$tmpdir""$vaultsdir"
 dirname_str="_releasedirectory"
-ttentries_future="ttpls ttpls1 ttentrypls2"
+ttentries_future="tt ttp ttentryp"
 current_time_table_entries_utc_trigger_time="1508875620234121950"
 
 ttentries="" #found ttentries of shop
@@ -324,21 +324,19 @@ done
 future_shop_tt_stamps=""
 for i in $utc_future_datestamps_presnap; do
     # tbi :date -uct %t? or function hzui?
-    future_shop_tt_oddhumandate=171024220700
+    i1=$(utc_ns2hrdf_ns $i)
+    future_shop_tt_oddhumandate=${i1:2:12}  #171024220700
     future_shop_tt_comment="$mydemog""4-""$future_shop_tt_oddhumandate""-""Ω"
     future_shop_tt_ticket="$i""ΩΩΩ""$mydemog""Ω""$future_shop_tt_comment"
     future_shop_tt_stamps+=" ""$future_shop_tt_ticket"
 done
-
+#declare -p | grep "future_shop_tt_"
 ##Generation of the future tt entrys off
 
 ##voults start
 #source datestamps of voults
 presnap_voults_name_date=$datestamps_presnap
 
-#tbi echo "uuuuuuuuuahhhhurgh"> $fpvaultsdir"/anotherofthisvault20171100.txtfor test tbi: 2unittest_ok
-echo "uuuuuuuuuahhhhurgh"> $fpvaultsdir"/anotherofthisvault20171100.txt"
-echo "uahiaaaaiiiiiihhhhhargh"> $fpvaultsdir"/athisvault20171224"
 
 found_voults_names=$(find $fpvaultsdir -maxdepth 1 -name "*[a-z]*" -type f|tr "\n" " ")
 
@@ -402,6 +400,9 @@ done
 #corsett of
 ##voults off
 #declare -p|grep "\-\-"|grep "vault\|voult" #\|gallery"
+
+
+##-gallery on
 gallery_source_dirs="$nextreleasedirs"
 
 # presmear defaults policy,Generate 8 numbers pattern for presnapping: policy 4
@@ -415,13 +416,19 @@ gallery_preceding_space_of_time_eigth_char_date=$(date -d @"$gallery_utcsec" +%Y
 
 gallery_presnap_eightchardatedays="$gallery_preceding_space_of_time_eigth_char_date"" """"$datestamps_presnap"
 
+relativedate=(passed-month this-month next-month after-next-month)
 
+inc=0
 for eightchardateday in $gallery_presnap_eightchardatedays; do  
     originalname=$mydemog
     presnapped_relativedate="upcoming" 
-    customsmearstamp="$relativedate""_collection"
+    #echo "${relativedate[inc]}"
+    relativedate1="${relativedate[inc]}"
+    #relativedate1=""
+    customsmearstamp="$relativedate1""_collection"
+    let inc+=1
     gallery_dir=" ""$galleryroot""$originalname"__"$customsmearstamp""__""$eightchardateday""/"
-    gallery_fp_target_dirs+=$gallery_dir
+    gallery_fp_presmear_target_dirs+=$gallery_dir
     gallery_fp_target_cherryfilename1s+=" ""$gallery_dir""theoffer"
     gallery_fp_target_cherryfilename2s+=" ""$gallery_dir""productionreport.txt"
     gallery_fp_target_cherryfilename3s+=" ""$gallery_dir""1.txt"
@@ -434,6 +441,37 @@ for i in $gallery_source_dirs; do
 done
 
 # there is no snapping in gallerying
+##to put apart before cleaning 
+#last this-month gallery dir 
+fp_galery_found_ante_galery_dir=$(find $galleryroot|grep -e "${relativedate[1]}"|head -1)
+
+#transform to array, then put 1 element to input slot
+gallery_fp_presmear_target_dirs1=($gallery_fp_presmear_target_dirs)
+fp_galery_presmear_ante_dir=${gallery_fp_presmear_target_dirs1[0]}
+
+##to collect dirs for cleaning 
+#prepare a grep string for command below
+galerie_presmear_greprm=9797233g
+for i in ${relativedate[@]:1}; do
+    galerie_presmear_greprm+="\|""$i"
+done
+
+#removearray generation
+fp_found_galary_presmear_to_remove_outdated_dirs=$(find $galleryroot -maxdepth 1|grep -e "$galerie_presmear_greprm"|tr "\n" " ")
+
+#end presmearing
+gallery_fp_target_dirs=$gallery_fp_presmear_target_dirs
+
+#convert to array at last, too
+gallery_fp_target_dirs1=($gallery_fp_target_dirs)
+gallery_fp_target_cherryfilename3s1=($gallery_fp_target_cherryfilename3s)
+gallery_fp_target_cherryfilename2s1=($gallery_fp_target_cherryfilename2s)
+gallery_fp_target_cherryfilename1s1=($gallery_fp_target_cherryfilename1s)
+gallery_fp_source_filename1s1=($gallery_fp_source_filename1s)
+gallery_fp_source_filename2s1=($gallery_fp_source_filename2s)
+gallery_fp_source_filename3s1=($gallery_fp_source_filename3s)
+
+##-gallery off
 
 #hoursoccultism off
 
@@ -452,8 +490,10 @@ nextreleasedirs=${nextreleasedirs//" "/"|"}
 fp_production_vaults=${fp_production_vaults//" "/"|"}
 
 #tbi prerelease work bow pointer to pathb="Testresources/" production_command1
-pathb="Testresources/"
-patha="Testsscripts/"
+patha="Testresources/"
+#patha="Testsscripts/"
+
+
 production_command1="bash "$Qemuburo_install_dir""$patha""$exe" --releasedirs ""$nextreleasedirs"" --fp_production_vaults ""$fp_production_vaults"
 
 echo $production_command1>>$outpath$logs
@@ -475,23 +515,20 @@ done
 
 ##tt 4 shop incs:
 
-#gallery fill
-gallery_fp_target_dirs1=($gallery_fp_target_dirs)
-gallery_fp_target_cherryfilename3s1=($gallery_fp_target_cherryfilename3s)
-gallery_fp_target_cherryfilename2s1=($gallery_fp_target_cherryfilename2s)
-gallery_fp_target_cherryfilename1s1=($gallery_fp_target_cherryfilename1s)
-gallery_fp_source_filename1s1=($gallery_fp_source_filename1s)
-gallery_fp_source_filename2s1=($gallery_fp_source_filename2s)
-gallery_fp_source_filename3s1=($gallery_fp_source_filename3s)
+#gallery maintainance: save new to oldest,
+mv $fp_galery_found_ante_galery_dir $fp_galery_presmear_ante_dir 2>/dev/null
+#clean advertized stuff now
+rm -r $fp_found_galary_presmear_to_remove_outdated_dirs 2>/dev/null
 
 
+#load new gallery update from production
 inc=0
 for i in $gallery_source_dirs; do
 let inc+=1
 mkdir ${gallery_fp_target_dirs1[$inc]} 2>/dev/null
 let inc0=$inc-1
 #declare -- gallery_fp_target_cherryfilename3s=" /tmp/qemuburotest/mydemogreeter___collection__20180223/1.txt"
-#bug
+
 cp -f ${gallery_fp_source_filename1s1[$inc0]} ${gallery_fp_target_cherryfilename1s1[$inc]}
 cp -f ${gallery_fp_source_filename2s1[$inc0]} ${gallery_fp_target_cherryfilename2s1[$inc]}
 cp -f ${gallery_fp_source_filename3s1[$inc0]} ${gallery_fp_target_cherryfilename3s1[$inc]}
