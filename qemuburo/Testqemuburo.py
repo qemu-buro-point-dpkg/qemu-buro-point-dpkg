@@ -1268,7 +1268,7 @@ class qemuburoTestCase(unittest.TestCase):
             + " --confroot "+ str(self.testpath) + "" \
             + " --binarycall "+ str(self.binarypath)  + a 
         
-        print(command)
+        #print(command)
 	os.system(command)
 	##second command end
 	## stiff runtime window waits
