@@ -1266,7 +1266,7 @@ class qemuburoTestCase(unittest.TestCase):
             + " --releasestring "+ str(self.testdebug) \
             + " --testtimecompressor "+ str(self.galleryroot) \
             + " --confroot "+ str(self.testpath) + "" \
-            + " --binarycall "+ str(self.binarypath)  + a 
+            + a 
         
         #print(command)
 	os.system(command)

@@ -1,6 +1,3 @@
-# source /home/githubqemuburo/github_qemuburo/Testresources/novhandler/Buildingloggerdemon.userconfig_novsedcamel.sh
-# #source /tmp/qemuburotest/a.sh; 
-
 
 #db read at start, a policy
 confroots="$Qemuburo_install_dir ""/tmp/qemuburotest/ ""$HOME/ ""$private_of_qemu ";
@@ -8,7 +5,7 @@ ramsh1=""
 for confroot1 in $confroots; 
 do 
 ramsh="$confroot1"".ttconfig/tmpini.sh"; 
-#echo "Rem"rampsh:$ramsh;
+
 [ -f "$ramsh" ] && ramsh1=$ramsh; 
 done;
 . "$ramsh1";
@@ -73,7 +70,7 @@ mydemogreeter () {
 # defunct? bug?
 
 echo -e \
-"Programmname ""$(basename $0)" \
+"Programmname1 ""$(basename $0)" \
 "#### FUNCNAME ""#""${FUNCNAME[*]}" \
 >>"$tmpdir""logs"
 

@@ -50,6 +50,8 @@ echo $converted_utc_ns;
 tmpdir="/tmp/qemuburotest/"
 ns="000000000"
 timetablefullpath="" #just a default for test
+mydemog="mydemogreeter" 
+#main token off a client mydemogreeter_releasedirectory150313
 
 #db read at start, a policy
 confroots="$Qemuburo_install_dir ""/tmp/qemuburotest/ ""$HOME/ ""$private_of_qemu ";
@@ -72,7 +74,6 @@ echo -e \
 outpath="/tmp/qemuburotest/"
 logs="logs"
 
-mydemog="mydemogreeter" #mydemogreeter_releasedirectory150313
 exe="yournextgnuclihelloprojectdemo.sh"
 datestamps_presnap="150323 150424 150525"
 datestamps="" #prepared to stamp tt
@@ -400,8 +401,10 @@ done
 #corsett of
 ##voults off
 #declare -p|grep "\-\-"|grep "vault\|voult" #\|gallery"
+##
+#tbi binary parameter voult if existant
 
-
+##
 ##-gallery on
 gallery_source_dirs="$nextreleasedirs"
 
@@ -473,6 +476,8 @@ gallery_fp_source_filename3s1=($gallery_fp_source_filename3s)
 
 ##-gallery off
 
+
+
 #hoursoccultism off
 
 
@@ -492,9 +497,14 @@ fp_production_vaults=${fp_production_vaults//" "/"|"}
 #tbi prerelease work bow pointer to pathb="Testresources/" production_command1
 patha="Testresources/"
 #patha="Testsscripts/"
+#fpexe="$Qemuburo_install_dir""$patha""$exe"
+[ "" == "$binarycall" ] && binarycall="$Qemuburo_install_dir""$patha""$exe"
 
+#production_command1="bash ""$Qemuburo_install_dir""$patha""$exe"" --releasedirs ""$nextreleasedirs"" --fp_production_vaults ""$fp_production_vaults"
 
-production_command1="bash "$Qemuburo_install_dir""$patha""$exe" --releasedirs ""$nextreleasedirs"" --fp_production_vaults ""$fp_production_vaults"
+production_command1="bash ""$binarycall"" --releasedirs ""$nextreleasedirs"" --fp_production_vaults ""$fp_production_vaults"
+#echo "fff""$binarycall""ddddd ""$production_command1"
+
 
 echo $production_command1>>$outpath$logs
 nic="nice -19"

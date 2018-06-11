@@ -86,7 +86,7 @@ for a in $userconfigpath;
 done 
 
 #we fill the logs of a def test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example(self):
-
+#Builidungstage one 
 cd $tmpdir 
 logs=$tmpdir"logs"
 originaltmpdir=$tmpdir
@@ -107,7 +107,8 @@ do
         echo "not create and enter " >> "$logs"; 
         cd $tmpdir 
     fi;
-    
+#Builidungstage one end
+
     #a template code start: array, for and if
     a="1 2 3";for i in $a; do if [ 1 -lt "$i" ] && [ "2" == "$i" ]; then echo "huhu">/dev/null;fi; done;
 
