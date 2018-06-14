@@ -1,0 +1,93 @@
+﻿
+
+Table of Contents
+1Funktioalität:	1
+2intuitive Umweltenanalyse	2
+2.1Desintgrationsphänomen:	2
+2.2Grund-Probleme und Lösungsstrategie:	2
+3PR Analyse	2
+3.1Gewinner	2
+3.2Verlierer	2
+4Rechtliche Analyse:	3
+5Was ist Stand der Bemühungen?	3
+5.1Was benötigt jetzt wird?	3
+
+
+Keynotes 6.2018, Autobewerber und Autoantrag aus dem Program qemuburo:
+Leserzielgruppe: Potentielle Unterstützer und politisch Interessierte auch ohne ausgeprägten software-technischen Hintergrund.
+1 Funktionalität:
+Was soll das Programm tun?
+Alles „Jobcenterwork“ des ALGII Empfängers bis auf den Letzten Click -sonst erstmal auf den vorletzten, intelligent genug, solidarisch mit dem ALGII-Empfänger – automatisieren, unter Verwendung von freien Softwarebibliotheken am Vorbild anderer gängiger Freier Software Projekt, Beispiel Pars pro Toto: Debian.
+Automatisch authentische ALGII, SGBII fähige Bewerbungen mit allen authentischen Datumsstempeln  erstellen
+Automatisch die entsprechenden Daten von den Webseiten beziehen, so nötig mit automatischen Mousesimulationen, als ob eine Person dransäße
+Automatisch aus gefilterten Daten die pro Zeitraum nötigen Bewerbungen (10/Monat) erstellen und vorrätig halten.
+Vorschriftsgemäße Versendung der Dokumente per Email. (Verunglimpfung als ordinäres Spamtool, Kommunikationsaufwand.)
+Die dazugehörigen Nachweise in Tabellenform etc.
+Automatisches Ausfüllen der Formulare
+zu erwartender gegnerischer Detektion und technischer Vereitelung entkommen
+zu erwartender Vereitelung durch galoppierende Vorschriftenveränderung, -ausfächerung aufwandsmäßig standzuhalten
+
+2 intuitive Umweltenanalyse
+2.1 Desintgrationsphänomen:
+ -Hacktisten sind nachweislich fähig: Stadtpläne für Flüchtling, Hilfe in der Lebensrealität der Jobcenteranwendung: Fehlanzeige
+-Jobcenteraktivisten sind fähig: Vielzahl von qualifizierten ALGII Beratungsstunden, Aber: Hilfe in der Lebensrealität Jobcentersoftware: Fehlanzeige
+
+2.2 Grund-Probleme und Lösungsstrategie: 
+Vergleiche Anmerkung drei aus dem Gui Tutorial, dort:
+„Anm. 3. Das hier konfrontierte Dilemma besteht ja darin, dass jede lustig daherkommende Reibungslosigkeit im realexistierenden, menschenverachtenden Bestrafungssystem mittel-frißt-ich eine schlimmste Anhebung der Zumutbarkeit zeitigt.“ Bedingung und Anspruch der Kunst besteht erstmal darin, ersteres zu ermöglichen und letzteres tunlichst auszuschließen und gleichzeitig zu behindern. 
+Strategisches Ziel des Zuvorkommens: Ganz gleich wie hoch der Schikaneaufwand gestellt wird, unsere Simulationsagenten  reduzieren ihn auf gerade Null. Ein gegenseitiger Aufrüstungswettlauf muss gewonnen werden und gewonnen werden wollen.
+
+Zu „Lebensrealität“: Der Film Ich-Daniel-Blake informiert nicht bloß, sondern macht  minutenüberwachte, softwarebasierte, sinnentleerte Frondienste gegenüber der Gegenseite bereits  künstlerisch verarbeitet fühlbar. 
+Es zeigt sich: Der Gedanke der softwarebasierten Gegenausrüstung ist so unterbunden wie unterentwickelt wie nicht vorhanden, was in Sachen Denken und Kommunikation zu erarbeiten wäre. (Befund einer Kapitualtion, die überwunden gehört.)
+
+3 PR Analyse
+Massenmarkt
+Industrielle Dimension: Produktion und Rechts-Softwarepflegeleistung im Massenmarkt
+
+3.1 Gewinner
+Zig Millionen Arbeitslose
+Zig Millionen von Arbeitslosigkeit bedrohter
+
+3.2 Verlierer
+konkurrierende Buro-Softwarehersteller, branche, low budget bis crippleware niedrigstes Marktsegment
+Anbieter, Betreiber, Auftraggeber von allgemeiner Überwachungsstaatkräfte durch veränderte Situation
+Anbieter, Betreiber, Auftraggeber von Überwachung von Arbeitsplätzenkräften, 
+(denn jetzt kann das sich per Mouse-Simulation-sich-der-Überwachung-entziehen bald jeder, wenn schon dafür gesorgt ist, dass es ALGII-Empfänger können. Und so gibt es mittelfristig Verlierer oder wenigstens solche die sich so fühlen)
+Gegner: notorisch unaufgeklärte Arbeitslosen-Hetzer, aufgehetzten Asozialen-Hetzer in der Gesellschaft
+
+Gegner: historische Spamgegner in der Computerwelt
+
+4 Rechtliche Analyse:
+Kurze Antwort: Wir sind im Recht.
+Wir bleiben im Recht, selbst wenn wir in Unterzahl kommen. Widerstand, Existenzminimum sind Bestandteile der Menschenwürde, so definiert in der Metaphysik der Sitten nach Kant. 
+Die so gefasste Menschenwürde ist mit hohem Stellenwert und  Ewigkeitsgarantie, d.h. demokratisch nicht zu ändern, im Grundgesetz verankert. 
+Man könnte sich auch mit gleichem Ziel auf die verbindlichen Menschenrechte berufen.  
+Wir stehen in der Tradition dieser alten Dialektik pro und contra, und das sollte schaden nicht zu erkennen:sogar einer uralten. 
+
+5 Was ist Stand der Bemühungen?
+-Prototyp liegt vor oder „prove of concept“ oder Demoversion. Angestrebt ist ein „community driven free software project“, „state of the art“/“feature complete“
+
+-Pionier Phase: Befinden uns in einer Art „Sperrspitzen“-Situation so man eine mittelfristige Entwicklung zur Lösung antizipiert: Vergleichsweise „sehr früh“ aktiv, vergleichsweise „sehr hart“, bestimmt oder entschlossen dagegen.  
+
+
+5.1 Was benötigt jetzt wird?
+In der jetzigen Phase. 
+(Nicht  software-technische, sogenannte high-level) Langzeit-Planungsarbeit. 
+Entwicklung einer Öffentlichkeitsstrategie 
+und Szenarien 
+(Darunter: Ist das bloß In-Aussichtstehen bzw. -stellen der Realisierung schon Mittel genug für „zu hochwillkommenes“ gegnerisches einstweilig-den-Anlass-weg-nehmen  der Sanktionspraxis)
+
+Kommunikation des Konzepts an (nicht technische) relevante Laien, 
+Information, Bewerbung und strategische Einbindung in den internationalen Communities. Finanzierung. Förderung, Unterstützung, Partner. 
+Management und Kommunikation bei Freund, Gegner und Öffentlichkeit. 
+Präsentation, Ansprache und Ansprechpartner sein. 
+
+Ein vernunftsgemäßes Politisches Handling eines zig-Jahre-zig-Millionen-Menschen-Dings-Business-Plans. 
+Vernunftsgemäß: robustes Sicherheitkonzept aller Beteiligten im frühen Stadium gewünscht (Vorgeschlagen wird hier eine kunsttheoretischer Betrachtung anhand der Figuren: 1. Oddyseus 2. Jesus 3. Zauberlehrling) 
+
+Gez.
+Der Founder
+Der Keynotemanager
+
+Dokument im frühen Designstatus: Verbesserungsvorschläge gewünscht.
+
