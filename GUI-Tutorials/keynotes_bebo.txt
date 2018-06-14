@@ -17,6 +17,7 @@ Keynotes 6.2018, Autobewerber und Autoantrag aus dem Program qemuburo:
 Leserzielgruppe: Potentielle Unterstützer und politisch Interessierte auch ohne ausgeprägten software-technischen Hintergrund.
 1 Funktionalität:
 Was soll das Programm tun?
+Das ultimative Daniel Blake Survial Kit
 Alles „Jobcenterwork“ des ALGII Empfängers bis auf den Letzten Click -sonst erstmal auf den vorletzten, intelligent genug, solidarisch mit dem ALGII-Empfänger – automatisieren, unter Verwendung von freien Softwarebibliotheken am Vorbild anderer gängiger Freier Software Projekt, Beispiel Pars pro Toto: Debian.
 Automatisch authentische ALGII, SGBII fähige Bewerbungen mit allen authentischen Datumsstempeln  erstellen
 Automatisch die entsprechenden Daten von den Webseiten beziehen, so nötig mit automatischen Mousesimulationen, als ob eine Person dransäße
@@ -37,8 +38,8 @@ Vergleiche Anmerkung drei aus dem Gui Tutorial, dort:
 „Anm. 3. Das hier konfrontierte Dilemma besteht ja darin, dass jede lustig daherkommende Reibungslosigkeit im realexistierenden, menschenverachtenden Bestrafungssystem mittel-frißt-ich eine schlimmste Anhebung der Zumutbarkeit zeitigt.“ Bedingung und Anspruch der Kunst besteht erstmal darin, ersteres zu ermöglichen und letzteres tunlichst auszuschließen und gleichzeitig zu behindern. 
 Strategisches Ziel des Zuvorkommens: Ganz gleich wie hoch der Schikaneaufwand gestellt wird, unsere Simulationsagenten  reduzieren ihn auf gerade Null. Ein gegenseitiger Aufrüstungswettlauf muss gewonnen werden und gewonnen werden wollen.
 
-Zu „Lebensrealität“: Der Film Ich-Daniel-Blake informiert nicht bloß, sondern macht  minutenüberwachte, softwarebasierte, sinnentleerte Frondienste gegenüber der Gegenseite bereits  künstlerisch verarbeitet fühlbar. 
-Es zeigt sich: Der Gedanke der softwarebasierten Gegenausrüstung ist so unterbunden wie unterentwickelt wie nicht vorhanden, was in Sachen Denken und Kommunikation zu erarbeiten wäre. (Befund einer Kapitualtion, die überwunden gehört.)
+Zu „Lebensrealität“: Der Film Ich-Daniel-Blake informiert nicht bloß, sondern macht  minutenüberwachte, softwarebasierte, sinnentleerte, panoptische Frondienste gegenüber der Gegenseite bereits  künstlerisch verarbeitet fühlbar. 
+Kritik: Der Gedanke der softwarebasierten Gegenausrüstung ist so unterbunden wie unterentwickelt wie nicht vorhanden, was in Sachen Denken und Kommunikation zu erarbeiten wäre. (Befund einer Lähmung oder einer Kapitulation, die überwunden gehört.)
 
 3 PR Analyse
 Massenmarkt
@@ -47,7 +48,7 @@ Industrielle Dimension: Produktion und Rechts-Softwarepflegeleistung im Massenma
 3.1 Gewinner
 Zig Millionen Arbeitslose
 Zig Millionen von Arbeitslosigkeit bedrohter
-
+Überflüssige, Über Überflüssigkeit Aufgeklärte 
 3.2 Verlierer
 konkurrierende Buro-Softwarehersteller, branche, low budget bis crippleware niedrigstes Marktsegment
 Anbieter, Betreiber, Auftraggeber von allgemeiner Überwachungsstaatkräfte durch veränderte Situation
