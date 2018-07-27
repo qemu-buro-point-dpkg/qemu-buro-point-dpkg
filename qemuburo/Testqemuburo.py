@@ -1348,6 +1348,64 @@ class qemuburoTestCase(unittest.TestCase):
 	self.failUnless(os.stat(self.testpath+"logs").st_size>1)
 	return
 
+    def test_java_jython_hello_executed_generated_from_bash_commandline(self):  #-#np-1to10s
+	# ok I start to label #!short-unittests-ware
+	#invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
+	pass
+        filelist=[\
+	    #"doctemp001-p002.tiff",\
+	    #"doctemp001-p002.tiff",\
+	    "doctemp003-p001.tiff"]
+        command= "cp -r " + self.testpathressources + "Buildingdemon "+ self.testpath 
+                ##'''
+        ##urldq=http://www.gutenberg.org/cache/epub/2000/pg2000.txt
+        ##wget -cq -O- $urldq|tee 2|grep -C5 -a  Capit
+
+        ##let n=0
+        ##let abase=1000
+        ##let bbase=1000
+        ##let incrementor=5 #lines
+        ##mkdir -p {a,b}/{e,f,g}/{h,i,j}
+        ##find a/ -name "**" -type d|tee 1
+        ##for i in `cat 1`; 
+            ##do let n+=1; 
+            ##let abase=bbase
+            ##let bbase=abase+incrementor
+            ##s=`cat 2|sed -n "$abase,$bbase"p`
+            
+            ##echo "$s">$i.txt; 
+            ##echo "sinabase      "$s"  "$i" "$n" "$abase; 
+        ##done
+
+        ##'''
+        #u="pwd"
+        #print(u)
+        print(command)
+	os.system(command)
+	import shutil
+	for f in filelist:
+	    dst=self.testpath+f #
+	    src=self.testpathressources+f
+	    #print dst,src
+	    shutil.copyfile(src,dst)
+        
+        a=""
+        if self.regession!="":
+            a=" --userconfigpath "+ str(self.regession)
+            self.testsscript=self.regession
+            
+        #self.testsscripts = os.environ["bin_priv_dir"]+""
+
+        
+        command= "bash "+self.testsscripts+"javahello/javahello.sh  " +" --tmpdir "+ self.testpath 
+        print(command)
+	os.system(command)
+	
+	#Oracle:
+	self.failUnless(os.stat(self.testpath+"logs").st_size>130)
+	return
+
+    
     def test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example(self):
 	#invole: (cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_dummy_ready_to_start_tdd_gnu_cli_project_demo_example)
 	pass
