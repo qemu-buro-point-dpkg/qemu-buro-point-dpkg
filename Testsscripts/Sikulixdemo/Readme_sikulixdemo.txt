@@ -1,5 +1,5 @@
 ﻿Hi,
-this is alpha alpha.
+this is prealpha
 So: How about it testing: uff 56 seconds to long for tdd. 
 
 FAQ: Simply what is progress state of affair, unit test. Sikuli? 
