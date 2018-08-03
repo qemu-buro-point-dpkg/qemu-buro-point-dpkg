@@ -1402,7 +1402,7 @@ class qemuburoTestCase(unittest.TestCase):
 	os.system(command)
 	
 	#Oracle:
-	self.failUnless(os.stat(self.testpath+"logs").st_size>130)
+	self.failUnless(os.stat(self.testpath+"logs1").st_size>230)
 	return
 
     
