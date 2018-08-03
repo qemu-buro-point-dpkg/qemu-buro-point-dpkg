@@ -109,17 +109,25 @@ echo PPool$PPool RANGE$RANGE dup$dup stage1batchmode$stage1batchmode Slot$Slot s
 
 #javac HelloWorld.java
 #java HelloWorld
-
+#ubuntu-java-issues Java 9 breaks Java 8 official tutorial
+#sudo update-alternatives --config java
+#https://askubuntu.com/questions/740757/switch-between-multiple-java-versions
+javac="/usr/lib/jvm/java-8-openjdk-amd64/bin/javac"
+java="/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java"
 
 cd $inputdir;
-
-javac -d $tmpdir "$codefile"; 
+$javac -d $tmpdir "$codefile"; 
 
 cd $outputdir;
-java "$binaryfile"&
-sleep 0.02
+$java "$binaryfile"&
+sleep 0.42
 wmctrl -l|grep "Hello World">> $tmpdir"logs"
 
+###
+#jshell (since java 9)"trip through filesystem in jshell"
+
+jshell $Qemuburo_install_dir"Testsscripts/javahello/fs_trip.jsh"
+###
 
 
 #a template code start: array, for and if

@@ -2,6 +2,11 @@
 #bash $Qemuburo_install_dir"Testsscripts/scandistribute/Examples_user_commandlines.txt"
 
 
+#1 production example: scan one page in flatbed
+cd /tmp; rm doctemp*; bash "$Qemuburo_install_dir""Testsscripts/scandistribute/scanndistribute150825.sh" --tmpdir /tmp/ --duplex 1 --stage1batchmode 1 --slot " " ; ls -rtl doctempbundl*;  #fladbed5
+
+
+############ obsolete?
 # This monstrum will ...
 
 #lets just (re)read the config. 
