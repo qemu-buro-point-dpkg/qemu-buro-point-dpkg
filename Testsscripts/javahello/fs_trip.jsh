@@ -29,6 +29,6 @@ Files.write(Paths.get("/tmp/qemuburotest/logs1"), ti.getBytes());
 // https://github.com/aruld/java-oneliners/wiki 10 Java One Liners to Impress Your Friends https://dzone.com/articles/writing-one-liners-in-java-8 
 // starting a "main" class from commandline 
 // this is not a java statement
-// now? pls "find", "regex"-sed; grep ; date; advanced things?
+// now? pls "find", "regex"-sed; grep ; date; function, class advanced things?
 
 /exit

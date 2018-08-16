@@ -1,3 +1,23 @@
+date
+Do 16. Aug 22:10:27 CEST 2018
+Usage:
+cd $Qemuburo_install_dir"qemuburo/"; python -m unittest Testqemuburo.qemuburoTestCase.test_all_preseediso2ssh; 
+
+bash /home/githubqemuburo/github_qemuburo/Testsscripts/qemuburodpkg/preseediso2ssh.sh --tmpdir /tmp/qemuburotest/ --endstage 10000 --startstage 000 --dropacopy 1 --redir 2222>>/tmp/qemuburotest/log.txt 2>&1
+
+
+
+ls
+.
+----------------------------------------------------------------------
+Ran 1 test in 13017.042s
+
+OK
+
+Features?:
+
+
+What a mess?:
 #10851 # This monstrum will start a given vm ssh capable log in 100s time shiftet and ran a later stage intervall with it.
 # In this case we need a X machine out of: it. So stage 500 to lauch such, and stage 700 to give him some X. 
 # so we capsulate to get these two command line:

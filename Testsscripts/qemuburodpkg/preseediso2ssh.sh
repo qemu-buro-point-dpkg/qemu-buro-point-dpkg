@@ -25,9 +25,16 @@
 
 tmpdir="/tmp/qemuburotest/"
 isourl="http://cdimage.debian.org/debian-cd/8.6.0/amd64/iso-cd/"
-
+# current down?
+# best choice? from google?
 isourlimage="debian-8.6.0-amd64-netinst.iso" 
+#8.18 outdated
+
 isoimage="debian.iso"
+
+isourl="https://cdimage.debian.org/cdimage/archive/8.11.0/amd64/iso-cd/"
+isourlimage="debian-8.11.0-amd64-netinst.iso"
+
 MD5SUMS="MD5SUMS" 
 cpisofromdir="$HOME/Downloads/"
 cpisofromdir=$tmpdir #teake download from last run
@@ -166,18 +173,21 @@ rm -r /tmp/setupdone/
 # sollte dasein.
 
 
-
+#comment pls
 stagepointer=200; 
 if [ $endstage -lt $stagepointer ]; then echo "out before"$stagepointer; exit; else echo -n " "; fi
 if [ $startstage -gt $stagepointer ]; then echo "pass stage" $stagepointer; else echo -n "download official image $stagepointer";
-#~/.ssh/id_rsa.pub.
-#Next, add the contents of the public key file into ~/.ssh/authorized_keys on remote(guest)
+# staging flow control hack
+
 
 cd $tmpdir
 if test -e $cpisofromdir$isoimage; then cp $cpisofromdir$isoimage .; else wget -q $isourl$isourlimage -O $tmpdir$isoimage; fi
+
+#echo "if test -e $cpisofromdir$isoimage; then cp $cpisofromdir$isoimage .; else wget -q $isourl$isourlimage -O $tmpdir$isoimage; fi"
+
 wget -q $isourl$MD5SUMS -O $tmpdir$MD5SUMS
 echo $(grep $isourlimage $MD5SUMS|cut -f1 -d" ")"  "$isoimage | md5sum -c|grep OK||exit
-
+# comment pls
 
 fi;stagepointer=250; #iso remastered
 if [ $endstage -lt $stagepointer ]; then echo "out before"$stagepointer exit; else echo -n ""; fi
@@ -432,8 +442,8 @@ logfile="/tmp/qemuburotest/log.txt"
 ao="libreoffice" 
 ssh -o 'StrictHostKeyChecking no' -p $redir root@localhost "DEBIAN_FRONTEND=noninteractive apt-get --yes --force-yes install $ao"  >$logfile #
 
-ao="chromium vim kate" #"libreoffice" #"ding dolphin cryptsetup hplip kate gimp git aspell-de kate libreoffice autokey-gtk autokey-qt  xautomation uswsusp winpdb pdftk poppler-utils"
-ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "DEBIAN_FRONTEND=noninteractive apt-get --yes --force-yes install $ao"  >>"$logfile"
+#ao="chromium vim kate" #"libreoffice" #"ding dolphin cryptsetup hplip kate gimp git aspell-de kate libreoffice autokey-gtk autokey-qt  xautomation uswsusp winpdb pdftk poppler-utils"
+#ssh -q -o 'StrictHostKeyChecking no' -p $redir root@localhost "DEBIAN_FRONTEND=noninteractive apt-get --yes --force-yes install $ao"  >>"$logfile"
 
 
 fi;
